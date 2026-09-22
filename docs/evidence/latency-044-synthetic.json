@@ -1,0 +1,718 @@
+{
+  "kind": "synthetic_docker_envoy_sse",
+  "version": "0.44",
+  "host": "macOS-27.0-arm64-arm-64bit",
+  "cpu_count": 14,
+  "docker": {
+    "NCPU": 14,
+    "MemTotal": 8318976000,
+    "Architecture": "aarch64",
+    "ServerVersion": "29.7.2"
+  },
+  "limits": {
+    "body_bytes": 32768,
+    "model_timeout_seconds": 10,
+    "gateway_slots": 32,
+    "inspector_streams": 16,
+    "workers": 4
+  },
+  "latency_snapshot": {
+    "scope": "current_process_last_256_per_phase",
+    "series": [
+      {
+        "phase": "gateway_total",
+        "samples": 226,
+        "p50_ms": 1024.47,
+        "p95_ms": 2783.36,
+        "max_ms": 10053.47
+      },
+      {
+        "phase": "envoy_exchange",
+        "samples": 225,
+        "p50_ms": 937.37,
+        "p95_ms": 2513.85,
+        "max_ms": 10003.71
+      },
+      {
+        "phase": "request_inspection",
+        "samples": 225,
+        "p50_ms": 81.89,
+        "p95_ms": 370.64,
+        "max_ms": 498.32
+      },
+      {
+        "phase": "response_metadata_inspection",
+        "samples": 225,
+        "p50_ms": 51.44,
+        "p95_ms": 150.72,
+        "max_ms": 334.14
+      },
+      {
+        "phase": "response_inspection",
+        "samples": 223,
+        "p50_ms": 93.77,
+        "p95_ms": 415.59,
+        "max_ms": 584.6
+      }
+    ]
+  },
+  "matrix": [
+    {
+      "path": "direct",
+      "scenario": "short",
+      "concurrency": 1,
+      "requests": 12,
+      "statuses": {
+        "200": 12
+      },
+      "successful": 12,
+      "first_content_ms": {
+        "n": 12,
+        "p50": 51.52,
+        "p95": 56.28,
+        "max": 56.28
+      },
+      "completion_ms": {
+        "n": 12,
+        "p50": 191.64,
+        "p95": 202.29,
+        "max": 202.29
+      },
+      "response_bytes": {
+        "n": 12,
+        "p50": 2186,
+        "p95": 2186,
+        "max": 2186
+      }
+    },
+    {
+      "path": "gateway",
+      "scenario": "short",
+      "concurrency": 1,
+      "requests": 12,
+      "statuses": {
+        "200": 12
+      },
+      "successful": 12,
+      "first_content_ms": {
+        "n": 12,
+        "p50": 213.47,
+        "p95": 232.35,
+        "max": 232.35
+      },
+      "completion_ms": {
+        "n": 12,
+        "p50": 213.94,
+        "p95": 232.89,
+        "max": 232.89
+      },
+      "response_bytes": {
+        "n": 12,
+        "p50": 2186,
+        "p95": 2186,
+        "max": 2186
+      }
+    },
+    {
+      "path": "direct",
+      "scenario": "short",
+      "concurrency": 8,
+      "requests": 16,
+      "statuses": {
+        "200": 16
+      },
+      "successful": 16,
+      "first_content_ms": {
+        "n": 16,
+        "p50": 53.93,
+        "p95": 57.7,
+        "max": 57.7
+      },
+      "completion_ms": {
+        "n": 16,
+        "p50": 189.75,
+        "p95": 197.41,
+        "max": 197.41
+      },
+      "response_bytes": {
+        "n": 16,
+        "p50": 2186,
+        "p95": 2186,
+        "max": 2186
+      }
+    },
+    {
+      "path": "gateway",
+      "scenario": "short",
+      "concurrency": 8,
+      "requests": 16,
+      "statuses": {
+        "200": 16
+      },
+      "successful": 16,
+      "first_content_ms": {
+        "n": 16,
+        "p50": 295.5,
+        "p95": 420.29,
+        "max": 420.29
+      },
+      "completion_ms": {
+        "n": 16,
+        "p50": 296.17,
+        "p95": 420.8,
+        "max": 420.8
+      },
+      "response_bytes": {
+        "n": 16,
+        "p50": 2186,
+        "p95": 2186,
+        "max": 2186
+      }
+    },
+    {
+      "path": "direct",
+      "scenario": "short",
+      "concurrency": 32,
+      "requests": 64,
+      "statuses": {
+        "200": 64
+      },
+      "successful": 64,
+      "first_content_ms": {
+        "n": 64,
+        "p50": 63.99,
+        "p95": 96.71,
+        "max": 99.83
+      },
+      "completion_ms": {
+        "n": 64,
+        "p50": 190.56,
+        "p95": 219.43,
+        "max": 226.12
+      },
+      "response_bytes": {
+        "n": 64,
+        "p50": 2186,
+        "p95": 2186,
+        "max": 2186
+      }
+    },
+    {
+      "path": "gateway",
+      "scenario": "short",
+      "concurrency": 32,
+      "requests": 64,
+      "statuses": {
+        "200": 64
+      },
+      "successful": 64,
+      "first_content_ms": {
+        "n": 64,
+        "p50": 770.6,
+        "p95": 1252.56,
+        "max": 1340.44
+      },
+      "completion_ms": {
+        "n": 64,
+        "p50": 771.21,
+        "p95": 1253.01,
+        "max": 1341.38
+      },
+      "response_bytes": {
+        "n": 64,
+        "p50": 2186,
+        "p95": 2186,
+        "max": 2186
+      }
+    },
+    {
+      "path": "direct",
+      "scenario": "long",
+      "concurrency": 1,
+      "requests": 12,
+      "statuses": {
+        "200": 12
+      },
+      "successful": 12,
+      "first_content_ms": {
+        "n": 12,
+        "p50": 49.39,
+        "p95": 53.37,
+        "max": 53.37
+      },
+      "completion_ms": {
+        "n": 12,
+        "p50": 735.36,
+        "p95": 751.62,
+        "max": 751.62
+      },
+      "response_bytes": {
+        "n": 12,
+        "p50": 22586,
+        "p95": 22586,
+        "max": 22586
+      }
+    },
+    {
+      "path": "gateway",
+      "scenario": "long",
+      "concurrency": 1,
+      "requests": 12,
+      "statuses": {
+        "200": 12
+      },
+      "successful": 12,
+      "first_content_ms": {
+        "n": 12,
+        "p50": 802.95,
+        "p95": 822.02,
+        "max": 822.02
+      },
+      "completion_ms": {
+        "n": 12,
+        "p50": 804.13,
+        "p95": 822.26,
+        "max": 822.26
+      },
+      "response_bytes": {
+        "n": 12,
+        "p50": 22586,
+        "p95": 22586,
+        "max": 22586
+      }
+    },
+    {
+      "path": "direct",
+      "scenario": "long",
+      "concurrency": 8,
+      "requests": 16,
+      "statuses": {
+        "200": 16
+      },
+      "successful": 16,
+      "first_content_ms": {
+        "n": 16,
+        "p50": 45.61,
+        "p95": 69.26,
+        "max": 69.26
+      },
+      "completion_ms": {
+        "n": 16,
+        "p50": 702.38,
+        "p95": 745.08,
+        "max": 745.08
+      },
+      "response_bytes": {
+        "n": 16,
+        "p50": 22586,
+        "p95": 22586,
+        "max": 22586
+      }
+    },
+    {
+      "path": "gateway",
+      "scenario": "long",
+      "concurrency": 8,
+      "requests": 16,
+      "statuses": {
+        "200": 16
+      },
+      "successful": 16,
+      "first_content_ms": {
+        "n": 16,
+        "p50": 949.76,
+        "p95": 1163.57,
+        "max": 1163.57
+      },
+      "completion_ms": {
+        "n": 16,
+        "p50": 950.14,
+        "p95": 1164.12,
+        "max": 1164.12
+      },
+      "response_bytes": {
+        "n": 16,
+        "p50": 22586,
+        "p95": 22586,
+        "max": 22586
+      }
+    },
+    {
+      "path": "direct",
+      "scenario": "long",
+      "concurrency": 32,
+      "requests": 64,
+      "statuses": {
+        "200": 64
+      },
+      "successful": 64,
+      "first_content_ms": {
+        "n": 64,
+        "p50": 74.54,
+        "p95": 89.18,
+        "max": 92.18
+      },
+      "completion_ms": {
+        "n": 64,
+        "p50": 712.7,
+        "p95": 725.94,
+        "max": 727.52
+      },
+      "response_bytes": {
+        "n": 64,
+        "p50": 22586,
+        "p95": 22586,
+        "max": 22586
+      }
+    },
+    {
+      "path": "gateway",
+      "scenario": "long",
+      "concurrency": 32,
+      "requests": 64,
+      "statuses": {
+        "200": 64
+      },
+      "successful": 64,
+      "first_content_ms": {
+        "n": 64,
+        "p50": 2133.65,
+        "p95": 3013.83,
+        "max": 3114.36
+      },
+      "completion_ms": {
+        "n": 64,
+        "p50": 2134.92,
+        "p95": 3014.31,
+        "max": 3114.9
+      },
+      "response_bytes": {
+        "n": 64,
+        "p50": 22586,
+        "p95": 22586,
+        "max": 22586
+      }
+    }
+  ],
+  "pressure_64": {
+    "statuses": {
+      "200": 32,
+      "503": 32
+    },
+    "incomplete_successes": 0
+  },
+  "checks": {
+    "pii": {
+      "status": 200,
+      "first_content_ms": 77.6619579992257,
+      "completion_ms": 78.6874580080621,
+      "bytes": 528,
+      "complete": true,
+      "pii_visible": false
+    },
+    "limit": {
+      "status": 500,
+      "first_content_ms": null,
+      "completion_ms": 666.0406669834629,
+      "bytes": 21,
+      "complete": false,
+      "pii_visible": false
+    },
+    "timeout": {
+      "status": 504,
+      "first_content_ms": null,
+      "completion_ms": 10059.041416971013,
+      "bytes": 27,
+      "complete": false,
+      "pii_visible": false
+    },
+    "invalid_credential": {
+      "status": 401,
+      "first_content_ms": null,
+      "completion_ms": 2.981165947858244,
+      "bytes": 29,
+      "complete": false,
+      "pii_visible": false
+    }
+  },
+  "resources": [
+    {
+      "Name": "envoy",
+      "CPUPerc": "0.85%",
+      "MemUsage": "21.81MiB / 7.748GiB"
+    },
+    {
+      "Name": "fixture",
+      "CPUPerc": "4.11%",
+      "MemUsage": "15.11MiB / 7.748GiB"
+    },
+    {
+      "Name": "app",
+      "CPUPerc": "0.38%",
+      "MemUsage": "97.53MiB / 7.748GiB"
+    },
+    {
+      "Name": "envoy",
+      "CPUPerc": "1.42%",
+      "MemUsage": "26.2MiB / 7.748GiB"
+    },
+    {
+      "Name": "fixture",
+      "CPUPerc": "0.88%",
+      "MemUsage": "14.77MiB / 7.748GiB"
+    },
+    {
+      "Name": "app",
+      "CPUPerc": "20.28%",
+      "MemUsage": "101.4MiB / 7.748GiB"
+    },
+    {
+      "Name": "envoy",
+      "CPUPerc": "1.50%",
+      "MemUsage": "27.38MiB / 7.748GiB"
+    },
+    {
+      "Name": "fixture",
+      "CPUPerc": "5.95%",
+      "MemUsage": "16.89MiB / 7.748GiB"
+    },
+    {
+      "Name": "app",
+      "CPUPerc": "56.17%",
+      "MemUsage": "131MiB / 7.748GiB"
+    },
+    {
+      "Name": "envoy",
+      "CPUPerc": "0.90%",
+      "MemUsage": "27MiB / 7.748GiB"
+    },
+    {
+      "Name": "fixture",
+      "CPUPerc": "2.96%",
+      "MemUsage": "16.98MiB / 7.748GiB"
+    },
+    {
+      "Name": "app",
+      "CPUPerc": "1.07%",
+      "MemUsage": "138MiB / 7.748GiB"
+    },
+    {
+      "Name": "envoy",
+      "CPUPerc": "0.74%",
+      "MemUsage": "26.94MiB / 7.748GiB"
+    },
+    {
+      "Name": "fixture",
+      "CPUPerc": "2.39%",
+      "MemUsage": "16.2MiB / 7.748GiB"
+    },
+    {
+      "Name": "app",
+      "CPUPerc": "1.64%",
+      "MemUsage": "137.9MiB / 7.748GiB"
+    },
+    {
+      "Name": "envoy",
+      "CPUPerc": "0.63%",
+      "MemUsage": "26.5MiB / 7.748GiB"
+    },
+    {
+      "Name": "fixture",
+      "CPUPerc": "2.20%",
+      "MemUsage": "16.93MiB / 7.748GiB"
+    },
+    {
+      "Name": "app",
+      "CPUPerc": "0.44%",
+      "MemUsage": "137.4MiB / 7.748GiB"
+    },
+    {
+      "Name": "envoy",
+      "CPUPerc": "1.51%",
+      "MemUsage": "27.41MiB / 7.748GiB"
+    },
+    {
+      "Name": "fixture",
+      "CPUPerc": "1.35%",
+      "MemUsage": "15.87MiB / 7.748GiB"
+    },
+    {
+      "Name": "app",
+      "CPUPerc": "20.34%",
+      "MemUsage": "138.2MiB / 7.748GiB"
+    },
+    {
+      "Name": "envoy",
+      "CPUPerc": "1.67%",
+      "MemUsage": "29.85MiB / 7.748GiB"
+    },
+    {
+      "Name": "fixture",
+      "CPUPerc": "2.21%",
+      "MemUsage": "16.29MiB / 7.748GiB"
+    },
+    {
+      "Name": "app",
+      "CPUPerc": "7.49%",
+      "MemUsage": "138.1MiB / 7.748GiB"
+    },
+    {
+      "Name": "envoy",
+      "CPUPerc": "1.63%",
+      "MemUsage": "29.82MiB / 7.748GiB"
+    },
+    {
+      "Name": "fixture",
+      "CPUPerc": "1.86%",
+      "MemUsage": "16.56MiB / 7.748GiB"
+    },
+    {
+      "Name": "app",
+      "CPUPerc": "7.94%",
+      "MemUsage": "138.3MiB / 7.748GiB"
+    },
+    {
+      "Name": "envoy",
+      "CPUPerc": "1.20%",
+      "MemUsage": "31.3MiB / 7.748GiB"
+    },
+    {
+      "Name": "fixture",
+      "CPUPerc": "1.41%",
+      "MemUsage": "15.61MiB / 7.748GiB"
+    },
+    {
+      "Name": "app",
+      "CPUPerc": "18.37%",
+      "MemUsage": "138.8MiB / 7.748GiB"
+    },
+    {
+      "Name": "envoy",
+      "CPUPerc": "2.02%",
+      "MemUsage": "31.98MiB / 7.748GiB"
+    },
+    {
+      "Name": "fixture",
+      "CPUPerc": "2.96%",
+      "MemUsage": "16.98MiB / 7.748GiB"
+    },
+    {
+      "Name": "app",
+      "CPUPerc": "22.83%",
+      "MemUsage": "139.4MiB / 7.748GiB"
+    },
+    {
+      "Name": "envoy",
+      "CPUPerc": "0.52%",
+      "MemUsage": "32.03MiB / 7.748GiB"
+    },
+    {
+      "Name": "fixture",
+      "CPUPerc": "17.87%",
+      "MemUsage": "18.71MiB / 7.748GiB"
+    },
+    {
+      "Name": "app",
+      "CPUPerc": "0.67%",
+      "MemUsage": "139.4MiB / 7.748GiB"
+    },
+    {
+      "Name": "envoy",
+      "CPUPerc": "3.20%",
+      "MemUsage": "34.27MiB / 7.748GiB"
+    },
+    {
+      "Name": "fixture",
+      "CPUPerc": "5.69%",
+      "MemUsage": "16.84MiB / 7.748GiB"
+    },
+    {
+      "Name": "app",
+      "CPUPerc": "68.64%",
+      "MemUsage": "142.7MiB / 7.748GiB"
+    },
+    {
+      "Name": "envoy",
+      "CPUPerc": "2.06%",
+      "MemUsage": "37.38MiB / 7.748GiB"
+    },
+    {
+      "Name": "fixture",
+      "CPUPerc": "2.93%",
+      "MemUsage": "17.53MiB / 7.748GiB"
+    },
+    {
+      "Name": "app",
+      "CPUPerc": "87.80%",
+      "MemUsage": "146.6MiB / 7.748GiB"
+    },
+    {
+      "Name": "envoy",
+      "CPUPerc": "3.91%",
+      "MemUsage": "37.1MiB / 7.748GiB"
+    },
+    {
+      "Name": "fixture",
+      "CPUPerc": "3.55%",
+      "MemUsage": "17.47MiB / 7.748GiB"
+    },
+    {
+      "Name": "app",
+      "CPUPerc": "71.50%",
+      "MemUsage": "148.9MiB / 7.748GiB"
+    },
+    {
+      "Name": "envoy",
+      "CPUPerc": "1.34%",
+      "MemUsage": "36.74MiB / 7.748GiB"
+    },
+    {
+      "Name": "fixture",
+      "CPUPerc": "0.04%",
+      "MemUsage": "21.77MiB / 7.748GiB"
+    },
+    {
+      "Name": "app",
+      "CPUPerc": "1.15%",
+      "MemUsage": "148.8MiB / 7.748GiB"
+    },
+    {
+      "Name": "envoy",
+      "CPUPerc": "0.77%",
+      "MemUsage": "35.93MiB / 7.748GiB"
+    },
+    {
+      "Name": "fixture",
+      "CPUPerc": "0.02%",
+      "MemUsage": "20.59MiB / 7.748GiB"
+    },
+    {
+      "Name": "app",
+      "CPUPerc": "0.72%",
+      "MemUsage": "148.1MiB / 7.748GiB"
+    },
+    {
+      "Name": "envoy",
+      "CPUPerc": "0.53%",
+      "MemUsage": "35.91MiB / 7.748GiB"
+    },
+    {
+      "Name": "fixture",
+      "CPUPerc": "0.03%",
+      "MemUsage": "20.59MiB / 7.748GiB"
+    },
+    {
+      "Name": "app",
+      "CPUPerc": "0.31%",
+      "MemUsage": "148MiB / 7.748GiB"
+    }
+  ],
+  "measurement_notes": [
+    "One local run, small samples; p95 is descriptive, not an SLA.",
+    "Direct fixture uses TLS; gateway client uses loopback HTTP, with TLS on the upstream leg.",
+    "No live model inference or customer load.",
+    "Fixture sends 8 or 32 content chunks with 20 ms spacing; these are not model token rates.",
+    "Client completion timings and first-content timings use successful complete responses only; errors are separate.",
+    "Console phase distributions include warmups and failure probes and cannot be subtracted."
+  ]
+}

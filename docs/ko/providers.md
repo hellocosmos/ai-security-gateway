@@ -1,4 +1,4 @@
-# 모델 제공자 연결 (0.43)
+# 모델 제공자 연결 (0.44)
 
 [English](../en/providers.md) · [한국어](../ko/providers.md) · [简体中文](../zh-CN/providers.md) · [日本語](../ja/providers.md) · [Español](../es/providers.md) · [Français](../fr/providers.md)
 
@@ -24,3 +24,9 @@ Agent별 통제가 필요하면 agent_key 모드와 Broker를 켜고, 콘솔에�
 
 
 [SDK examples / Docker commands](../en/providers.md) · [AISG](aisg.md)
+
+## 0.44 · Buffered SSE
+
+[Buffered SSE 지연과 도입 적합성](latency.md)
+
+게이트웨이는 지원되는 응답 전체를 수집·검사한 뒤 콘텐츠를 전달합니다. 첫 콘텐츠 지연에는 검사뿐 아니라 응답 수집도 포함됩니다. 완성된 결과를 기다릴 수 있는 작업에 적합하며, 대화형 채팅은 명시적인 지연 예산으로 평가해야 합니다.

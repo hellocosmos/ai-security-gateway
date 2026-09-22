@@ -1,4 +1,4 @@
-# モデル提供者への接続 (0.43)
+# モデル提供者への接続 (0.44)
 
 [English](../en/providers.md) · [한국어](../ko/providers.md) · [简体中文](../zh-CN/providers.md) · [日本語](../ja/providers.md) · [Español](../es/providers.md) · [Français](../fr/providers.md)
 
@@ -24,3 +24,9 @@ SSE は応答全体をバッファリングし、検査後に元のイベント�
 
 
 [SDK examples / Docker commands](../en/providers.md) · [AISG](aisg.md)
+
+## 0.44 · Buffered SSE
+
+[Buffered SSE の遅延と導入適合性](latency.md)
+
+ゲートウェイは対応する応答全体を収集・検査してから内容を配信します。最初の内容までの遅延には収集と検査の両方が含まれます。完全な結果を待てる処理に適し、対話チャットは明確な遅延予算で評価する必要があります。

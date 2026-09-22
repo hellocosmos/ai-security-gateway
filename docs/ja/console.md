@@ -1,11 +1,11 @@
 # コンソールのインストールと運用
 
-> **0.43:** [運用ワークスペース（0.43）](operator-workspace.md)
+> **0.44:** [運用ワークスペース（0.44）](operator-workspace.md)
 
 
 > **AISG:** [接続・識別・制御・検証](aisg.md). ゲートウェイは接続キーまたは検証済みJWTを使用します。agent_keyは外部IAMなしで登録済みエージェントを識別します。JWT identity_mode: agentは検証済みテナントとエージェントのクレームを使用し、delegatedはユーザー・タスク・委任も要求します。既存エージェントは既定で委任が必要です。
 
-> Docker 0.43: [セルフホスティング](self-hosting.md) · [ゲートウェイ互換性](gateway-compatibility.md)。このページは別のソース版合成デモを説明します。
+> Docker 0.44: [セルフホスティング](self-hosting.md) · [ゲートウェイ互換性](gateway-compatibility.md)。このページは別のソース版合成デモを説明します。
 
 [English](../en/console.md) · [한국어](../ko/console.md) · [简体中文](../zh-CN/console.md) · [日本語](../ja/console.md) · [Español](../es/console.md) · [Français](../fr/console.md)
 

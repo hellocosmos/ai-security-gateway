@@ -1,4 +1,4 @@
-# Espacio de operación (0.43)
+# Espacio de operación (0.44)
 
 La consola Docker incluye configuración, cambios pendientes, recuperación, diagnóstico y vista previa en Connections / System y Settings. Los cuatro perfiles de modelos generan rutas nativas. HTTP/MCP comienza bloqueado: revise acciones, recursos y campos de redacción. Las asignaciones avanzadas se editan como JSON.
 
@@ -17,3 +17,9 @@ El diagnóstico muestra listeners y fase, estado, contador y fecha de solicitude
 Primera prueba: instalar con contraseña única → configurar credenciales separadas → solicitudes permitidas, PII sintética y bloqueo → revisar eventos → reiniciar y verificar persistencia → restaurar. Un MCP y cuenta reales de cliente requieren validación aparte.
 
 [Docker](self-hosting.md) · [Workflow](agent-workflow.md)
+
+## 0.44 · Buffered SSE
+
+[Latencia de Buffered SSE y adecuación al despliegue](latency.md)
+
+El gateway recopila e inspecciona toda la respuesta admitida antes de entregar contenido. La latencia del primer contenido incluye recopilación e inspección. Conviene a tareas que pueden esperar un resultado completo; el chat interactivo exige un presupuesto explícito de latencia.

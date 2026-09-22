@@ -1,4 +1,4 @@
-# Connexions aux fournisseurs de modèles (0.43)
+# Connexions aux fournisseurs de modèles (0.44)
 
 [English](../en/providers.md) · [한국어](../ko/providers.md) · [简体中文](../zh-CN/providers.md) · [日本語](../ja/providers.md) · [Español](../es/providers.md) · [Français](../fr/providers.md)
 
@@ -24,3 +24,9 @@ Les profils figurent dans deploy/selfhost/providers/. Remplacez YOUR_MODEL_ID et
 
 
 [SDK examples / Docker commands](../en/providers.md) · [AISG](aisg.md)
+
+## 0.44 · Buffered SSE
+
+[Latence Buffered SSE et adéquation au déploiement](latency.md)
+
+Le gateway collecte et inspecte la réponse complète prise en charge avant de livrer le contenu. Le délai du premier contenu comprend la collecte et l’inspection. Ce mode convient aux tâches pouvant attendre un résultat complet ; le chat interactif exige un budget de latence explicite.

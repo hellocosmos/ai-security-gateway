@@ -1,17 +1,20 @@
 # TrapDefense — Open-source AI Security Gateway
 
+
+[0.44: Buffered SSE 지연과 도입 적합성](docs/ko/latency.md)
+
 ## Least Privilege, Least Agency
 
 **최소권한은 접근을 제한하고, 최소 자율성은 독자적인 행동의 범위를 제한합니다.**
 
 우리의 설계 원칙은 에이전트에 필요한 접근만 부여하고 스스로 수행할 수 있는 행동의 범위를 정하는 것입니다. TrapDefense는 기존 IAM과 대상 서비스 권한을 보완하며, 게이트웨이로 라우팅된 지원 호출에 작업·데이터 정책을 집행합니다. 선택적 에이전트 신원은 에이전트별 권한 범위·위임·승인 통제를 추가합니다.
 
-[0.43: 운영 작업 공간 (0.43)](docs/ko/operator-workspace.md)
+[0.44: 운영 작업 공간 (0.44)](docs/ko/operator-workspace.md)
 
 
 [0.42: 모델 → MCP → 모델 검증](docs/ko/agent-workflow.md)
 
-**0.43:** [모델 제공자 연결](docs/ko/providers.md) — OpenAI · Anthropic · Gemini · OpenRouter.
+**0.44:** [모델 제공자 연결](docs/ko/providers.md) — OpenAI · Anthropic · Gemini · OpenRouter.
 
 **지원되는 HTTP API와 원격 MCP 서버를 명시적인 보안 경로로 연결합니다. 에이전트별 통제가 필요하면 신원을 추가합니다.**
 
@@ -19,7 +22,7 @@
 
 [English](README.md) · [한국어](README.ko.md) · [简体中文](README.zh-CN.md) · [日本語](README.ja.md) · [Español](README.es.md) · [Français](README.fr.md)
 
-> **Open Source Preview 0.43:** 전체 런타임과 운영 UI는 MIT 라이선스다. 내장 Agent Access Broker는 구현과 합성 검증을 마쳤지만, 실제 IdP·고객 정책·HA·용량 검증 전까지 **Experimental**로 표시한다.
+> **Open Source Preview 0.44:** 전체 런타임과 운영 UI는 MIT 라이선스다. 내장 Agent Access Broker는 구현과 합성 검증을 마쳤지만, 실제 IdP·고객 정책·HA·용량 검증 전까지 **Experimental**로 표시한다.
 
 TrapDefense는 지원되는 HTTP 및 MCP 트래픽을 위한 셀프호스팅 AI Firewall이다. 요청과 응답을 검사하고, action/PII/secret 정책을 집행하며, 정제된 증거를 저장한다. 선택적으로 등록된 agent, delegation, task, resource, action, 일회성 human approval을 함께 평가한다.
 

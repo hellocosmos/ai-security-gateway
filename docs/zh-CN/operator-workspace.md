@@ -1,4 +1,4 @@
-# 运维工作区（0.43）
+# 运维工作区（0.44）
 
 Docker 控制台在 Connections / System 和 Settings 中提供配置向导、暂存、恢复、诊断及策略预览。支持四个模型提供方；新 HTTP/MCP 工具默认阻止，请检查操作、资源和脱敏字段。高级映射使用 JSON。
 
@@ -17,3 +17,9 @@ docker compose up -d app envoy
 首次验证：安装并设置唯一密码 → 配置独立凭据 → 允许、合成个人信息和阻止请求 → 查看事件 → 重启验证持久化 → 恢复。客户真实 MCP 和账户需要单独验证。
 
 [Docker](self-hosting.md) · [Workflow](agent-workflow.md)
+
+## 0.44 · Buffered SSE
+
+[Buffered SSE 延迟与部署适用性](latency.md)
+
+网关收集并检查完整的受支持响应后才交付内容。首内容延迟包括收集与检查，不只是扫描时间。适合能等待完整结果的任务；交互聊天需按明确的延迟预算评估。

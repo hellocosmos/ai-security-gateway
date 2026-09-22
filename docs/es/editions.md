@@ -4,7 +4,7 @@
 
 [English](../en/editions.md) · [한국어](../ko/editions.md) · [简体中文](../zh-CN/editions.md) · [日本語](../ja/editions.md) · [Español](../es/editions.md) · [Français](../fr/editions.md)
 
-TrapDefense 0.43 usa una sola base de código con licencia MIT. Runtime Gateway y Agent Access Broker se publican juntos en este repositorio; no se necesitan una distribución Python privada, provider entry point, license key ni edition switch.
+TrapDefense 0.44 usa una sola base de código con licencia MIT. Runtime Gateway y Agent Access Broker se publican juntos en este repositorio; no se necesitan una distribución Python privada, provider entry point, license key ni edition switch.
 
 ## Estado de entrega
 
@@ -21,4 +21,4 @@ Los futuros servicios de pago pueden operar el mismo runtime como managed servic
 
 El file store funciona para procesos POSIX del mismo host con reemplazo atómico y locks; no es una base distribuida ni sirve para HA NFS/SMB. Las pruebas sintéticas no certifican IdP reales, Conditional Access, autenticación MCP de clientes, routing TLS ni capacidad.
 
-[Docker 0.43](self-hosting.md) · [Arquitectura](architecture.md) · [Seguridad](security.md) · [Compatibilidad](gateway-compatibility.md)
+[Docker 0.44](self-hosting.md) · [Arquitectura](architecture.md) · [Seguridad](security.md) · [Compatibilidad](gateway-compatibility.md)

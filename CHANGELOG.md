@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.44 — Buffered SSE latency evidence
+
+- Add bounded process-local gateway and inspector timing distributions to the six-language operations console.
+- Add a reproducible Docker/Envoy direct-versus-gateway SSE benchmark, overload and fail-closed boundary checks.
+- Document first-content latency, response collection, inspection queues and workload suitability without production capacity claims.
+- Preserve whole-response buffering and existing authorization/policy behavior.
+
 ## 0.43 — Operator workspace
 
 - Connection profiles, validation, staged configuration, protected destination secrets and saved revision recovery in the Docker console.

@@ -1,11 +1,11 @@
 # 콘솔 설치와 운영
 
-> **0.43:** [운영 작업 공간 (0.43)](operator-workspace.md)
+> **0.44:** [운영 작업 공간 (0.44)](operator-workspace.md)
 
 
 > **AISG:** [연결 → 신원 → 통제 → 확인](aisg.md). Gateway 접속은 연결 키 또는 검증된 JWT로 인증합니다. 로컬 agent_key는 외부 IAM 없이 등록된 에이전트를 식별합니다. JWT identity_mode: agent는 검증된 테넌트·에이전트 정보를 사용하고, delegated는 사용자·작업·위임도 요구합니다. 기존 에이전트는 기본적으로 위임이 필요합니다.
 
-> Docker 0.43: [셀프호스팅](self-hosting.md) · [게이트웨이 호환성](gateway-compatibility.md). 이 페이지는 별도 소스 기반 합성 데모를 설명합니다.
+> Docker 0.44: [셀프호스팅](self-hosting.md) · [게이트웨이 호환성](gateway-compatibility.md). 이 페이지는 별도 소스 기반 합성 데모를 설명합니다.
 
 [English](../en/console.md) · [한국어](../ko/console.md) · [简体中文](../zh-CN/console.md) · [日本語](../ja/console.md) · [Español](../es/console.md) · [Français](../fr/console.md)
 

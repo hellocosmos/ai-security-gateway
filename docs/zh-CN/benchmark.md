@@ -25,3 +25,9 @@
 ## AI Firewall 检查器进程池
 
 [AI Firewall 检查器进程池](inspector-pool.md)
+
+## 0.44 · Buffered SSE
+
+[Buffered SSE 延迟与部署适用性](latency.md)
+
+网关收集并检查完整的受支持响应后才交付内容。首内容延迟包括收集与检查，不只是扫描时间。适合能等待完整结果的任务；交互聊天需按明确的延迟预算评估。

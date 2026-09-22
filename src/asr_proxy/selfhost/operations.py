@@ -65,7 +65,7 @@ class Operations:
               'history': [{'revision': h['revision']} for h in saved['history']],
               'restart_required': saved['pending'] is not None,
               'recent_gateway_outcomes': list(self.runtime.gateway_outcomes.values()),
-              'outcome_scope': 'current_process'}
+              'outcome_scope': 'current_process', 'latency': self.runtime.latency.snapshot()}
 
   def candidate(self, payload):
     try:
@@ -133,7 +133,7 @@ class Operations:
       return {'scope': 'inspection_listeners_and_observed_requests', 'status': status,
               'authentication': 'not_tested', 'destination': 'not_probed',
               'network': network, 'recent_gateway_outcomes': list(self.runtime.gateway_outcomes.values()),
-              'outcome_scope': 'current_process'}
+              'outcome_scope': 'current_process', 'latency': self.runtime.latency.snapshot()}
 
   def preview(self, payload):
     with self.runtime.lock:

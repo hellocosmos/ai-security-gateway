@@ -4,7 +4,7 @@
 
 [English](../en/editions.md) · [한국어](../ko/editions.md) · [简体中文](../zh-CN/editions.md) · [日本語](../ja/editions.md) · [Español](../es/editions.md) · [Français](../fr/editions.md)
 
-TrapDefense 0.43는 하나의 MIT 코드베이스다. Runtime Gateway와 Agent Access Broker를 이 공개 저장소에서 함께 제공하며, 비공개 Python 배포판·provider entry point·license key·edition switch가 필요하지 않다.
+TrapDefense 0.44는 하나의 MIT 코드베이스다. Runtime Gateway와 Agent Access Broker를 이 공개 저장소에서 함께 제공하며, 비공개 Python 배포판·provider entry point·license key·edition switch가 필요하지 않다.
 
 ## 제공 상태
 
@@ -21,4 +21,4 @@ Gateway-only는 로컬 검사 정책과 trusted source를 검증한다. Broker-e
 
 파일 store는 동일 호스트 POSIX 프로세스에서 atomic replace와 file lock을 사용한다. 분산 DB가 아니며 NFS/SMB multi-host HA 용도가 아니다. 로컬 JSON/SQLite 증거는 변경 가능하다. 합성 테스트는 실제 IdP, Conditional Access, 고객 MCP 인증, TLS 라우팅과 용량을 인증하지 않는다.
 
-[Docker 0.43](self-hosting.md) · [아키텍처](architecture.md) · [보안](security.md) · [호환성](gateway-compatibility.md)
+[Docker 0.44](self-hosting.md) · [아키텍처](architecture.md) · [보안](security.md) · [호환성](gateway-compatibility.md)

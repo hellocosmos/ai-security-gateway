@@ -1,17 +1,20 @@
 # TrapDefense — Open-source AI Security Gateway
 
+
+[0.44: Latencia de Buffered SSE y adecuación al despliegue](docs/es/latency.md)
+
 ## Least Privilege, Least Agency
 
 **El mínimo privilegio limita el acceso. La mínima autonomía acota la acción autónoma.**
 
 Nuestro principio de diseño: otorgar al agente solo el acceso necesario y delimitar las acciones que puede realizar por sí mismo. TrapDefense complementa IAM y los permisos del servicio de destino mediante políticas de acciones y datos para llamadas compatibles enrutadas por el gateway. La identidad opcional del agente añade ámbitos individuales, delegación y aprobaciones.
 
-[0.43: Espacio de operación (0.43)](docs/es/operator-workspace.md)
+[0.44: Espacio de operación (0.44)](docs/es/operator-workspace.md)
 
 
 [0.42: Verificación modelo → MCP → modelo](docs/es/agent-workflow.md)
 
-**0.43:** [Conexiones de proveedores de modelos](docs/es/providers.md) — OpenAI · Anthropic · Gemini · OpenRouter.
+**0.44:** [Conexiones de proveedores de modelos](docs/es/providers.md) — OpenAI · Anthropic · Gemini · OpenRouter.
 
 **Conecte API HTTP y servidores MCP remotos compatibles a través de un límite de seguridad explícito. Añada identidad para controlar cada agente.**
 
@@ -19,7 +22,7 @@ Nuestro principio de diseño: otorgar al agente solo el acceso necesario y delim
 
 [English](README.md) · [한국어](README.ko.md) · [简体中文](README.zh-CN.md) · [日本語](README.ja.md) · [Español](README.es.md) · [Français](README.fr.md)
 
-> **Open Source Preview 0.43:** todo el runtime y la consola operativa se publican con licencia MIT. El Agent Access Broker integrado está implementado y validado con datos sintéticos, pero permanece **Experimental** hasta validar IdP reales, políticas de clientes, HA y capacidad.
+> **Open Source Preview 0.44:** todo el runtime y la consola operativa se publican con licencia MIT. El Agent Access Broker integrado está implementado y validado con datos sintéticos, pero permanece **Experimental** hasta validar IdP reales, políticas de clientes, HA y capacidad.
 
 TrapDefense es un AI Firewall autoalojado para tráfico HTTP y MCP compatible. Inspecciona solicitudes y respuestas, aplica políticas de action, PII y secrets, conserva evidencia saneada y puede autorizar una acción según agent, delegation, task, resource y una aprobación humana de un solo uso.
 

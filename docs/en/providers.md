@@ -1,4 +1,4 @@
-# Model provider connections (0.43)
+# Model provider connections (0.44)
 
 [English](../en/providers.md) · [한국어](../ko/providers.md) · [简体中文](../zh-CN/providers.md) · [日本語](../ja/providers.md) · [Español](../es/providers.md) · [Français](../fr/providers.md)
 
@@ -112,3 +112,9 @@ Official references: [OpenAI SDK](https://github.com/openai/openai-python), [Cla
 ### 0.42 qualification update
 
 See the [agent workflow](agent-workflow.md) for the live OpenAI model-to-MCP result, response-cookie and timestamp handling, and measured operating limits. Other live provider accounts remain unqualified.
+
+## 0.44 · Buffered SSE
+
+[Buffered SSE latency and rollout fit](latency.md)
+
+The gateway collects and inspects the complete supported response before delivering content. Client first-content latency includes collection and inspection, not just scanner time. This suits workflows that can wait for a complete result; interactive chat must be tested against an explicit latency budget.

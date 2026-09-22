@@ -1,11 +1,11 @@
 # 控制台安装与操作
 
-> **0.43:** [运维工作区（0.43）](operator-workspace.md)
+> **0.44:** [运维工作区（0.44）](operator-workspace.md)
 
 
 > **AISG:** [连接、识别、控制、验证](aisg.md). 网关使用部署密钥或已验证 JWT。agent_key 无需外部 IAM 即可识别注册代理。JWT identity_mode: agent 使用已验证的租户和代理声明；delegated 还要求用户、任务和委托。现有代理默认需要委托。
 
-> Docker 0.43: [自托管](self-hosting.md) · [网关兼容性](gateway-compatibility.md)。本页说明独立的源码合成演示。
+> Docker 0.44: [自托管](self-hosting.md) · [网关兼容性](gateway-compatibility.md)。本页说明独立的源码合成演示。
 
 [English](../en/console.md) · [한국어](../ko/console.md) · [简体中文](../zh-CN/console.md) · [日本語](../ja/console.md) · [Español](../es/console.md) · [Français](../fr/console.md)
 

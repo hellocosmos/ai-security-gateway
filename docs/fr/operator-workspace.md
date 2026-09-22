@@ -1,4 +1,4 @@
-# Espace d’exploitation (0.43)
+# Espace d’exploitation (0.44)
 
 La console Docker propose configuration, changements en attente, restauration, diagnostic et aperçu dans Connections / System et Settings. Quatre profils de modèles génèrent les routes natives. Les outils HTTP/MCP sont bloqués par défaut : vérifiez actions, ressources et masquage. Les mappings avancés se modifient en JSON.
 
@@ -17,3 +17,9 @@ Le diagnostic montre écouteurs, phase, statut, compteur et date des requêtes o
 Premier essai : installer avec un mot de passe unique → identifiants distincts → requêtes autorisées, données personnelles synthétiques et blocage → événements → redémarrage et persistance → restauration. Un MCP et un compte réels exigent une validation séparée.
 
 [Docker](self-hosting.md) · [Workflow](agent-workflow.md)
+
+## 0.44 · Buffered SSE
+
+[Latence Buffered SSE et adéquation au déploiement](latency.md)
+
+Le gateway collecte et inspecte la réponse complète prise en charge avant de livrer le contenu. Le délai du premier contenu comprend la collecte et l’inspection. Ce mode convient aux tâches pouvant attendre un résultat complet ; le chat interactif exige un budget de latence explicite.

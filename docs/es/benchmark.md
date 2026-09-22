@@ -25,3 +25,9 @@ Consulte [consola](console.md), [arquitectura](architecture.md), [ediciones](edi
 ## Grupo de inspectores AI Firewall
 
 [Grupo de inspectores AI Firewall](inspector-pool.md)
+
+## 0.44 · Buffered SSE
+
+[Latencia de Buffered SSE y adecuación al despliegue](latency.md)
+
+El gateway recopila e inspecciona toda la respuesta admitida antes de entregar contenido. La latencia del primer contenido incluye recopilación e inspección. Conviene a tareas que pueden esperar un resultado completo; el chat interactivo exige un presupuesto explícito de latencia.

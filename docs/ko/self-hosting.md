@@ -1,6 +1,6 @@
-# Docker 셀프호스팅 — 0.43 Open Source Preview
+# Docker 셀프호스팅 — 0.44 Open Source Preview
 
-> **0.43:** [운영 작업 공간 (0.43)](operator-workspace.md)
+> **0.44:** [운영 작업 공간 (0.44)](operator-workspace.md)
 
 
 > [모델 제공자 연결](providers.md) · OpenAI / Anthropic / Gemini / OpenRouter.
@@ -9,7 +9,7 @@
 
 [English](../en/self-hosting.md) · [한국어](../ko/self-hosting.md) · [简体中文](../zh-CN/self-hosting.md) · [日本語](../ja/self-hosting.md) · [Español](../es/self-hosting.md) · [Français](../fr/self-hosting.md)
 
-## 0.43 시작 경로 선택
+## 0.44 시작 경로 선택
 
 - **모델 API:** [제공사 프로필](providers.md)로 OpenAI·Anthropic·Gemini·OpenRouter를 연결합니다. SDK base URL을 변경하고 제공사 키는 게이트웨이에 보관합니다.
 - **HTTP / MCP 도구:** 아래 Docker 예제로 시작한 뒤 합성 목적지를 명시적으로 매핑한 실제 서비스로 교체합니다.
@@ -17,7 +17,7 @@
 
 게이트웨이 인증은 `client_key`, `agent_key`, 외부 `jwt`를 지원합니다. 로컬 Agent Registry와 agent_key를 통한 권한 통제는 선택 사항이며 대상 인증을 대체하지 않습니다. 설치별 목적지는 하나입니다. 모델과 별도 실행 도구는 각각 게이트웨이를 거쳐야 합니다. 모델 프로필의 SSE는 전체 버퍼링 후 검사·전달하며 실시간 토큰 스트리밍은 아닙니다.
 
-0.43은 어댑터·Envoy·검사기·운영 UI와 분리된 게이트웨이/대상 인증을 함께 제공하는 Docker Compose Preview입니다. 이미지는 소스에서 로컬 빌드합니다. TrapDefense Cloud는 계획 단계이며 가입할 수 없습니다.
+0.44은 어댑터·Envoy·검사기·운영 UI와 분리된 게이트웨이/대상 인증을 함께 제공하는 Docker Compose Preview입니다. 이미지는 소스에서 로컬 빌드합니다. TrapDefense Cloud는 계획 단계이며 가입할 수 없습니다.
 
 클라이언트에서 MCP/API URL을 바꾸고 `X-TD-Client-Key` 또는 OAuth Bearer JWT를 사용할 수 있어야 합니다. 설치별 목적지는 하나이며 경로·도구를 명시적으로 매핑합니다. 자세한 증거는 [호환성 표](gateway-compatibility.md)를 참고하세요.
 
@@ -61,3 +61,9 @@ UI는 정책·비밀번호를 관리합니다. 매핑 변경은 백업 후 `poli
 다음은 **delegated JWT 모드** 설정입니다. 로컬 agent_key와 무인 agent 모드는 [AISG 가이드](aisg.md)를 참조하세요.
 
 `gateway_auth.mode: jwt`를 사용하고 `identity_claims`에 tenant, user, agent, delegation, task claim 이름을 명시하세요. 이어서 `access_broker.enabled: true`와 하나의 `access_broker.tenant_id`를 설정합니다. 콘솔에서 해당 tenant의 agent와 delegation을 먼저 등록해야 합니다. 필수 claim 누락과 tenant 불일치는 전달 전에 차단됩니다. 정확한 YAML 예시는 [영문 기준 문서](../en/self-hosting.md)를 따르세요. 로컬 file store는 동일 호스트용이며 multi-node HA가 아닙니다.
+
+## 0.44 · Buffered SSE
+
+[Buffered SSE 지연과 도입 적합성](latency.md)
+
+게이트웨이는 지원되는 응답 전체를 수집·검사한 뒤 콘텐츠를 전달합니다. 첫 콘텐츠 지연에는 검사뿐 아니라 응답 수집도 포함됩니다. 완성된 결과를 기다릴 수 있는 작업에 적합하며, 대화형 채팅은 명시적인 지연 예산으로 평가해야 합니다.

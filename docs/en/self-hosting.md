@@ -1,6 +1,6 @@
-# Docker self-hosting (0.43 Open Source Preview)
+# Docker self-hosting (0.44 Open Source Preview)
 
-> **0.43:** [Operator workspace (0.43)](operator-workspace.md)
+> **0.44:** [Operator workspace (0.44)](operator-workspace.md)
 
 
 > [Model provider connections](providers.md) · OpenAI / Anthropic / Gemini / OpenRouter.
@@ -9,7 +9,7 @@
 
 [English](../en/self-hosting.md) · [한국어](../ko/self-hosting.md) · [简体中文](../zh-CN/self-hosting.md) · [日本語](../ja/self-hosting.md) · [Español](../es/self-hosting.md) · [Français](../fr/self-hosting.md)
 
-## Choose your 0.43 starting point
+## Choose your 0.44 starting point
 
 - **Model APIs:** use a [provider profile](providers.md) for OpenAI, Anthropic, Gemini or OpenRouter. Change the native SDK base URL; put the provider key on the gateway.
 - **HTTP / MCP tools:** follow the Docker quickstart below, then replace the synthetic destination with an explicitly mapped service.
@@ -205,3 +205,9 @@ Set `gateway_auth.identity_mode: agent` with `identity_claims` mapping only trus
 The local `agent_key` profile uses an opaque Bearer credential, not OAuth discovery or an OAuth issuer. Clients must support static Bearer configuration. For OAuth clients use the external JWT profile. Destination authentication and target permissions remain independent.
 
 Local keys are hashed in `/state/agent-credentials.sqlite`. The console issues, rotates, revokes and lists metadata under `/demo-api/agents/{agent_id}/credentials`; mutations require an administrator session and CSRF protection. Never expose this console API as a client authentication API. Rotation revokes the selected key immediately. An agent may hold multiple keys; revoke each or disable the agent to block all.
+
+## 0.44 · Buffered SSE
+
+[Buffered SSE latency and rollout fit](latency.md)
+
+The gateway collects and inspects the complete supported response before delivering content. Client first-content latency includes collection and inspection, not just scanner time. This suits workflows that can wait for a complete result; interactive chat must be tested against an explicit latency budget.

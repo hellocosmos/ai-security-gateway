@@ -538,5 +538,16 @@
   "Tool names (comma-separated)": "工具名称（逗号分隔）",
   "New HTTP/MCP tools start blocked. Review actions, resources and redaction fields before allowing traffic. HTTP is unencrypted; use it only on a trusted network.": "新 HTTP/MCP 工具默认阻止。允许流量前请检查操作、资源和脱敏字段。HTTP 未加密，仅用于可信网络。",
   "Checks inspector and Envoy listeners plus observed request outcomes. It does not bypass network isolation to probe the destination.": "检查检查器、Envoy 监听器及已观察到的请求结果。不绕过网络隔离探测目标。",
-  "Use the connection workspace below to stage destinations and mappings. Activate them with the stack stopped.": "在下方连接工作区暂存目标和映射，停止服务栈后应用。"
+  "Use the connection workspace below to stage destinations and mappings. Activate them with the stack stopped.": "在下方连接工作区暂存目标和映射，停止服务栈后应用。",
+  "Latency observations": "延迟观测",
+  "Phase": "阶段",
+  "Samples": "样本数",
+  "Gateway response ready": "网关响应就绪",
+  "Envoy exchange": "Envoy 请求往返",
+  "Request inspection": "请求检查",
+  "Response metadata inspection": "响应元数据检查",
+  "Response inspection": "响应检查",
+  "No measurements yet": "尚无测量数据",
+  "Last 256 samples per phase in this process, including failures. Milliseconds. Refresh to update.": "当前进程每阶段最近 256 个样本，包含失败。单位为毫秒。刷新以更新。",
+  "Envoy exchange includes upstream collection and inspection. Inspection includes queue wait. These independent distributions cannot be subtracted. Gateway time ends before client delivery; measure client first-content latency separately.": "Envoy 往返包括上游收集和检查，检查包括排队等待。独立分布不能相减。网关计时在客户端接收前结束；请单独测量客户端首内容延迟。"
 }

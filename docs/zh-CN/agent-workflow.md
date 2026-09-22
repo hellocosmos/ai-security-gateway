@@ -1,4 +1,4 @@
-# 模型 → MCP → 模型验证 (0.43)
+# 模型 → MCP → 模型验证 (0.44)
 
 [English](../en/agent-workflow.md) · [한국어](../ko/agent-workflow.md) · [简体中文](../zh-CN/agent-workflow.md) · [日本語](../ja/agent-workflow.md) · [Español](../es/agent-workflow.md) · [Français](../fr/agent-workflow.md)
 

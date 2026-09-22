@@ -92,15 +92,23 @@ class InspectionWorkers:
 
 
 class ExternalProcessor(rpc.ExternalProcessorServicer):
-  def __init__(self, engine: InspectionEngine, audit: InspectionAudit, *, stream_timeout: float = 20):
+  def __init__(self, engine: InspectionEngine, audit: InspectionAudit, *, stream_timeout: float = 20, measure=None):
     self.engine, self.audit, self.stream_timeout = engine, audit, stream_timeout
+    self.measure = measure
     self.slots = asyncio.Semaphore(16)
     self.workers = InspectionWorkers()
 
   async def _inspect(self, callback, *args, deadline, **kwargs):
     # Both shipped proxies use a two-second message timeout; leave transport headroom.
-    return await self.workers.run(callback, *args,
-      deadline=min(deadline, time.monotonic() + 1.5), **kwargs)
+    started = time.perf_counter()
+    try:
+      return await self.workers.run(callback, *args,
+        deadline=min(deadline, time.monotonic() + 1.5), **kwargs)
+    finally:
+      phase = {'inspect_request': 'request_inspection', 'inspect_metadata': 'response_metadata_inspection',
+               'inspect_response': 'response_inspection'}.get(callback.__name__)
+      if self.measure is not None and phase:
+        self.measure(phase, (time.perf_counter()-started)*1000)
 
   async def Process(self, request_iterator, context):
     request_headers = response_headers = None

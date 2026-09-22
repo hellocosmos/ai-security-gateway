@@ -538,5 +538,16 @@
   "Tool names (comma-separated)": "Outils (séparés par des virgules)",
   "New HTTP/MCP tools start blocked. Review actions, resources and redaction fields before allowing traffic. HTTP is unencrypted; use it only on a trusted network.": "Les nouveaux outils HTTP/MCP sont bloqués par défaut. Vérifiez actions, ressources et masquage avant d’autoriser le trafic. HTTP n’est pas chiffré ; réservez-le aux réseaux de confiance.",
   "Checks inspector and Envoy listeners plus observed request outcomes. It does not bypass network isolation to probe the destination.": "Vérifie les écouteurs de l’inspecteur et d’Envoy et les résultats observés. Ne contourne pas l’isolation pour sonder la destination.",
-  "Use the connection workspace below to stage destinations and mappings. Activate them with the stack stopped.": "Préparez destinations et routes ci-dessous. Activez-les après arrêt des services."
+  "Use the connection workspace below to stage destinations and mappings. Activate them with the stack stopped.": "Préparez destinations et routes ci-dessous. Activez-les après arrêt des services.",
+  "Latency observations": "Mesures de latence",
+  "Phase": "Phase",
+  "Samples": "Échantillons",
+  "Gateway response ready": "Réponse du gateway prête",
+  "Envoy exchange": "Échange avec Envoy",
+  "Request inspection": "Inspection de requête",
+  "Response metadata inspection": "Inspection des métadonnées",
+  "Response inspection": "Inspection de réponse",
+  "No measurements yet": "Aucune mesure disponible",
+  "Last 256 samples per phase in this process, including failures. Milliseconds. Refresh to update.": "256 derniers échantillons par phase du processus, échecs inclus. Millisecondes. Actualisez pour mettre à jour.",
+  "Envoy exchange includes upstream collection and inspection. Inspection includes queue wait. These independent distributions cannot be subtracted. Gateway time ends before client delivery; measure client first-content latency separately.": "L’échange Envoy comprend la collecte amont et l’inspection, qui inclut l’attente en file. Ne soustrayez pas ces distributions indépendantes. Le temps du gateway se termine avant la livraison ; mesurez le premier contenu côté client."
 }

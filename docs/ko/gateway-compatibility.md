@@ -1,4 +1,4 @@
-# 게이트웨이 클라이언트 호환성 — 0.43
+# 게이트웨이 클라이언트 호환성 — 0.44
 
 > [모델 제공자 연결](providers.md) · OpenAI / Anthropic / Gemini / OpenRouter.
 

@@ -83,6 +83,15 @@ export default function Operations({policy, readOnly=false}) {
           <p>{t('401: check gateway or target credentials. 403: inspect policy and scope evidence. 503: check the inspection path and capacity. A status code alone does not identify which component rejected the request.')}</p>
           <button className="td-btn" onClick={()=>run(async()=>{await reload();return {status:'refreshed'};})}>{t('Refresh')}</button>
           <pre>{JSON.stringify(state.recent_gateway_outcomes,null,2)}</pre>
+          <h3>{t('Latency observations')}</h3>
+          <p>{t('Last 256 samples per phase in this process, including failures. Milliseconds. Refresh to update.')}</p>
+          <div style={{overflowX:'auto'}}><table><thead><tr><th>{t('Phase')}</th><th>{t('Samples')}</th><th>p50 (ms)</th><th>p95 (ms)</th><th>max (ms)</th></tr></thead>
+            <tbody>{(state.latency?.series || []).map(row=><tr key={row.phase}>
+              <td>{t({gateway_total:'Gateway response ready',envoy_exchange:'Envoy exchange',request_inspection:'Request inspection',response_metadata_inspection:'Response metadata inspection',response_inspection:'Response inspection'}[row.phase])}</td>
+              <td>{row.samples}</td>{['p50_ms','p95_ms','max_ms'].map(key=><td key={key}>{row[key]===null ? '—' : row[key]}</td>)}
+            </tr>)}</tbody></table></div>
+          {!state.latency?.series.some(row=>row.samples>0) && <p>{t('No measurements yet')}</p>}
+          <p>{t('Envoy exchange includes upstream collection and inspection. Inspection includes queue wait. These independent distributions cannot be subtracted. Gateway time ends before client delivery; measure client first-content latency separately.')}</p>
           <h3>{t('4. Preview local policy')}</h3>
           <p>{t('No upstream request or agent authorization. Preview does not modify the active policy or create approvals. Use synthetic data.')}</p>
           <label>{t('Configured routes')}<select value={route} onChange={e=>setRoute(Number(e.target.value))}>{state.active.routes.map((r,i)=><option key={i} value={i}>{r.method} {r.path}</option>)}</select></label>

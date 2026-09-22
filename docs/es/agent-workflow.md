@@ -1,4 +1,4 @@
-# Verificación modelo → MCP → modelo (0.43)
+# Verificación modelo → MCP → modelo (0.44)
 
 [English](../en/agent-workflow.md) · [한국어](../ko/agent-workflow.md) · [简体中文](../zh-CN/agent-workflow.md) · [日本語](../ja/agent-workflow.md) · [Español](../es/agent-workflow.md) · [Français](../fr/agent-workflow.md)
 

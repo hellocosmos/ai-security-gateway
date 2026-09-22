@@ -538,5 +538,16 @@
   "Tool names (comma-separated)": "Herramientas (separadas por comas)",
   "New HTTP/MCP tools start blocked. Review actions, resources and redaction fields before allowing traffic. HTTP is unencrypted; use it only on a trusted network.": "Las herramientas HTTP/MCP nuevas empiezan bloqueadas. Revise acciones, recursos y campos antes de permitir tráfico. HTTP no cifra; úselo solo en redes de confianza.",
   "Checks inspector and Envoy listeners plus observed request outcomes. It does not bypass network isolation to probe the destination.": "Comprueba inspectores, listeners de Envoy y resultados observados. No evita el aislamiento para sondear el destino.",
-  "Use the connection workspace below to stage destinations and mappings. Activate them with the stack stopped.": "Prepare destinos y rutas abajo. Actívelos con los servicios detenidos."
+  "Use the connection workspace below to stage destinations and mappings. Activate them with the stack stopped.": "Prepare destinos y rutas abajo. Actívelos con los servicios detenidos.",
+  "Latency observations": "Observaciones de latencia",
+  "Phase": "Fase",
+  "Samples": "Muestras",
+  "Gateway response ready": "Respuesta del gateway lista",
+  "Envoy exchange": "Intercambio con Envoy",
+  "Request inspection": "Inspección de solicitud",
+  "Response metadata inspection": "Inspección de metadatos",
+  "Response inspection": "Inspección de respuesta",
+  "No measurements yet": "Sin mediciones todavía",
+  "Last 256 samples per phase in this process, including failures. Milliseconds. Refresh to update.": "Últimas 256 muestras por fase del proceso, incluidos fallos. Milisegundos. Actualice para renovar.",
+  "Envoy exchange includes upstream collection and inspection. Inspection includes queue wait. These independent distributions cannot be subtracted. Gateway time ends before client delivery; measure client first-content latency separately.": "El intercambio con Envoy incluye recopilación e inspección; la inspección incluye espera en cola. No reste estas distribuciones independientes. El tiempo del gateway termina antes de la entrega; mida el primer contenido en el cliente."
 }

@@ -4,7 +4,7 @@
 
 [English](../en/editions.md) · [한국어](../ko/editions.md) · [简体中文](../zh-CN/editions.md) · [日本語](../ja/editions.md) · [Español](../es/editions.md) · [Français](../fr/editions.md)
 
-TrapDefense 0.43 has one MIT-licensed codebase. Runtime inspection and Agent Access Broker capabilities ship together in this repository. No private Python distribution, provider entry point, license key, or edition switch is required.
+TrapDefense 0.44 has one MIT-licensed codebase. Runtime inspection and Agent Access Broker capabilities ship together in this repository. No private Python distribution, provider entry point, license key, or edition switch is required.
 
 ## What is shipped
 
@@ -27,4 +27,4 @@ The built-in file store is safe for same-host POSIX processes with atomic replac
 
 Synthetic tests establish protocol behavior, not production certification for Entra, Okta, Keycloak, Conditional Access, customer MCP authentication, TLS routing, or capacity.
 
-[Docker 0.43](self-hosting.md) · [Architecture](architecture.md) · [Security](security.md) · [Gateway compatibility](gateway-compatibility.md)
+[Docker 0.44](self-hosting.md) · [Architecture](architecture.md) · [Security](security.md) · [Gateway compatibility](gateway-compatibility.md)

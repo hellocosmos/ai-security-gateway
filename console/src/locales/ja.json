@@ -538,5 +538,16 @@
   "Tool names (comma-separated)": "ツール名（カンマ区切り）",
   "New HTTP/MCP tools start blocked. Review actions, resources and redaction fields before allowing traffic. HTTP is unencrypted; use it only on a trusted network.": "新しい HTTP/MCP ツールは初期状態で禁止されます。許可前に操作・リソース・マスキング項目を確認してください。HTTP は信頼できるネットワークのみで使用してください。",
   "Checks inspector and Envoy listeners plus observed request outcomes. It does not bypass network isolation to probe the destination.": "検査器・Envoy リスナーと観測済みの要求結果を確認します。宛先確認のためにネットワーク分離を迂回しません。",
-  "Use the connection workspace below to stage destinations and mappings. Activate them with the stack stopped.": "下の接続ワークスペースで宛先と経路を保存し、スタック停止後に適用してください。"
+  "Use the connection workspace below to stage destinations and mappings. Activate them with the stack stopped.": "下の接続ワークスペースで宛先と経路を保存し、スタック停止後に適用してください。",
+  "Latency observations": "遅延の観測",
+  "Phase": "段階",
+  "Samples": "サンプル数",
+  "Gateway response ready": "ゲートウェイ応答準備",
+  "Envoy exchange": "Envoy 往復",
+  "Request inspection": "リクエスト検査",
+  "Response metadata inspection": "応答メタデータ検査",
+  "Response inspection": "応答検査",
+  "No measurements yet": "測定データなし",
+  "Last 256 samples per phase in this process, including failures. Milliseconds. Refresh to update.": "現在のプロセスの段階別直近256件。失敗も含みます。単位はミリ秒。更新ボタンで再取得します。",
+  "Envoy exchange includes upstream collection and inspection. Inspection includes queue wait. These independent distributions cannot be subtracted. Gateway time ends before client delivery; measure client first-content latency separately.": "Envoy往復には上流応答の収集と検査、検査にはキュー待機を含みます。独立した分布の差は計算できません。ゲートウェイ計測は配信前に終了するため、最初の内容の受信時間はクライアント側で測定してください。"
 }

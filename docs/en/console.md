@@ -1,11 +1,11 @@
 # Console installation and operation
 
-> **0.43:** [Operator workspace (0.43)](operator-workspace.md)
+> **0.44:** [Operator workspace (0.44)](operator-workspace.md)
 
 
 > **AISG:** [Connect, identify, control, verify](aisg.md). Gateway access uses a deployment key or verified JWT. Local agent_key mode identifies a registered agent without an external IAM. JWT identity_mode: agent uses verified tenant/agent claims; delegated mode additionally requires user, task and delegation. Existing agents require delegation by default.
 
-> Docker 0.43: [Self-hosting / integration guide](self-hosting.md) · [Gateway client compatibility](gateway-compatibility.md). This page describes the separate source-based synthetic demo.
+> Docker 0.44: [Self-hosting / integration guide](self-hosting.md) · [Gateway client compatibility](gateway-compatibility.md). This page describes the separate source-based synthetic demo.
 
 [English](../en/console.md) · [한국어](../ko/console.md) · [简体中文](../zh-CN/console.md) · [日本語](../ja/console.md) · [Español](../es/console.md) · [Français](../fr/console.md)
 

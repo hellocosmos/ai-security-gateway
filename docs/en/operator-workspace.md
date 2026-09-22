@@ -1,4 +1,4 @@
-# Operator workspace (0.43)
+# Operator workspace (0.44)
 
 The Docker console now includes a connection workspace under **Connections / System** and **Settings**. The four model profiles generate native provider mappings; HTTP/MCP profiles generate explicitly blocked tools. Review actions, resources and redaction fields before permitting traffic. Advanced mappings remain editable as JSON.
 
@@ -33,3 +33,9 @@ Policy preview uses the same local content/routing engine in an isolated tempora
 5. Stage a saved revision and verify recovery before relying on it operationally.
 
 Use the [installation fixture](self-hosting.md) for deterministic evaluation and the [two-agent workflow](agent-workflow.md) for model-to-tool evidence. A customer MCP with its actual account and authorization remains a separate qualification, not something these synthetic checks prove.
+
+## 0.44 · Buffered SSE
+
+[Buffered SSE latency and rollout fit](latency.md)
+
+The gateway collects and inspects the complete supported response before delivering content. Client first-content latency includes collection and inspection, not just scanner time. This suits workflows that can wait for a complete result; interactive chat must be tested against an explicit latency budget.

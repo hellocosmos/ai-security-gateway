@@ -538,5 +538,16 @@
   "Tool names (comma-separated)": "Tool names (comma-separated)",
   "New HTTP/MCP tools start blocked. Review actions, resources and redaction fields before allowing traffic. HTTP is unencrypted; use it only on a trusted network.": "New HTTP/MCP tools start blocked. Review actions, resources and redaction fields before allowing traffic. HTTP is unencrypted; use it only on a trusted network.",
   "Checks inspector and Envoy listeners plus observed request outcomes. It does not bypass network isolation to probe the destination.": "Checks inspector and Envoy listeners plus observed request outcomes. It does not bypass network isolation to probe the destination.",
-  "Use the connection workspace below to stage destinations and mappings. Activate them with the stack stopped.": "Use the connection workspace below to stage destinations and mappings. Activate them with the stack stopped."
+  "Use the connection workspace below to stage destinations and mappings. Activate them with the stack stopped.": "Use the connection workspace below to stage destinations and mappings. Activate them with the stack stopped.",
+  "Latency observations": "Latency observations",
+  "Phase": "Phase",
+  "Samples": "Samples",
+  "Gateway response ready": "Gateway response ready",
+  "Envoy exchange": "Envoy exchange",
+  "Request inspection": "Request inspection",
+  "Response metadata inspection": "Response metadata inspection",
+  "Response inspection": "Response inspection",
+  "No measurements yet": "No measurements yet",
+  "Last 256 samples per phase in this process, including failures. Milliseconds. Refresh to update.": "Last 256 samples per phase in this process, including failures. Milliseconds. Refresh to update.",
+  "Envoy exchange includes upstream collection and inspection. Inspection includes queue wait. These independent distributions cannot be subtracted. Gateway time ends before client delivery; measure client first-content latency separately.": "Envoy exchange includes upstream collection and inspection. Inspection includes queue wait. These independent distributions cannot be subtracted. Gateway time ends before client delivery; measure client first-content latency separately."
 }

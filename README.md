@@ -1,17 +1,20 @@
 # TrapDefense — Open-source AI Security Gateway
 
+
+[0.44: Buffered SSE latency and rollout fit](docs/en/latency.md)
+
 ## Least Privilege, Least Agency
 
 **Least privilege limits access. Least agency bounds autonomous action.**
 
 Our design principle: give an agent only the access it needs, and bound the actions it may take independently. TrapDefense complements existing IAM and destination permissions by enforcing action and data policies on supported calls routed through the gateway. Optional agent identity adds per-agent scopes, delegation and approval controls.
 
-[0.43: Operator workspace (0.43)](docs/en/operator-workspace.md)
+[0.44: Operator workspace (0.44)](docs/en/operator-workspace.md)
 
 
 [0.42: Model → MCP → model verification](docs/en/agent-workflow.md)
 
-**0.43:** [Model provider connections](docs/en/providers.md) — OpenAI · Anthropic · Gemini · OpenRouter.
+**0.44:** [Model provider connections](docs/en/providers.md) — OpenAI · Anthropic · Gemini · OpenRouter.
 
 **Connect supported HTTP APIs and remote MCP servers through one explicit security boundary. Add agent identity when you need per-agent control.**
 
@@ -24,7 +27,7 @@ Our design principle: give an agent only the access it needs, and bound the acti
 
 [English](README.md) · [한국어](README.ko.md) · [简体中文](README.zh-CN.md) · [日本語](README.ja.md) · [Español](README.es.md) · [Français](README.fr.md)
 
-> **Open Source Preview 0.43:** the full runtime and operator experience are MIT licensed. The built-in Agent Access Broker is implemented and synthetically verified, but remains **Experimental** until production IdP, customer policy, HA, and capacity validation are complete.
+> **Open Source Preview 0.44:** the full runtime and operator experience are MIT licensed. The built-in Agent Access Broker is implemented and synthetically verified, but remains **Experimental** until production IdP, customer policy, HA, and capacity validation are complete.
 
 **Control the path from model intent to real action.**
 
@@ -67,7 +70,7 @@ There are no Community and Enterprise code editions. This repository contains:
 
 Future paid work can provide a managed cloud service, fleet operations, multi-node HA, immutable external audit storage, customer integrations, and support. The open-source runtime does not hide current enforcement features behind a license gate. See [One open-source product](docs/en/editions.md).
 
-## Docker self-hosting · 0.43
+## Docker self-hosting · 0.44
 
 ```bash
 git clone https://github.com/hellocosmos/ai-security-gateway.git

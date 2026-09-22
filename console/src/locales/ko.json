@@ -538,5 +538,16 @@
   "Tool names (comma-separated)": "도구 이름 (쉼표로 구분)",
   "New HTTP/MCP tools start blocked. Review actions, resources and redaction fields before allowing traffic. HTTP is unencrypted; use it only on a trusted network.": "새 HTTP/MCP 도구는 기본 차단됩니다. 허용 전에 작업·리소스·마스킹 필드를 검토하세요. HTTP는 암호화되지 않으므로 신뢰하는 네트워크에서만 사용하세요.",
   "Checks inspector and Envoy listeners plus observed request outcomes. It does not bypass network isolation to probe the destination.": "검사기·Envoy 리스너와 관측된 요청 결과를 확인합니다. 목적지 검사를 위해 네트워크 격리를 우회하지 않습니다.",
-  "Use the connection workspace below to stage destinations and mappings. Activate them with the stack stopped.": "아래 연결 작업 공간에서 목적지·매핑을 저장하고 스택을 중지한 뒤 적용하세요."
+  "Use the connection workspace below to stage destinations and mappings. Activate them with the stack stopped.": "아래 연결 작업 공간에서 목적지·매핑을 저장하고 스택을 중지한 뒤 적용하세요.",
+  "Latency observations": "지연 관측",
+  "Phase": "단계",
+  "Samples": "표본 수",
+  "Gateway response ready": "게이트웨이 응답 준비",
+  "Envoy exchange": "Envoy 왕복",
+  "Request inspection": "요청 검사",
+  "Response metadata inspection": "응답 메타데이터 검사",
+  "Response inspection": "응답 검사",
+  "No measurements yet": "아직 측정값 없음",
+  "Last 256 samples per phase in this process, including failures. Milliseconds. Refresh to update.": "현재 프로세스의 단계별 최근 256개 표본이며 실패도 포함합니다. 단위는 밀리초입니다. 새로고침으로 갱신합니다.",
+  "Envoy exchange includes upstream collection and inspection. Inspection includes queue wait. These independent distributions cannot be subtracted. Gateway time ends before client delivery; measure client first-content latency separately.": "Envoy 왕복에는 응답 수집과 검사가 포함됩니다. 검사 시간은 큐 대기를 포함합니다. 서로 다른 분포이므로 빼서 계산할 수 없습니다. 게이트웨이 시간은 클라이언트 전달 전에 끝나므로 첫 콘텐츠 지연은 클라이언트에서 별도로 측정하세요."
 }

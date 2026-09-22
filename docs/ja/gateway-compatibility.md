@@ -1,4 +1,4 @@
-# ゲートウェイクライアント互換性 — 0.43
+# ゲートウェイクライアント互換性 — 0.44
 
 > [モデル提供者への接続](providers.md) · OpenAI / Anthropic / Gemini / OpenRouter.
 

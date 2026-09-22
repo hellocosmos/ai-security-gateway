@@ -1,6 +1,6 @@
-# Auto-hébergement Docker — 0.43 Open Source Preview
+# Auto-hébergement Docker — 0.44 Open Source Preview
 
-> **0.43:** [Espace d’exploitation (0.43)](operator-workspace.md)
+> **0.44:** [Espace d’exploitation (0.44)](operator-workspace.md)
 
 
 > [Connexions aux fournisseurs de modèles](providers.md) · OpenAI / Anthropic / Gemini / OpenRouter.
@@ -9,7 +9,7 @@
 
 [English](../en/self-hosting.md) · [한국어](../ko/self-hosting.md) · [简体中文](../zh-CN/self-hosting.md) · [日本語](../ja/self-hosting.md) · [Español](../es/self-hosting.md) · [Français](../fr/self-hosting.md)
 
-## Choisir un point de départ pour 0.43
+## Choisir un point de départ pour 0.44
 
 - **API de modèles :** utilisez un [profil fournisseur](providers.md) pour OpenAI, Anthropic, Gemini ou OpenRouter. Modifiez la base URL du SDK et gardez la clé fournisseur sur la passerelle.
 - **Outils HTTP / MCP :** suivez le démarrage Docker puis remplacez la cible synthétique par un service explicitement configuré.
@@ -17,7 +17,7 @@
 
 L’authentification accepte `client_key`, `agent_key` et un `jwt` externe. Le registre local d’agents et leurs permissions sont optionnels et ne remplacent pas l’authentification cible. Chaque déploiement vise une origine fixe ; modèles et outils exécutés séparément nécessitent leurs propres routes. Le SSE modèle est entièrement mis en mémoire puis inspecté avant livraison, sans diffusion de tokens en temps réel.
 
-0.43 fournit adaptateur, Envoy, inspecteur, console et authentifications séparées pour passerelle et cible. L’image se construit localement depuis les sources. TrapDefense Cloud reste prévu.
+0.44 fournit adaptateur, Envoy, inspecteur, console et authentifications séparées pour passerelle et cible. L’image se construit localement depuis les sources. TrapDefense Cloud reste prévu.
 
 Le client doit pouvoir modifier l’URL MCP/API et utiliser `X-TD-Client-Key` ou un JWT Bearer OAuth. Chaque déploiement possède une cible fixe et des routes/outils explicites. Consultez la [matrice de compatibilité](gateway-compatibility.md).
 
@@ -61,3 +61,9 @@ Les volumes conservent l’état après redémarrage. Arrêtez puis sauvegardez 
 La suite décrit le **mode JWT delegated**. Consultez le [guide AISG](aisg.md) pour agent_key local et le mode agent autonome.
 
 Utilisez `gateway_auth.mode: jwt` et déclarez dans `identity_claims` les noms de claims tenant, user, agent, delegation et task. Configurez ensuite `access_broker.enabled: true` et un `access_broker.tenant_id`. Enregistrez d’abord l’agent et la delegation du même tenant dans la console. Un claim obligatoire absent ou un tenant différent est bloqué avant transfert. Suivez le YAML exact de la [référence anglaise](../en/self-hosting.md). Le file store local est prévu pour un seul hôte, pas pour la HA multinœud.
+
+## 0.44 · Buffered SSE
+
+[Latence Buffered SSE et adéquation au déploiement](latency.md)
+
+Le gateway collecte et inspecte la réponse complète prise en charge avant de livrer le contenu. Le délai du premier contenu comprend la collecte et l’inspection. Ce mode convient aux tâches pouvant attendre un résultat complet ; le chat interactif exige un budget de latence explicite.

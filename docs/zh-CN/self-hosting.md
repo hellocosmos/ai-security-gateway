@@ -1,6 +1,6 @@
-# Docker 自托管 — 0.43 Open Source Preview
+# Docker 自托管 — 0.44 Open Source Preview
 
-> **0.43:** [运维工作区（0.43）](operator-workspace.md)
+> **0.44:** [运维工作区（0.44）](operator-workspace.md)
 
 
 > [模型提供商连接](providers.md) · OpenAI / Anthropic / Gemini / OpenRouter.
@@ -9,7 +9,7 @@
 
 [English](../en/self-hosting.md) · [한국어](../ko/self-hosting.md) · [简体中文](../zh-CN/self-hosting.md) · [日本語](../ja/self-hosting.md) · [Español](../es/self-hosting.md) · [Français](../fr/self-hosting.md)
 
-## 选择 0.43 起点
+## 选择 0.44 起点
 
 - **模型 API：**使用[供应商配置](providers.md)连接 OpenAI、Anthropic、Gemini 或 OpenRouter。修改 SDK base URL，供应商密钥保存在网关。
 - **HTTP / MCP 工具：**从下方 Docker 示例开始，再将合成目标替换为显式映射的服务。
@@ -17,7 +17,7 @@
 
 网关支持 `client_key`、`agent_key` 和外部 `jwt`。本地 Agent Registry 和 agent_key 权限控制可选，不能替代目标认证。每个部署仅有一个固定目标，模型与单独执行的工具需要各自路由。模型 SSE 完整缓冲并检查后才交付，不是实时 token 流。
 
-0.43 提供适配器、Envoy、检查器、管理界面以及相互独立的网关/目标认证。镜像从源码本地构建。TrapDefense Cloud 仍在规划中，尚未开放注册。
+0.44 提供适配器、Envoy、检查器、管理界面以及相互独立的网关/目标认证。镜像从源码本地构建。TrapDefense Cloud 仍在规划中，尚未开放注册。
 
 客户端必须能修改 MCP/API URL，并使用 `X-TD-Client-Key` 或 OAuth Bearer JWT。每个部署只有一个固定目标，并显式映射路由和工具。证据见[兼容性表](gateway-compatibility.md)。
 
@@ -61,3 +61,9 @@ UI 管理策略和密码。变更映射时，先备份，再运行 policy-reset�
 以下说明 **delegated JWT 模式**。本地 agent_key 和自主 agent 模式请参见 [AISG 指南](aisg.md)。
 
 使用 `gateway_auth.mode: jwt`，并在 `identity_claims` 中明确 tenant、user、agent、delegation 与 task claim 名称。随后设置 `access_broker.enabled: true` 和唯一的 `access_broker.tenant_id`。必须先在控制台注册同一 tenant 的 agent 与 delegation。缺少必需 claim 或 tenant 不匹配会在转发前拒绝。完整 YAML 请以[英文基准文档](../en/self-hosting.md)为准。本地 file store 仅适合同主机，不是 multi-node HA。
+
+## 0.44 · Buffered SSE
+
+[Buffered SSE 延迟与部署适用性](latency.md)
+
+网关收集并检查完整的受支持响应后才交付内容。首内容延迟包括收集与检查，不只是扫描时间。适合能等待完整结果的任务；交互聊天需按明确的延迟预算评估。

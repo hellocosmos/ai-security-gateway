@@ -1,5 +1,6 @@
 """Bounded authenticated adapter. Never retries or bypasses Envoy."""
 import asyncio
+import time
 from uuid import uuid4
 from urllib.parse import urlsplit
 from .providers import gateway_headers
@@ -13,15 +14,19 @@ from .auth import AuthError, GatewayAuthenticator
 from .credentials import CredentialError, TargetCredentialProvider
 
 
-def create_gateway(config, client_key, signing_key, *, target_secret=None, authenticator=None, transport=None, observe=None):
+def create_gateway(config, client_key, signing_key, *, target_secret=None, authenticator=None, transport=None, observe=None, measure=None):
   app = FastAPI(openapi_url=None, docs_url=None, redoc_url=None)
-  if observe is not None:
+  if observe is not None or measure is not None:
     @app.middleware('http')
     async def record_outcome(request, call_next):
+      started = time.perf_counter()
       request.state.outcome = 'gateway_validation'
-      response = await call_next(request)
-      observe(request.state.outcome, response.status_code)
-      return response
+      try:
+        response = await call_next(request)
+        if observe is not None: observe(request.state.outcome, response.status_code)
+        return response
+      finally:
+        if measure is not None: measure('gateway_total', (time.perf_counter()-started)*1000)
   authority = urlsplit(config.upstream).netloc
   slots = asyncio.Semaphore(32)
   authenticator=authenticator or GatewayAuthenticator(config.gateway_auth,client_key=client_key)
@@ -94,7 +99,13 @@ def create_gateway(config, client_key, signing_key, *, target_secret=None, authe
             {'source_id':'selfhost-adapter','run_id':uuid4().hex,**auth_result.identity},
             signing_key, nonce=uuid4().hex)
           request.state.outcome = 'inspection_path_transport'
-          response = await client.send(outgoing, stream=True)
+          exchange_started = time.perf_counter()
+          response = None
+          try:
+            response = await client.send(outgoing, stream=True)
+          except BaseException:
+            if measure is not None: measure('envoy_exchange', (time.perf_counter()-exchange_started)*1000)
+            raise
           request.state.outcome = 'inspection_path_response'
           try:
             if 300 <= response.status_code < 400:
@@ -111,7 +122,9 @@ def create_gateway(config, client_key, signing_key, *, target_secret=None, authe
             output = {k:v for k,v in response.headers.items() if k not in TRANSPORT_HEADERS and not reserved_header(k)
                       and k not in ('server','www-authenticate')}
             return Response(bytes(data),status_code=response.status_code,headers=output)
-          finally: await response.aclose()
+          finally:
+            await response.aclose()
+            if measure is not None: measure('envoy_exchange', (time.perf_counter()-exchange_started)*1000)
     except InspectionError:
       return JSONResponse({'error':'request_limit_exceeded'}, status_code=413)
     except (httpx.HTTPError, TimeoutError):

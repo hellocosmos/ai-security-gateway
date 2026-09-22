@@ -25,3 +25,9 @@ See the [console guide](console.md), [architecture](architecture.md), [editions]
 ## Same-host inspector pool
 
 [Same-host inspector pool](inspector-pool.md)
+
+## 0.44 · Buffered SSE
+
+[Buffered SSE latency and rollout fit](latency.md)
+
+The gateway collects and inspects the complete supported response before delivering content. Client first-content latency includes collection and inspection, not just scanner time. This suits workflows that can wait for a complete result; interactive chat must be tested against an explicit latency budget.

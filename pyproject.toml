@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "trapdefense-ai-firewall"
-version = "0.43"
+version = "0.44"
 description = "TrapDefense AI Firewall: AI action control, data protection and HTTP/MCP inspection"
 readme = "README.md"
 requires-python = ">=3.11"

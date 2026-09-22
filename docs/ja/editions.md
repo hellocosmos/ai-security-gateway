@@ -4,7 +4,7 @@
 
 [English](../en/editions.md) · [한국어](../ko/editions.md) · [简体中文](../zh-CN/editions.md) · [日本語](../ja/editions.md) · [Español](../es/editions.md) · [Français](../fr/editions.md)
 
-TrapDefense 0.43 は単一の MIT ライセンスコードベースです。Runtime Gateway と Agent Access Broker を同じ公開リポジトリで提供し、非公開 Python 配布物、provider entry point、license key、edition switch は不要です。
+TrapDefense 0.44 は単一の MIT ライセンスコードベースです。Runtime Gateway と Agent Access Broker を同じ公開リポジトリで提供し、非公開 Python 配布物、provider entry point、license key、edition switch は不要です。
 
 ## 提供状況
 
@@ -21,4 +21,4 @@ Gateway-only はローカル検査ポリシーと trusted source を検証しま
 
 ファイル store は同一ホストの POSIX プロセス向けで、分散 DB ではありません。NFS/SMB を使った multi-host HA には利用できません。合成テストは実 IdP、Conditional Access、顧客 MCP 認証、TLS ルーティング、容量の認証ではありません。
 
-[Docker 0.43](self-hosting.md) · [アーキテクチャ](architecture.md) · [セキュリティ](security.md) · [互換性](gateway-compatibility.md)
+[Docker 0.44](self-hosting.md) · [アーキテクチャ](architecture.md) · [セキュリティ](security.md) · [互換性](gateway-compatibility.md)

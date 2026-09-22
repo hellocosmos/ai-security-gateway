@@ -1,11 +1,11 @@
 # Instalación y operación de la consola
 
-> **0.43:** [Espacio de operación (0.43)](operator-workspace.md)
+> **0.44:** [Espacio de operación (0.44)](operator-workspace.md)
 
 
 > **AISG:** [Conectar, identificar, controlar, verificar](aisg.md). El gateway autentica con una clave de despliegue o JWT verificado. agent_key identifica agentes registrados sin IAM externo. JWT identity_mode: agent usa los atributos verificados de tenant y agente; delegated también exige usuario, tarea y delegación. Los agentes existentes requieren delegación por defecto.
 
-> Docker 0.43: [Autoalojamiento](self-hosting.md) · [Compatibilidad del gateway](gateway-compatibility.md). Esta página describe la demostración sintética separada desde fuentes.
+> Docker 0.44: [Autoalojamiento](self-hosting.md) · [Compatibilidad del gateway](gateway-compatibility.md). Esta página describe la demostración sintética separada desde fuentes.
 
 [English](../en/console.md) · [한국어](../ko/console.md) · [简体中文](../zh-CN/console.md) · [日本語](../ja/console.md) · [Español](../es/console.md) · [Français](../fr/console.md)
 

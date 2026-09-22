@@ -4,7 +4,7 @@ services:
     build:
       context: ../..
       dockerfile: deploy/selfhost/Dockerfile
-    image: trapdefense-ai-firewall:0.43
+    image: trapdefense-ai-firewall:0.44
     init: true
     restart: unless-stopped
     read_only: true
