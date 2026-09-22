@@ -446,6 +446,7 @@
   "Destination authentication": "대상 서비스 인증",
   "Listener reachable": "리스너 연결 가능",
   "Body limit": "본문 크기 제한",
+  "Gateway in-flight limit": "게이트웨이 동시 처리 한도",
   "The connection key verifies deployment access, not agent or user identity.": "연결 키는 설치 환경 접근을 확인하며 에이전트나 사용자의 신원을 확인하지 않습니다.",
   "Gateway and target credentials are separate. JWT gateway tokens are not forwarded to the target.": "게이트웨이와 대상 자격증명은 분리됩니다. 게이트웨이 JWT는 대상으로 전달되지 않습니다.",
   "JSON HTTP and stateless JSON MCP only. OAuth login brokering, sessions and long-lived SSE are not supported by this profile.": "JSON HTTP와 무상태 JSON MCP만 지원합니다. 이 구성은 OAuth 로그인 중개, 세션 및 장시간 SSE를 지원하지 않습니다.",
@@ -549,5 +550,18 @@
   "Response inspection": "응답 검사",
   "No measurements yet": "아직 측정값 없음",
   "Last 256 samples per phase in this process, including failures. Milliseconds. Refresh to update.": "현재 프로세스의 단계별 최근 256개 표본이며 실패도 포함합니다. 단위는 밀리초입니다. 새로고침으로 갱신합니다.",
-  "Envoy exchange includes upstream collection and inspection. Inspection includes queue wait. These independent distributions cannot be subtracted. Gateway time ends before client delivery; measure client first-content latency separately.": "Envoy 왕복에는 응답 수집과 검사가 포함됩니다. 검사 시간은 큐 대기를 포함합니다. 서로 다른 분포이므로 빼서 계산할 수 없습니다. 게이트웨이 시간은 클라이언트 전달 전에 끝나므로 첫 콘텐츠 지연은 클라이언트에서 별도로 측정하세요."
+  "Envoy exchange includes upstream collection and inspection. Inspection includes queue wait. These independent distributions cannot be subtracted. Gateway time ends before client delivery; measure client first-content latency separately.": "Envoy 왕복에는 응답 수집과 검사가 포함됩니다. 검사 시간은 큐 대기를 포함합니다. 서로 다른 분포이므로 빼서 계산할 수 없습니다. 게이트웨이 시간은 클라이언트 전달 전에 끝나므로 첫 콘텐츠 지연은 클라이언트에서 별도로 측정하세요.",
+  "Last 10 request timelines": "최근 요청 10건의 시간 기록",
+  "Total (ms)": "전체 (ms)",
+  "Before Envoy (ms)": "Envoy 전달 전 (ms)",
+  "Upstream headers wait (ms)": "상류 응답 헤더 대기 (ms)",
+  "Response body wait (ms)": "응답 본문 대기 (ms)",
+  "Inspector queue (ms)": "검사 대기열 (ms)",
+  "Inspector work (ms)": "검사 실행 (ms)",
+  "After response check (ms)": "응답 검사 후 (ms)",
+  "Complete": "완료",
+  "Incomplete": "미완료",
+  "No request timelines yet": "아직 요청 시간 기록이 없습니다",
+  "Request timelines contain numeric timings and status only. The body wait includes upstream work and transport. Durations overlap and must not be summed. Early authentication or admission failures appear in gateway outcomes, not these timelines.": "요청 시간 기록에는 숫자와 상태만 있습니다. 본문 대기에는 상류 처리와 전송이 포함됩니다. 구간이 겹치므로 더할 수 없습니다. 인증·진입 단계에서 거절된 요청은 이 표가 아닌 게이트웨이 결과에 표시됩니다.",
+  "Inspector stream wait (ms)": "검사 스트림 대기 (ms)"
 }

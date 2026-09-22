@@ -110,7 +110,8 @@ class ConsoleProcessor(rpc.ExternalProcessorServicer):
     inspection=StreamInspection(self.runtime)
     profile=getattr(getattr(self.runtime,'deployment',None),'llm',None)
     processor=ExternalProcessor(inspection,inspection,stream_timeout=profile.timeout_seconds+5 if profile else 20,
-      measure=getattr(getattr(self.runtime,'latency',None),'record',None))
+      measure=getattr(getattr(self.runtime,'latency',None),'record',None),
+      timeline=getattr(self.runtime,'latency',None))
     processor.slots=self.slots
     processor.workers=self.workers
     response_has_no_body=False

@@ -102,6 +102,12 @@ def test_package_lifecycle(tmp_path,mode):
       assert c.post('/api/notes',headers={**headers,'authorization':'Bearer wrong'},json={}).status_code==(400 if static else 401)
       assert admin.post('/demo-api/login',json={'username':'admin','password':'1234'}).status_code==401
       assert admin.post('/demo-api/login',json={'username':'admin','password':password}).status_code==200
+      timeline=admin.get('/demo-api/operations').json()['latency']
+      assert timeline['requests']
+      assert any(row['http_status']==200 and row['complete'] and row['response_body_wait_ms'] is not None
+                 for row in timeline['requests'])
+      assert all('run_id' not in row and 'message' not in row for row in timeline['requests'])
+      assert key not in str(timeline) and 'alex@example.com' not in str(timeline)
       data=admin.get('/demo-api/overview').json()
       assert data['synthetic'] is False and data['scenarios']==[]
       expected='static_api_key' if mode=='static_api_key' else 'static_bearer' if static else 'passthrough_bearer'

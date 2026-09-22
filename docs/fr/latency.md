@@ -48,3 +48,28 @@ Sur 64 requêtes simultanées, 32 ont abouti et 32 ont reçu HTTP 503 ; aucune r
 | Synthetic fixture | 17.87% | 21.77 |
 
 Ces pics échantillonnés couvrent toute l’exécution, ne sont pas des réservations ni des recommandations et peuvent manquer des pics brefs. La source synthétique partage l’hôte Docker : ce n’est pas une comparaison de langages. Plus d’attente et d’inspection ne prouve pas que Python est en cause ni que Go/Rust supprimerait le délai de buffering. Évaluez les tâches de fond par p95 de fin et taux d’erreur, le chat par p95 du premier contenu. Répétez sur l’hôte cible avec réponses et politiques représentatives, rejet de rafales et récupération. La génération peut continuer après annulation client. Dimensionnez selon concurrence, taille, fréquence et coût des politiques, pas le nombre d’employés.
+
+## 0.45 Chronologies par requête et admission
+
+La console affiche les 64 dernières requêtes terminées dans le processus actuel. Chaque ligne ne conserve que des durées numériques, le statut HTTP et l’état de fin. Un ID aléatoire signé relie en interne adaptateur et inspecteur sans être affiché. Aucun corps, chemin, identifiant ni identité d’agent n’est conservé. Les rejets précoces figurent dans les résultats du gateway.
+
+L’attente du flux d’inspection, la file des travailleurs et l’exécution sont distinctes. L’attente du corps commence après l’inspection des métadonnées et finit quand le corps tamponné atteint l’inspecteur. Elle inclut génération amont, transport et tampon Envoy. Les intervalles se chevauchent ou laissent des écarts ; ne les additionnez pas et ne les attribuez pas entièrement au modèle. Ils disparaissent au redémarrage.
+
+`gateway_max_inflight` accepte les entiers 4–64 ; la valeur par défaut reste 32. Le changement est préparé puis activé pendant un redémarrage de maintenance. L’assistant conserve la valeur. Les requêtes excédentaires reçoivent HTTP 503. Une valeur moindre convient si davantage de rejets sont acceptables pour réduire la latence. À 48, l’essai synthétique n’a pas accru les succès et a produit HTTP 500.
+
+Un seul essai synthétique ne fixe pas une valeur universelle. Répétez le tableau sur l’hôte cible avec réponses représentatives, concurrence, quotas du fournisseur et budgets de premier contenu et de fin.
+
+[Décision sur le streaming interactif](interactive-streaming.md)
+
+### Comparaison synthétique locale (2026-09-22)
+
+Deux répétitions par réglage ont utilisé un service SSE de 32 fragments différés, une limite de corps de 32 KiB, 16 flux d’inspection et quatre travailleurs. Chaque répétition à 32 requêtes simultanées en a envoyé 64 ; à 64 requêtes simultanées, 128. La plage p95 du premier contenu ne concerne que les réponses HTTP 200 complètes à concurrence 32.
+
+| Limite de passerelle | Terminées à concurrence 32 | p95 du premier contenu | Terminées à concurrence 64 | HTTP 500 à concurrence 64 | Pic échantillonné CPU / mémoire de l’application |
+|---:|---:|---:|---:|---:|---:|
+| 8 | 8/64 par essai | 1,16–1,18 s | 8/128 par essai | 0 | 62 % / 116 MiB |
+| 16 | 16/64 par essai | 1,53–1,54 s | 16/128 par essai | 0 | 110 % / 127 MiB |
+| **32 (défaut)** | **64/64 par essai** | **3,02–3,10 s** | **32/128 par essai** | **0** | **118 % / 148 MiB** |
+| 48 | 64/64 par essai | 2,96–3,06 s | 32/128 par essai | 13–16 | 124 % / 161 MiB |
+
+Aux limites 8–32, tous les essais autres que 200 ont renvoyé 503. Toutes les réponses réussies étaient complètes et les quatre demandes de reprise par réglage ont abouti. L’échantillonnage peut manquer de brefs pics. La cause des HTTP 500 à la limite 48 n’a pas été isolée ; ce résultat ne prouve pas un goulot Python. La mise en tampon de la réponse entière reste le principal compromis pour le délai du premier contenu. [Données brutes](../evidence/latency-045-synthetic.json) · Reproduire : `.venv/bin/python -m examples.latency.sweep --output docs/evidence/latency-045-synthetic.json`.

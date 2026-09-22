@@ -48,3 +48,28 @@ De 64 solicitudes concurrentes, 32 finalizaron y 32 recibieron HTTP 503; ninguna
 | Synthetic fixture | 17.87% | 21.77 |
 
 Los valores son picos muestreados de toda la ejecución, no reservas ni recomendaciones; pueden omitir picos breves. El origen sintético comparte el host Docker: no es una comparación de lenguajes. Más cola e inspección no demuestra que Python sea la causa ni que Go/Rust elimine el buffering. Evalúe tareas de fondo por p95 de finalización y errores; chat por p95 del primer contenido. Repita en el equipo destino con respuestas y políticas representativas, rechazo de ráfagas y recuperación. La generación puede continuar tras cancelar el cliente. Dimensione por concurrencia, tamaño, frecuencia y coste de política, no por empleados.
+
+## 0.45 Cronologías por solicitud y admisión
+
+La consola muestra las últimas 64 solicitudes completadas en el proceso actual. Cada fila solo conserva tiempos numéricos, estado HTTP e indicador de finalización. Un ID aleatorio firmado une internamente adaptador e inspector y no se muestra. No se guardan cuerpo, ruta, credencial ni identidad del agente. Los rechazos tempranos se ven en los resultados del gateway.
+
+Se muestran por separado la espera de flujo, la cola de trabajadores y la ejecución. La espera del cuerpo va desde el fin de la inspección de metadatos hasta que llega el cuerpo almacenado; incluye generación, transporte y buffering de Envoy. Los intervalos se superponen o dejan huecos y no pueden sumarse ni atribuirse íntegramente al modelo. Se reinician con el proceso.
+
+`gateway_max_inflight` acepta enteros 4–64; el valor predeterminado sigue siendo 32. Se aplica tras preparar el cambio y reiniciar en mantenimiento. El asistente conserva el valor. Las solicitudes excedentes reciben HTTP 503. Un valor menor sirve si se acepta más rechazo a cambio de menor latencia. En la prueba sintética, 48 no aumentó finalizaciones y produjo HTTP 500.
+
+Una sola prueba sintética no determina un valor universal. Repita la tabla en el equipo destino con tamaños representativos, concurrencia, cuotas del proveedor y presupuesto para primer contenido y finalización.
+
+[Decisión sobre streaming interactivo](interactive-streaming.md)
+
+### Comparación sintética local (2026-09-22)
+
+Se hicieron dos repeticiones por ajuste con un servicio SSE de 32 fragmentos retardados, límite de cuerpo de 32 KiB, 16 flujos de inspección y cuatro trabajadores. Cada repetición con concurrencia 32 envió 64 solicitudes; con concurrencia 64 envió 128. El rango p95 del primer contenido corresponde solo a respuestas HTTP 200 completas con concurrencia 32.
+
+| Límite del gateway | Completadas con concurrencia 32 | p95 primer contenido | Completadas con concurrencia 64 | HTTP 500 con concurrencia 64 | Pico muestreado de CPU / memoria de la aplicación |
+|---:|---:|---:|---:|---:|---:|
+| 8 | 8/64 por repetición | 1.16–1.18 s | 8/128 por repetición | 0 | 62% / 116 MiB |
+| 16 | 16/64 por repetición | 1.53–1.54 s | 16/128 por repetición | 0 | 110% / 127 MiB |
+| **32 (predeterminado)** | **64/64 por repetición** | **3.02–3.10 s** | **32/128 por repetición** | **0** | **118% / 148 MiB** |
+| 48 | 64/64 por repetición | 2.96–3.06 s | 32/128 por repetición | 13–16 | 124% / 161 MiB |
+
+Con límites 8–32, todos los intentos distintos de 200 devolvieron 503. Todas las respuestas exitosas estuvieron completas y las cuatro solicitudes de recuperación por ajuste tuvieron éxito. El muestreo puede omitir picos breves. No se aisló la causa de los HTTP 500 con límite 48; no demuestra un cuello de botella de Python. El almacenamiento completo de la respuesta sigue siendo el principal compromiso para el primer contenido. [Datos brutos](../evidence/latency-045-synthetic.json) · Repetir: `.venv/bin/python -m examples.latency.sweep --output docs/evidence/latency-045-synthetic.json`.

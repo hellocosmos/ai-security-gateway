@@ -55,3 +55,28 @@ These are sampled peaks across the entire run, not per-scenario reservations or 
 - Interactive chat: accept only if measured client first-content p95 fits the UX budget. The gateway currently buffers the response; do not advertise token-by-token delivery.
 - Before rollout: repeat on the target host, use representative response sizes and policies, test burst rejection and recovery, and budget for upstream generation that may continue after client cancellation.
 - No employee-to-hardware conversion is implied: active concurrency, response size, request rate, policy cost and deadlines determine load.
+
+## 0.45 request timelines and admission
+
+The operations console shows the last 64 completed gateway request timelines in the current process. Each row holds only numeric times, HTTP status and completion state. A signed random run ID joins adapter and inspector timing internally and is removed before display. No body, path, credential or agent identity is retained by this feature. Early authentication and admission failures appear in gateway outcomes instead.
+
+Inspector stream wait, worker queue and execution are shown separately. The response body wait starts after metadata inspection and ends when the buffered body reaches the inspector. It includes upstream generation, transport and Envoy buffering. The stage intervals overlap or leave transport gaps; do not add them or call any one of them pure model latency. Records reset on process restart.
+
+The optional `gateway_max_inflight` deployment setting accepts integers 4–64. The default remains 32. Apply a staged change with a maintenance restart; the connection wizard preserves the active setting. Extra requests receive HTTP 503. Choose a lower value only if less admitted traffic and lower latency fit the workflow. The local synthetic sweep at 48 introduced HTTP 500 outcomes without increasing successful burst completions.
+
+No safe universal value follows from one synthetic run. Use the table below as a reproducible comparison, then qualify on the target host with representative responses, active concurrency, provider quotas and an explicit first-content/completion budget.
+
+[Interactive streaming decision](interactive-streaming.md)
+
+### Local synthetic sweep (2026-09-22)
+
+Two repeats per setting used a 32-chunk delayed SSE fixture, a 32 KiB body limit, 16 inspector streams, and four inspection workers. Each concurrency-32 repeat sent 64 requests; each concurrency-64 repeat sent 128. The first-content p95 range is for completed HTTP 200 responses at concurrency 32, not all attempts.
+
+| Gateway limit | Completed at concurrency 32 | First-content p95 | Completed at concurrency 64 | HTTP 500 at concurrency 64 | Sampled app peak CPU / memory |
+|---:|---:|---:|---:|---:|---:|
+| 8 | 8/64 each | 1.16–1.18 s | 8/128 each | 0 | 62% / 116 MiB |
+| 16 | 16/64 each | 1.53–1.54 s | 16/128 each | 0 | 110% / 127 MiB |
+| **32 (default)** | **64/64 each** | **3.02–3.10 s** | **32/128 each** | **0** | **118% / 148 MiB** |
+| 48 | 64/64 each | 2.96–3.06 s | 32/128 each | 13–16 | 124% / 161 MiB |
+
+All non-200 attempts at limits 8–32 were HTTP 503, all successful responses were complete, and all four recovery requests per setting succeeded. The peak samples are descriptive and can miss short spikes. The 48-limit HTTP 500 cause was not isolated, so do not treat it as a diagnosed Python bottleneck. Buffered response delivery remains the dominant first-content tradeoff. [Raw evidence](../evidence/latency-045-synthetic.json) · Reproduce with `.venv/bin/python -m examples.latency.sweep --output docs/evidence/latency-045-synthetic.json`.

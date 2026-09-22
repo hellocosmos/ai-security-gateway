@@ -1,4 +1,4 @@
-# Autoalojamiento con Docker — 0.44 Open Source Preview
+# Autoalojamiento con Docker — 0.45 Open Source Preview
 
 > **0.44:** [Espacio de operación (0.44)](operator-workspace.md)
 

@@ -34,12 +34,14 @@ export default function Operations({policy, readOnly=false}) {
         ...(protocol==='mcp' ? {tools:Object.fromEntries(names.map(name=>[name,rule])),redact_fields:['/params/arguments/message']} : {tool:names[0],rule,redact_fields:['/message']})};
       const next={console_origin:state.active.console_origin,gateway_auth:state.active.gateway_auth,
         access_broker:state.active.access_broker,upstream:origin,allow_plaintext_upstream:url.protocol==='http:',
+        gateway_max_inflight:state.active.gateway_max_inflight,
         target_auth:targetAuth==='static_bearer' ? {mode:targetAuth,secret_file:'/state/new-target.key'} : {mode:targetAuth},
         routes:[mapping]};
       setConfig(JSON.stringify(next,null,2));return;
     }
     const next={console_origin:state.active.console_origin,gateway_auth:state.active.gateway_auth,
       access_broker:state.active.access_broker,max_body_bytes:state.active.max_body_bytes,
+      gateway_max_inflight:state.active.gateway_max_inflight,
       llm:{provider:profile,models:models.split(',').map(x=>x.trim()).filter(Boolean)}};
     setConfig(JSON.stringify(next,null,2));
   }
@@ -85,13 +87,22 @@ export default function Operations({policy, readOnly=false}) {
           <pre>{JSON.stringify(state.recent_gateway_outcomes,null,2)}</pre>
           <h3>{t('Latency observations')}</h3>
           <p>{t('Last 256 samples per phase in this process, including failures. Milliseconds. Refresh to update.')}</p>
-          <div style={{overflowX:'auto'}}><table><thead><tr><th>{t('Phase')}</th><th>{t('Samples')}</th><th>p50 (ms)</th><th>p95 (ms)</th><th>max (ms)</th></tr></thead>
+          <div className="td-latency-scroll"><table><thead><tr><th>{t('Phase')}</th><th>{t('Samples')}</th><th>p50 (ms)</th><th>p95 (ms)</th><th>max (ms)</th></tr></thead>
             <tbody>{(state.latency?.series || []).map(row=><tr key={row.phase}>
               <td>{t({gateway_total:'Gateway response ready',envoy_exchange:'Envoy exchange',request_inspection:'Request inspection',response_metadata_inspection:'Response metadata inspection',response_inspection:'Response inspection'}[row.phase])}</td>
               <td>{row.samples}</td>{['p50_ms','p95_ms','max_ms'].map(key=><td key={key}>{row[key]===null ? '—' : row[key]}</td>)}
             </tr>)}</tbody></table></div>
           {!state.latency?.series.some(row=>row.samples>0) && <p>{t('No measurements yet')}</p>}
           <p>{t('Envoy exchange includes upstream collection and inspection. Inspection includes queue wait. These independent distributions cannot be subtracted. Gateway time ends before client delivery; measure client first-content latency separately.')}</p>
+          <h3>{t('Last 10 request timelines')}</h3>
+          <div className="td-latency-scroll"><table><thead><tr>{['Status','Total (ms)','Before Envoy (ms)','Upstream headers wait (ms)','Response body wait (ms)','Inspector stream wait (ms)','Inspector queue (ms)','Inspector work (ms)','After response check (ms)','Complete'].map(key=><th key={key}>{t(key)}</th>)}</tr></thead>
+            <tbody>{(state.latency?.requests || []).slice(0,10).map((row,index)=><tr key={index}>
+              <td>{row.http_status ?? '—'}</td>
+              {['gateway_total_ms','before_envoy_ms','upstream_headers_wait_ms','response_body_wait_ms','inspector_stream_wait_ms','inspection_queue_ms','inspection_work_ms','after_response_check_ms'].map(key=><td key={key}>{row[key] ?? '—'}</td>)}
+              <td>{t(row.complete ? 'Complete' : 'Incomplete')}</td>
+            </tr>)}</tbody></table></div>
+          {!state.latency?.requests?.length && <p>{t('No request timelines yet')}</p>}
+          <p>{t('Request timelines contain numeric timings and status only. The body wait includes upstream work and transport. Durations overlap and must not be summed. Early authentication or admission failures appear in gateway outcomes, not these timelines.')}</p>
           <h3>{t('4. Preview local policy')}</h3>
           <p>{t('No upstream request or agent authorization. Preview does not modify the active policy or create approvals. Use synthetic data.')}</p>
           <label>{t('Configured routes')}<select value={route} onChange={e=>setRoute(Number(e.target.value))}>{state.active.routes.map((r,i)=><option key={i} value={i}>{r.method} {r.path}</option>)}</select></label>

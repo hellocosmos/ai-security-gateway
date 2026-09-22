@@ -29,3 +29,5 @@ body:has(.td-app){margin:0;background:#0f1117}.td-app{--bg:#0f1117;--surface:#16
 }
 
 .td-operations fieldset{border:0;padding:0;min-width:0}.td-operations label{display:grid;gap:8px;margin:16px 0}.td-operations textarea,.td-operations input,.td-operations select{width:100%;padding:10px;border:1px solid var(--border);border-radius:6px;background:var(--bg);color:var(--text)}.td-operations textarea,.td-operations pre{font-family:monospace;font-size:12px}.td-operations pre{white-space:pre-wrap;overflow-wrap:anywhere;padding:14px;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:6px}.td-operations h3{margin-top:24px}
+/* Keep horizontally scrollable latency tables legible in the dark console. */
+.td-app .td-latency-scroll{overflow-x:auto;color-scheme:dark;scrollbar-color:#3b455b #1a1f2e}

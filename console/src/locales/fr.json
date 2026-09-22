@@ -1,6 +1,6 @@
 {
   "Approval ID": "ID d’approbation",
-  "Status": "État",
+  "Status": "Statut",
   "Tenant": "Tenant",
   "Delegator": "Délégant",
   "Agent": "Agent",
@@ -446,6 +446,7 @@
   "Destination authentication": "Authentification de la destination",
   "Listener reachable": "Port d’écoute accessible",
   "Body limit": "Limite du corps",
+  "Gateway in-flight limit": "Limite de requêtes simultanées de la passerelle",
   "The connection key verifies deployment access, not agent or user identity.": "La clé vérifie l’accès au déploiement, pas l’identité de l’agent ou de l’utilisateur.",
   "Gateway and target credentials are separate. JWT gateway tokens are not forwarded to the target.": "Les identifiants de la passerelle et de la cible sont séparés. Le JWT de la passerelle n’est pas transmis à la cible.",
   "JSON HTTP and stateless JSON MCP only. OAuth login brokering, sessions and long-lived SSE are not supported by this profile.": "JSON HTTP et MCP JSON sans état uniquement. Ce profil ne prend pas en charge la connexion OAuth intermédiaire, les sessions ou le SSE longue durée.",
@@ -549,5 +550,18 @@
   "Response inspection": "Inspection de réponse",
   "No measurements yet": "Aucune mesure disponible",
   "Last 256 samples per phase in this process, including failures. Milliseconds. Refresh to update.": "256 derniers échantillons par phase du processus, échecs inclus. Millisecondes. Actualisez pour mettre à jour.",
-  "Envoy exchange includes upstream collection and inspection. Inspection includes queue wait. These independent distributions cannot be subtracted. Gateway time ends before client delivery; measure client first-content latency separately.": "L’échange Envoy comprend la collecte amont et l’inspection, qui inclut l’attente en file. Ne soustrayez pas ces distributions indépendantes. Le temps du gateway se termine avant la livraison ; mesurez le premier contenu côté client."
+  "Envoy exchange includes upstream collection and inspection. Inspection includes queue wait. These independent distributions cannot be subtracted. Gateway time ends before client delivery; measure client first-content latency separately.": "L’échange Envoy comprend la collecte amont et l’inspection, qui inclut l’attente en file. Ne soustrayez pas ces distributions indépendantes. Le temps du gateway se termine avant la livraison ; mesurez le premier contenu côté client.",
+  "Last 10 request timelines": "Chronologie des 10 dernières requêtes",
+  "Total (ms)": "Total (ms)",
+  "Before Envoy (ms)": "Avant Envoy (ms)",
+  "Upstream headers wait (ms)": "Attente des en-têtes amont (ms)",
+  "Response body wait (ms)": "Attente du corps de réponse (ms)",
+  "Inspector queue (ms)": "File d’inspection (ms)",
+  "Inspector work (ms)": "Travail d’inspection (ms)",
+  "After response check (ms)": "Après inspection (ms)",
+  "Complete": "Terminé",
+  "Incomplete": "Incomplet",
+  "No request timelines yet": "Aucune chronologie disponible",
+  "Request timelines contain numeric timings and status only. The body wait includes upstream work and transport. Durations overlap and must not be summed. Early authentication or admission failures appear in gateway outcomes, not these timelines.": "Les chronologies ne contiennent que des durées et le statut. L’attente du corps inclut traitement amont et transport. Les intervalles se chevauchent et ne doivent pas être additionnés. Les rejets précoces figurent dans les résultats du gateway.",
+  "Inspector stream wait (ms)": "Attente du flux d’inspection (ms)"
 }

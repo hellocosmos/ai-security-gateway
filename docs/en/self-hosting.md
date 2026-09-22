@@ -1,4 +1,4 @@
-# Docker self-hosting (0.44 Open Source Preview)
+# Docker self-hosting (0.45 Open Source Preview)
 
 > **0.44:** [Operator workspace (0.44)](operator-workspace.md)
 

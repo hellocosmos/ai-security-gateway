@@ -158,6 +158,7 @@ class Deployment(BaseModel):
   destination_auth: Literal['passthrough', 'static_bearer'] | None = Field(default=None,exclude=True)
   bearer_file: str | None = Field(default=None,exclude=True)
   max_body_bytes: int = Field(default=1048576, ge=1024, le=1048576)
+  gateway_max_inflight: int = Field(default=32, ge=4, le=64, strict=True)
   routes: list[RouteRule] = Field(min_length=1, max_length=100)
 
   @model_validator(mode='before')
@@ -251,6 +252,7 @@ class Deployment(BaseModel):
         'maturity':'experimental'},
       'destination_auth':self.target_auth.mode,'source': 'selfhost-adapter',
       'max_body_bytes': self.max_body_bytes,
+      'gateway_max_inflight': self.gateway_max_inflight,
       'routes': [{'method': r.method, 'path': r.path, 'protocol': r.protocol,
                   'tools': list(r.tools) if r.protocol == 'mcp' else [r.tool]} for r in self.routes]}
 

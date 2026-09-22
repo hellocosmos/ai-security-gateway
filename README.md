@@ -1,5 +1,6 @@
 # TrapDefense — Open-source AI Security Gateway
 
+[0.45: request timelines and admission](docs/en/latency.md) · [Interactive streaming decision](docs/en/interactive-streaming.md)
 
 [0.44: Buffered SSE latency and rollout fit](docs/en/latency.md)
 
@@ -27,7 +28,7 @@ Our design principle: give an agent only the access it needs, and bound the acti
 
 [English](README.md) · [한국어](README.ko.md) · [简体中文](README.zh-CN.md) · [日本語](README.ja.md) · [Español](README.es.md) · [Français](README.fr.md)
 
-> **Open Source Preview 0.44:** the full runtime and operator experience are MIT licensed. The built-in Agent Access Broker is implemented and synthetically verified, but remains **Experimental** until production IdP, customer policy, HA, and capacity validation are complete.
+> **Open Source Preview 0.45:** the full runtime and operator experience are MIT licensed. The built-in Agent Access Broker is implemented and synthetically verified, but remains **Experimental** until production IdP, customer policy, HA, and capacity validation are complete.
 
 **Control the path from model intent to real action.**
 

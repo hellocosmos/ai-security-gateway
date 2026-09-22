@@ -14,21 +14,28 @@ from .auth import AuthError, GatewayAuthenticator
 from .credentials import CredentialError, TargetCredentialProvider
 
 
-def create_gateway(config, client_key, signing_key, *, target_secret=None, authenticator=None, transport=None, observe=None, measure=None):
+def create_gateway(config, client_key, signing_key, *, target_secret=None, authenticator=None,
+                   transport=None, observe=None, measure=None, timeline=None):
   app = FastAPI(openapi_url=None, docs_url=None, redoc_url=None)
-  if observe is not None or measure is not None:
+  if observe is not None or measure is not None or timeline is not None:
     @app.middleware('http')
     async def record_outcome(request, call_next):
       started = time.perf_counter()
+      request.state.started = started
       request.state.outcome = 'gateway_validation'
+      status = None
       try:
         response = await call_next(request)
+        status = response.status_code
         if observe is not None: observe(request.state.outcome, response.status_code)
         return response
       finally:
-        if measure is not None: measure('gateway_total', (time.perf_counter()-started)*1000)
+        if measure is not None:
+          measure('gateway_total', (time.perf_counter()-started)*1000)
+        if timeline is not None:
+          timeline.finish(getattr(request.state, 'run_id', None), status)
   authority = urlsplit(config.upstream).netloc
-  slots = asyncio.Semaphore(32)
+  slots = asyncio.Semaphore(config.gateway_max_inflight)
   authenticator=authenticator or GatewayAuthenticator(config.gateway_auth,client_key=client_key)
   credentials=TargetCredentialProvider(config.target_auth,gateway_mode=config.gateway_auth.mode,
     secret=target_secret)
@@ -95,10 +102,16 @@ def create_gateway(config, client_key, signing_key, *, target_secret=None, authe
           outgoing = client.build_request(request.method, 'http://envoy:18082'+target, headers=clean, content=body)
           # Sign the actual serialized target and defaults added by the HTTP client.
           message = HttpMessage(request.method, authority, outgoing.url.raw_path.decode('ascii'), dict(outgoing.headers), body)
+          run_id = uuid4().hex
+          request.state.run_id = run_id
+          if timeline is not None:
+            timeline.begin(run_id, at=request.state.started)
           outgoing.headers['x-td-attestation'] = sign_attestation(message,
-            {'source_id':'selfhost-adapter','run_id':uuid4().hex,**auth_result.identity},
+            {'source_id':'selfhost-adapter','run_id':run_id,**auth_result.identity},
             signing_key, nonce=uuid4().hex)
           request.state.outcome = 'inspection_path_transport'
+          if timeline is not None:
+            timeline.mark(run_id, 'envoy_sent')
           exchange_started = time.perf_counter()
           response = None
           try:

@@ -446,6 +446,7 @@
   "Destination authentication": "Destination authentication",
   "Listener reachable": "Listener reachable",
   "Body limit": "Body limit",
+  "Gateway in-flight limit": "Gateway in-flight limit",
   "The connection key verifies deployment access, not agent or user identity.": "The connection key verifies deployment access, not agent or user identity.",
   "Gateway and target credentials are separate. JWT gateway tokens are not forwarded to the target.": "Gateway and target credentials are separate. JWT gateway tokens are not forwarded to the target.",
   "JSON HTTP and stateless JSON MCP only. OAuth login brokering, sessions and long-lived SSE are not supported by this profile.": "JSON HTTP and stateless JSON MCP only. OAuth login brokering, sessions and long-lived SSE are not supported by this profile.",
@@ -549,5 +550,18 @@
   "Response inspection": "Response inspection",
   "No measurements yet": "No measurements yet",
   "Last 256 samples per phase in this process, including failures. Milliseconds. Refresh to update.": "Last 256 samples per phase in this process, including failures. Milliseconds. Refresh to update.",
-  "Envoy exchange includes upstream collection and inspection. Inspection includes queue wait. These independent distributions cannot be subtracted. Gateway time ends before client delivery; measure client first-content latency separately.": "Envoy exchange includes upstream collection and inspection. Inspection includes queue wait. These independent distributions cannot be subtracted. Gateway time ends before client delivery; measure client first-content latency separately."
+  "Envoy exchange includes upstream collection and inspection. Inspection includes queue wait. These independent distributions cannot be subtracted. Gateway time ends before client delivery; measure client first-content latency separately.": "Envoy exchange includes upstream collection and inspection. Inspection includes queue wait. These independent distributions cannot be subtracted. Gateway time ends before client delivery; measure client first-content latency separately.",
+  "Last 10 request timelines": "Last 10 request timelines",
+  "Total (ms)": "Total (ms)",
+  "Before Envoy (ms)": "Before Envoy (ms)",
+  "Upstream headers wait (ms)": "Upstream headers wait (ms)",
+  "Response body wait (ms)": "Response body wait (ms)",
+  "Inspector queue (ms)": "Inspector queue (ms)",
+  "Inspector work (ms)": "Inspector work (ms)",
+  "After response check (ms)": "After response check (ms)",
+  "Complete": "Complete",
+  "Incomplete": "Incomplete",
+  "No request timelines yet": "No request timelines yet",
+  "Request timelines contain numeric timings and status only. The body wait includes upstream work and transport. Durations overlap and must not be summed. Early authentication or admission failures appear in gateway outcomes, not these timelines.": "Request timelines contain numeric timings and status only. The body wait includes upstream work and transport. Durations overlap and must not be summed. Early authentication or admission failures appear in gateway outcomes, not these timelines.",
+  "Inspector stream wait (ms)": "Inspector stream wait (ms)"
 }

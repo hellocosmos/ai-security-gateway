@@ -446,6 +446,7 @@
   "Destination authentication": "目标服务认证",
   "Listener reachable": "监听器可访问",
   "Body limit": "正文大小限制",
+  "Gateway in-flight limit": "网关并发处理上限",
   "The connection key verifies deployment access, not agent or user identity.": "连接密钥验证部署访问权限，而非代理或用户身份。",
   "Gateway and target credentials are separate. JWT gateway tokens are not forwarded to the target.": "网关凭据与目标凭据相互独立。网关 JWT 不会转发给目标。",
   "JSON HTTP and stateless JSON MCP only. OAuth login brokering, sessions and long-lived SSE are not supported by this profile.": "仅支持 JSON HTTP 和无状态 JSON MCP。此配置不支持 OAuth 登录代理、会话或长连接 SSE。",
@@ -549,5 +550,18 @@
   "Response inspection": "响应检查",
   "No measurements yet": "尚无测量数据",
   "Last 256 samples per phase in this process, including failures. Milliseconds. Refresh to update.": "当前进程每阶段最近 256 个样本，包含失败。单位为毫秒。刷新以更新。",
-  "Envoy exchange includes upstream collection and inspection. Inspection includes queue wait. These independent distributions cannot be subtracted. Gateway time ends before client delivery; measure client first-content latency separately.": "Envoy 往返包括上游收集和检查，检查包括排队等待。独立分布不能相减。网关计时在客户端接收前结束；请单独测量客户端首内容延迟。"
+  "Envoy exchange includes upstream collection and inspection. Inspection includes queue wait. These independent distributions cannot be subtracted. Gateway time ends before client delivery; measure client first-content latency separately.": "Envoy 往返包括上游收集和检查，检查包括排队等待。独立分布不能相减。网关计时在客户端接收前结束；请单独测量客户端首内容延迟。",
+  "Last 10 request timelines": "最近 10 个请求时间线",
+  "Total (ms)": "总计 (ms)",
+  "Before Envoy (ms)": "Envoy 之前 (ms)",
+  "Upstream headers wait (ms)": "上游响应头等待 (ms)",
+  "Response body wait (ms)": "响应正文等待 (ms)",
+  "Inspector queue (ms)": "检查队列 (ms)",
+  "Inspector work (ms)": "检查执行 (ms)",
+  "After response check (ms)": "响应检查后 (ms)",
+  "Complete": "完成",
+  "Incomplete": "未完成",
+  "No request timelines yet": "尚无请求时间线",
+  "Request timelines contain numeric timings and status only. The body wait includes upstream work and transport. Durations overlap and must not be summed. Early authentication or admission failures appear in gateway outcomes, not these timelines.": "请求时间线仅包含数值和状态。正文等待包括上游处理与传输。区间重叠，不能相加。早期认证或准入失败显示在网关结果中。",
+  "Inspector stream wait (ms)": "检查流等待 (ms)"
 }

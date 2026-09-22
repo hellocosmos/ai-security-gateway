@@ -17,6 +17,7 @@ export default function DeploymentSettings({deployment, network}) {
           <dt>{t('Response delivery')}</dt><dd>{t('Buffered SSE: complete inspection before delivery')}</dd>
           <dt>{t('Provider timeout')}</dt><dd>{deployment.llm.timeout_seconds}s</dd></>}
         <dt>{t('Body limit')}</dt><dd>{deployment.max_body_bytes} bytes</dd>
+        <dt>{t('Gateway in-flight limit')}</dt><dd>{deployment.gateway_max_inflight ?? 32}</dd>
       </dl>
       <p>{t('The connection key verifies deployment access, not agent or user identity.')}</p>
       <p>{t('Gateway and target credentials are separate. JWT gateway tokens are not forwarded to the target.')}</p>

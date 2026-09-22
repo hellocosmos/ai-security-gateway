@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.45 — Request timelines and admission guidance
+
+- Correlate signed, random request IDs inside one process to show bounded, numeric gateway and inspector stages without retaining content or identity in latency reports.
+- Expose inspector stream wait, worker queue and work separately; stage durations overlap and are not additive.
+- Add validated `gateway_max_inflight` deployment setting (4–64), retain the measured default of 32, and document a reproducible synthetic sweep at 8/16/32/48.
+- Specify interactive streaming security acceptance conditions; full-response buffered inspection remains the shipping path.
+
 ## 0.44 — Buffered SSE latency evidence
 
 - Add bounded process-local gateway and inspector timing distributions to the six-language operations console.

@@ -1,4 +1,4 @@
-# Docker 自托管 — 0.44 Open Source Preview
+# Docker 自托管 — 0.45 Open Source Preview
 
 > **0.44:** [运维工作区（0.44）](operator-workspace.md)
 

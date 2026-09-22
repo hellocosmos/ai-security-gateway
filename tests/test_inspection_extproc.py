@@ -15,6 +15,7 @@ from asr_proxy.inspection.contracts import InspectionConfig, Verdict
 from asr_proxy.inspection.engine import InspectionEngine
 from asr_proxy.inspection.pii import PresidioScanner
 from asr_proxy.inspection.server import ExternalProcessor, immediate
+from asr_proxy.selfhost.latency import LatencyMetrics
 
 
 class Engine:
@@ -130,9 +131,16 @@ def test_complete_buffered_exchange_uses_real_proto_and_original_bytes():
 
 def test_complete_header_only_exchange_is_inspected():
   engine = Engine()
-  output, context = run([headers(end=True), headers("response_headers", end=True)], engine=engine)
+  engine.run_id='c'*32
+  timeline=LatencyMetrics();timeline.begin(engine.run_id)
+  processor=ExternalProcessor(engine,Audit(),stream_timeout=.5,timeline=timeline)
+  output, context = asyncio.run(collect(processor,
+    [headers(end=True), headers("response_headers", end=True)]))
+  timeline.finish(engine.run_id,204)
   assert context.aborts == [] and len(output) == 2
   assert [(phase, message.body) for phase, message, _ in engine.calls] == [("request", b""), ("metadata", b"")]
+  row=timeline.snapshot()['requests'][0]
+  assert row['complete'] is True and row['response_body_wait_ms'] is None
 
 
 @pytest.mark.parametrize("events", [

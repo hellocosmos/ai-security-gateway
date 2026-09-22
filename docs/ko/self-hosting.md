@@ -1,4 +1,4 @@
-# Docker 셀프호스팅 — 0.44 Open Source Preview
+# Docker 셀프호스팅 — 0.45 Open Source Preview
 
 > **0.44:** [운영 작업 공간 (0.44)](operator-workspace.md)
 

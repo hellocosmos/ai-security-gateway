@@ -446,6 +446,7 @@
   "Destination authentication": "Autenticación del destino",
   "Listener reachable": "Listener accesible",
   "Body limit": "Límite del cuerpo",
+  "Gateway in-flight limit": "Límite de solicitudes simultáneas del gateway",
   "The connection key verifies deployment access, not agent or user identity.": "La clave verifica el acceso al despliegue, no la identidad del agente o usuario.",
   "Gateway and target credentials are separate. JWT gateway tokens are not forwarded to the target.": "Las credenciales del gateway y del destino están separadas. El JWT del gateway no se reenvía al destino.",
   "JSON HTTP and stateless JSON MCP only. OAuth login brokering, sessions and long-lived SSE are not supported by this profile.": "Solo JSON HTTP y MCP JSON sin estado. Este perfil no admite intermediación de inicio de sesión OAuth, sesiones ni SSE de larga duración.",
@@ -549,5 +550,18 @@
   "Response inspection": "Inspección de respuesta",
   "No measurements yet": "Sin mediciones todavía",
   "Last 256 samples per phase in this process, including failures. Milliseconds. Refresh to update.": "Últimas 256 muestras por fase del proceso, incluidos fallos. Milisegundos. Actualice para renovar.",
-  "Envoy exchange includes upstream collection and inspection. Inspection includes queue wait. These independent distributions cannot be subtracted. Gateway time ends before client delivery; measure client first-content latency separately.": "El intercambio con Envoy incluye recopilación e inspección; la inspección incluye espera en cola. No reste estas distribuciones independientes. El tiempo del gateway termina antes de la entrega; mida el primer contenido en el cliente."
+  "Envoy exchange includes upstream collection and inspection. Inspection includes queue wait. These independent distributions cannot be subtracted. Gateway time ends before client delivery; measure client first-content latency separately.": "El intercambio con Envoy incluye recopilación e inspección; la inspección incluye espera en cola. No reste estas distribuciones independientes. El tiempo del gateway termina antes de la entrega; mida el primer contenido en el cliente.",
+  "Last 10 request timelines": "Cronología de las últimas 10 solicitudes",
+  "Total (ms)": "Total (ms)",
+  "Before Envoy (ms)": "Antes de Envoy (ms)",
+  "Upstream headers wait (ms)": "Espera de cabeceras (ms)",
+  "Response body wait (ms)": "Espera del cuerpo (ms)",
+  "Inspector queue (ms)": "Cola de inspección (ms)",
+  "Inspector work (ms)": "Trabajo de inspección (ms)",
+  "After response check (ms)": "Tras inspeccionar (ms)",
+  "Complete": "Completo",
+  "Incomplete": "Incompleto",
+  "No request timelines yet": "Todavía no hay cronologías",
+  "Request timelines contain numeric timings and status only. The body wait includes upstream work and transport. Durations overlap and must not be summed. Early authentication or admission failures appear in gateway outcomes, not these timelines.": "Las cronologías solo contienen tiempos y estado. La espera del cuerpo incluye trabajo del destino y transporte. Los intervalos se superponen y no deben sumarse. Los rechazos tempranos se muestran en resultados del gateway.",
+  "Inspector stream wait (ms)": "Espera de flujo de inspección (ms)"
 }

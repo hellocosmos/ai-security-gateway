@@ -1,5 +1,6 @@
 # TrapDefense — Open-source AI Security Gateway
 
+[0.45: 要求単位の遅延と流入制限](docs/ja/latency.md) · [対話型ストリーミングの判断](docs/ja/interactive-streaming.md)
 
 [0.44: Buffered SSE の遅延と導入適合性](docs/ja/latency.md)
 
@@ -22,7 +23,7 @@
 
 [English](README.md) · [한국어](README.ko.md) · [简体中文](README.zh-CN.md) · [日本語](README.ja.md) · [Español](README.es.md) · [Français](README.fr.md)
 
-> **Open Source Preview 0.44:** ランタイムと運用 UI の全体を MIT で公開します。内蔵 Agent Access Broker は実装済みで合成検証も完了していますが、実 IdP、顧客ポリシー、HA、容量を検証するまでは **Experimental** です。
+> **Open Source Preview 0.45:** ランタイムと運用 UI の全体を MIT で公開します。内蔵 Agent Access Broker は実装済みで合成検証も完了していますが、実 IdP、顧客ポリシー、HA、容量を検証するまでは **Experimental** です。
 
 TrapDefense は、対応する HTTP / MCP トラフィック向けのセルフホスト型 AI Firewall です。リクエストとレスポンスを検査し、action・PII・secret ポリシーを適用し、サニタイズ済み証拠を保存します。必要に応じて、登録 agent、delegation、task、resource、action、1 回限りの human approval を使って認可します。
 

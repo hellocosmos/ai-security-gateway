@@ -1,5 +1,6 @@
 # TrapDefense — Open-source AI Security Gateway
 
+[0.45: Cronologías por solicitud y admisión](docs/es/latency.md) · [Decisión sobre streaming interactivo](docs/es/interactive-streaming.md)
 
 [0.44: Latencia de Buffered SSE y adecuación al despliegue](docs/es/latency.md)
 
@@ -22,7 +23,7 @@ Nuestro principio de diseño: otorgar al agente solo el acceso necesario y delim
 
 [English](README.md) · [한국어](README.ko.md) · [简体中文](README.zh-CN.md) · [日本語](README.ja.md) · [Español](README.es.md) · [Français](README.fr.md)
 
-> **Open Source Preview 0.44:** todo el runtime y la consola operativa se publican con licencia MIT. El Agent Access Broker integrado está implementado y validado con datos sintéticos, pero permanece **Experimental** hasta validar IdP reales, políticas de clientes, HA y capacidad.
+> **Open Source Preview 0.45:** todo el runtime y la consola operativa se publican con licencia MIT. El Agent Access Broker integrado está implementado y validado con datos sintéticos, pero permanece **Experimental** hasta validar IdP reales, políticas de clientes, HA y capacidad.
 
 TrapDefense es un AI Firewall autoalojado para tráfico HTTP y MCP compatible. Inspecciona solicitudes y respuestas, aplica políticas de action, PII y secrets, conserva evidencia saneada y puede autorizar una acción según agent, delegation, task, resource y una aprobación humana de un solo uso.
 

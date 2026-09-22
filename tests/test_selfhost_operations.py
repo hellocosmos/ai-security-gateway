@@ -20,6 +20,7 @@ def test_stage_persist_activate_and_restore(runtime):
   operations=Operations(runtime)
   config=runtime.deployment.model_dump(exclude_none=True)
   config['max_body_bytes']=32768
+  config['gateway_max_inflight']=16
   staged=operations.stage(SettingsInput(version=0,config=config))
   assert staged['restart_required'] and runtime.deployment.max_body_bytes==1048576
   with pytest.raises(ValueError,match='changed'):
@@ -27,9 +28,11 @@ def test_stage_persist_activate_and_restore(runtime):
   assert Operations(runtime).snapshot()['pending']['config']['max_body_bytes']==32768
   assert activate(runtime.store,runtime.deployment).max_body_bytes==32768
   assert active_config(runtime.store,runtime.deployment).max_body_bytes==32768
+  assert active_config(runtime.store,runtime.deployment).gateway_max_inflight==16
   saved=operations.snapshot()
   operations.restore(RestoreInput(version=saved['version'],revision=saved['history'][0]['revision']))
   assert activate(runtime.store,runtime.deployment).max_body_bytes==1048576
+  assert active_config(runtime.store,runtime.deployment).gateway_max_inflight==32
 
 
 def test_secrets_never_returned_or_audited(runtime):

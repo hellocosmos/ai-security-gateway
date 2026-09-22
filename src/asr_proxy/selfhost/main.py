@@ -64,7 +64,7 @@ async def serve(args, config):
   local_keys=AgentCredentials(state/'agent-credentials.sqlite',runtime.broker,runtime.broker_tenant) if config.gateway_auth.mode=='agent_key' else None
   gateway=create_gateway(config,client_key,runtime.key,target_secret=target_secret,
     authenticator=GatewayAuthenticator(config.gateway_auth,client_key=client_key,agent_credentials=local_keys),
-    observe=runtime.observe_gateway,measure=runtime.latency.record)
+    observe=runtime.observe_gateway,measure=runtime.latency.record,timeline=runtime.latency)
   servers=[uvicorn.Server(uvicorn.Config(app,host='0.0.0.0',port=port,access_log=False,
     ws='none',timeout_graceful_shutdown=3,limit_concurrency=64)) for app,port in [(console,18080),(gateway,18084)]]
   # One signal handler coordinates both listeners and the gRPC service.

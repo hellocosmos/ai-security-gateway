@@ -446,6 +446,7 @@
   "Destination authentication": "宛先サービス認証",
   "Listener reachable": "リスナーに接続可能",
   "Body limit": "本文サイズの上限",
+  "Gateway in-flight limit": "ゲートウェイ同時処理上限",
   "The connection key verifies deployment access, not agent or user identity.": "接続キーは導入環境へのアクセスを確認し、エージェントやユーザーの本人確認は行いません。",
   "Gateway and target credentials are separate. JWT gateway tokens are not forwarded to the target.": "ゲートウェイ資格情報と宛先資格情報は分離されています。ゲートウェイ JWT は宛先へ転送されません。",
   "JSON HTTP and stateless JSON MCP only. OAuth login brokering, sessions and long-lived SSE are not supported by this profile.": "JSON HTTP とステートレス JSON MCP のみ対応します。この構成では OAuth ログイン仲介、セッション、長時間 SSE は未対応です。",
@@ -549,5 +550,18 @@
   "Response inspection": "応答検査",
   "No measurements yet": "測定データなし",
   "Last 256 samples per phase in this process, including failures. Milliseconds. Refresh to update.": "現在のプロセスの段階別直近256件。失敗も含みます。単位はミリ秒。更新ボタンで再取得します。",
-  "Envoy exchange includes upstream collection and inspection. Inspection includes queue wait. These independent distributions cannot be subtracted. Gateway time ends before client delivery; measure client first-content latency separately.": "Envoy往復には上流応答の収集と検査、検査にはキュー待機を含みます。独立した分布の差は計算できません。ゲートウェイ計測は配信前に終了するため、最初の内容の受信時間はクライアント側で測定してください。"
+  "Envoy exchange includes upstream collection and inspection. Inspection includes queue wait. These independent distributions cannot be subtracted. Gateway time ends before client delivery; measure client first-content latency separately.": "Envoy往復には上流応答の収集と検査、検査にはキュー待機を含みます。独立した分布の差は計算できません。ゲートウェイ計測は配信前に終了するため、最初の内容の受信時間はクライアント側で測定してください。",
+  "Last 10 request timelines": "直近10件の要求タイムライン",
+  "Total (ms)": "合計 (ms)",
+  "Before Envoy (ms)": "Envoy送信前 (ms)",
+  "Upstream headers wait (ms)": "上流ヘッダー待機 (ms)",
+  "Response body wait (ms)": "応答本文待機 (ms)",
+  "Inspector queue (ms)": "検査キュー (ms)",
+  "Inspector work (ms)": "検査実行 (ms)",
+  "After response check (ms)": "応答検査後 (ms)",
+  "Complete": "完了",
+  "Incomplete": "未完了",
+  "No request timelines yet": "要求タイムラインなし",
+  "Request timelines contain numeric timings and status only. The body wait includes upstream work and transport. Durations overlap and must not be summed. Early authentication or admission failures appear in gateway outcomes, not these timelines.": "要求タイムラインには数値と状態のみを含みます。本文待機には上流処理と転送を含みます。区間は重複するため合算できません。初期認証や流入制限の失敗はゲートウェイ結果に表示されます。",
+  "Inspector stream wait (ms)": "検査ストリーム待機 (ms)"
 }

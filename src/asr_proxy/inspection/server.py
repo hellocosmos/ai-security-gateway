@@ -74,14 +74,18 @@ class InspectionWorkers:
   def __init__(self, maximum: int = 4):
     self.slots = asyncio.Semaphore(maximum)
 
-  async def run(self, callback, *args, deadline=None, **kwargs):
+  async def run(self, callback, *args, deadline=None, on_timing=None, **kwargs):
+    queued = time.perf_counter()
     await self.slots.acquire()
+    acquired = time.perf_counter()
     async def invoke():
       token = INSPECTION_DEADLINE.set(deadline or time.monotonic() + 10)
       try:
         return await asyncio.to_thread(callback, *args, **kwargs)
       finally:
         INSPECTION_DEADLINE.reset(token)
+        if on_timing is not None:
+          on_timing((acquired-queued)*1000, (time.perf_counter()-acquired)*1000)
     task = asyncio.create_task(invoke())
     def finished(result):
       self.slots.release()
@@ -92,23 +96,30 @@ class InspectionWorkers:
 
 
 class ExternalProcessor(rpc.ExternalProcessorServicer):
-  def __init__(self, engine: InspectionEngine, audit: InspectionAudit, *, stream_timeout: float = 20, measure=None):
+  def __init__(self, engine: InspectionEngine, audit: InspectionAudit, *, stream_timeout: float = 20,
+               measure=None, timeline=None):
     self.engine, self.audit, self.stream_timeout = engine, audit, stream_timeout
     self.measure = measure
+    self.timeline = timeline
+    self.stream_wait_ms = None
     self.slots = asyncio.Semaphore(16)
     self.workers = InspectionWorkers()
 
   async def _inspect(self, callback, *args, deadline, **kwargs):
     # Both shipped proxies use a two-second message timeout; leave transport headroom.
-    started = time.perf_counter()
-    try:
-      return await self.workers.run(callback, *args,
-        deadline=min(deadline, time.monotonic() + 1.5), **kwargs)
-    finally:
-      phase = {'inspect_request': 'request_inspection', 'inspect_metadata': 'response_metadata_inspection',
-               'inspect_response': 'response_inspection'}.get(callback.__name__)
+    phase = {'inspect_request': 'request_inspection', 'inspect_metadata': 'response_metadata_inspection',
+             'inspect_response': 'response_inspection'}.get(callback.__name__)
+    def completed(queue_ms, work_ms):
       if self.measure is not None and phase:
-        self.measure(phase, (time.perf_counter()-started)*1000)
+        self.measure(phase, queue_ms+work_ms)
+      if self.timeline is not None and phase:
+        run_id = getattr(self.engine, 'run_id', None)
+        self.timeline.inspection(run_id, phase,
+                                 queue_ms=queue_ms, work_ms=work_ms)
+        if phase == 'request_inspection' and self.stream_wait_ms is not None:
+          self.timeline.stream_wait(run_id, self.stream_wait_ms)
+    return await self.workers.run(callback, *args,
+      deadline=min(deadline, time.monotonic() + 1.5), on_timing=completed, **kwargs)
 
   async def Process(self, request_iterator, context):
     request_headers = response_headers = None
@@ -116,9 +127,11 @@ class ExternalProcessor(rpc.ExternalProcessorServicer):
     request_verdict = None
     method = authority = path = ""
     deadline = time.monotonic() + self.stream_timeout
+    stream_queued = time.perf_counter()
     try:
       async with asyncio.timeout(self.stream_timeout):
         async with self.slots:
+          self.stream_wait_ms = (time.perf_counter()-stream_queued)*1000
           async for event in request_iterator:
             kind = event.WhichOneof("request")
             if event.observability_mode:
@@ -138,6 +151,8 @@ class ExternalProcessor(rpc.ExternalProcessorServicer):
                 request_verdict = verdict
                 self.audit.record(verdict, phase="request")
                 request_checked = True
+                if self.timeline is not None:
+                  self.timeline.mark(getattr(self.engine, 'run_id', None), 'request_checked')
                 if verdict.action not in ("allow", "redact"):
                   yield immediate(verdict)
                   return
@@ -152,6 +167,8 @@ class ExternalProcessor(rpc.ExternalProcessorServicer):
               request_verdict = verdict
               self.audit.record(verdict, phase="request")
               request_checked = True
+              if self.timeline is not None:
+                self.timeline.mark(getattr(self.engine, 'run_id', None), 'request_checked')
               if verdict.action not in ("allow", "redact"):
                 yield immediate(verdict)
                 return
@@ -163,6 +180,8 @@ class ExternalProcessor(rpc.ExternalProcessorServicer):
             elif kind == "response_headers":
               if not request_checked or response_headers is not None:
                 raise InspectionError("unexpected_protocol_sequence")
+              if self.timeline is not None:
+                self.timeline.mark(getattr(self.engine, 'run_id', None), 'response_headers_received')
               # Native model APIs do not establish browser sessions. Discard their
               # cookies before scanning and forwarding; never exempt forwarded data.
               remove_cookie = False
@@ -179,8 +198,12 @@ class ExternalProcessor(rpc.ExternalProcessorServicer):
                 raise InspectionError("unsupported_content_encoding")
               await self._inspect(self.engine.inspect_metadata,
                 HttpMessage(method, authority, path, response_headers, b""), response=True, deadline=deadline)
+              if self.timeline is not None:
+                self.timeline.mark(getattr(self.engine, 'run_id', None), 'response_headers_checked')
               if event.response_headers.end_of_stream:
                 response_checked = True
+                if self.timeline is not None:
+                  self.timeline.mark(getattr(self.engine, 'run_id', None), 'response_checked')
               common = pb.CommonResponse()
               if remove_cookie:
                 common.header_mutation.remove_headers.append("set-cookie")
@@ -188,6 +211,8 @@ class ExternalProcessor(rpc.ExternalProcessorServicer):
             elif kind == "response_body":
               if response_headers is None or response_checked:
                 raise InspectionError("unexpected_protocol_sequence")
+              if self.timeline is not None:
+                self.timeline.mark(getattr(self.engine, 'run_id', None), 'response_body_received')
               message = HttpMessage(method, authority, path, response_headers,
                                     bytes(event.response_body.body), event.response_body.end_of_stream)
               verdict = await self._inspect(self.engine.inspect_response, message, mode="inline",
@@ -195,6 +220,8 @@ class ExternalProcessor(rpc.ExternalProcessorServicer):
                 pii_policy_scope=request_verdict.pii_policy_scope, deadline=deadline)
               self.audit.record(verdict, phase="response")
               response_checked = True
+              if self.timeline is not None:
+                self.timeline.mark(getattr(self.engine, 'run_id', None), 'response_checked')
               if verdict.action not in ("allow", "redact"):
                 yield immediate(verdict)
                 return
