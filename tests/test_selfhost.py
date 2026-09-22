@@ -153,6 +153,25 @@ def test_tls_and_private_inspector(config):
   assert tls['common_tls_context']['validation_context']['match_typed_subject_alt_names'][0]['matcher']['exact']=='api.example.com'
   assert clusters[0]['load_assignment']['endpoints'][0]['lb_endpoints'][0]['endpoint']['address']['socket_address']['address']=='app'
 
+
+def test_optional_inspector_processes_render_only_healthy_endpoints(config):
+  data=deployment_data(config)
+  for invalid in (0,3,5,'2',True):
+    with pytest.raises(ValueError):Deployment.model_validate({**data,'inspector_replicas':invalid})
+  for replicas in (2,4):
+    selected=Deployment.model_validate({**data,'inspector_replicas':replicas})
+    rendered=yaml.safe_load(envoy_config(selected))
+    inspector=rendered['static_resources']['clusters'][0]
+    endpoints=inspector['load_assignment']['endpoints'][0]['lb_endpoints']
+    assert [item['endpoint']['address']['socket_address']['port_value'] for item in endpoints]==[
+      18120+index for index in range(replicas)]
+    assert [item['endpoint']['health_check_config']['port_value'] for item in endpoints]==[
+      18130+index for index in range(replicas)]
+    assert inspector['lb_policy']=='ROUND_ROBIN'
+    assert inspector['common_lb_config']['healthy_panic_threshold']['value']==0
+    assert inspector['health_checks'][0]['http_health_check']['path']=='/_trapdefense/health'
+    assert selected.public()['inspector_replicas']==replicas
+
 def test_initialization_preserves_account(tmp_path,config):
   state=tmp_path/'state';generated=tmp_path/'generated'
   initialize(state,generated,config,'synthetic-password-036')

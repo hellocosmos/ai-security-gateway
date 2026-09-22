@@ -1,6 +1,14 @@
-# Latencia de Buffered SSE y adecuación al despliegue — 0.44
+# Latencia de Buffered SSE y adecuación al despliegue — 0.46
 
 [en](../en/latency.md) · [ko](../ko/latency.md) · [zh-CN](../zh-CN/latency.md) · [ja](../ja/latency.md) · [es](../es/latency.md) · [fr](../fr/latency.md)
+
+## 0.46: espera de admisión acotada y procesos de inspección opcionales
+
+`gateway_admission_wait_ms` admite de 0 a 2000 ms y su valor predeterminado es 0: si no hay capacidad, devuelve HTTP 503 de inmediato. Con un valor positivo pueden esperar como máximo `gateway_max_inflight` solicitudes autenticadas. El exceso y el tiempo agotado devuelven 503 antes de leer el cuerpo o llamar al destino. El gateway nunca reintenta automáticamente una llamada, incluidas las acciones no idempotentes.
+
+`inspector_replicas` admite 1, 2 o 4; el valor predeterminado es 1. Con 2 o 4 inicia procesos de inspección supervisados en el mismo host Docker. Envoy distribuye los flujos entre procesos sanos y mantiene el cierre ante fallo si la inspección no está disponible. No es HA entre hosts. La pérdida de un proceso puede hacer fallar una solicitud en curso con el resultado del destino todavía desconocido; el cliente no debe reintentar la acción sin comprobarlo.
+
+Configure los campos en `deploy/selfhost/deployment.yaml`, prepare y active el cambio según el [procedimiento de autoalojamiento](self-hosting.md), y valídelo en el host de destino. En modo multiproceso, los tiempos de la consola solo cubren el proceso del gateway; los tiempos internos del inspector no están disponibles. El ajuste por sí solo no garantiza mejoras de rendimiento o de primer contenido; se conserva el almacenamiento de la respuesta completa.
 
 El gateway recopila e inspecciona toda la respuesta admitida antes de entregar contenido. La latencia del primer contenido incluye recopilación e inspección. Conviene a tareas que pueden esperar un resultado completo; el chat interactivo exige un presupuesto explícito de latencia.
 

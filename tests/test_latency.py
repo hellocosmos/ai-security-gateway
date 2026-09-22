@@ -133,6 +133,108 @@ def test_admission_setting_has_strict_bounds_and_public_shape():
   assert selected.public()['gateway_max_inflight']==16
 
 
+def test_admission_wait_bounds_and_public_shape():
+  base=load(Path(__file__).parents[1]/'deploy/selfhost/deployment.yaml').model_dump(exclude_none=True)
+  assert Deployment.model_validate(base).gateway_admission_wait_ms==0
+  for invalid in (-1,2001,'100',True):
+    with pytest.raises(ValueError):Deployment.model_validate({**base,'gateway_admission_wait_ms':invalid})
+  selected=Deployment.model_validate({**base,'gateway_admission_wait_ms':250})
+  assert selected.public()['gateway_admission_wait_ms']==250
+
+
+def test_bounded_admission_waits_before_sending_and_never_replays():
+  config=load(Path(__file__).parents[1]/'deploy/selfhost/deployment.yaml').model_copy(
+    update={'gateway_max_inflight':1,'gateway_admission_wait_ms':500})
+  entered=asyncio.Event()
+  release=asyncio.Event()
+  calls=[]
+  async def destination(request):
+    calls.append(request)
+    if len(calls)==1:
+      entered.set()
+      await release.wait()
+    return httpx.Response(200,headers={'content-type':'application/json'},
+      stream=httpx.ByteStream(b'{"message":"safe"}'))
+  app=create_gateway(config,'synthetic-client-key',b'x'*32,
+    transport=httpx.MockTransport(destination))
+  async def run():
+    async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app),base_url='http://gateway') as client:
+      def send():return client.post('/api/notes',headers={'x-td-client-key':'synthetic-client-key'},
+        json={'message':'safe'})
+      first=asyncio.create_task(send())
+      await asyncio.wait_for(entered.wait(),1)
+      second=asyncio.create_task(send())
+      await asyncio.sleep(.05)
+      overflow=await send()
+      assert overflow.status_code==503 and overflow.json()=={'error':'gateway_busy'}
+      assert len(calls)==1
+      release.set()
+      responses=await asyncio.gather(first,second)
+      assert [result.status_code for result in responses]==[200,200]
+      assert len(calls)==2
+  asyncio.run(run())
+
+
+def test_admission_timeout_has_no_target_side_effect():
+  config=load(Path(__file__).parents[1]/'deploy/selfhost/deployment.yaml').model_copy(
+    update={'gateway_max_inflight':1,'gateway_admission_wait_ms':50})
+  entered=asyncio.Event()
+  release=asyncio.Event()
+  calls=[]
+  async def destination(request):
+    calls.append(request)
+    entered.set()
+    await release.wait()
+    return httpx.Response(200,headers={'content-type':'application/json'},
+      stream=httpx.ByteStream(b'{}'))
+  app=create_gateway(config,'synthetic-client-key',b'x'*32,
+    transport=httpx.MockTransport(destination))
+  async def run():
+    async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app),base_url='http://gateway') as client:
+      def send():return client.post('/api/notes',headers={'x-td-client-key':'synthetic-client-key'},json={})
+      first=asyncio.create_task(send())
+      await asyncio.wait_for(entered.wait(),1)
+      timed=await send()
+      assert timed.status_code==503 and len(calls)==1
+      release.set()
+      assert (await first).status_code==200
+      assert (await send()).status_code==200 and len(calls)==2
+  asyncio.run(run())
+
+
+def test_cancelled_admission_releases_waiter_without_sending():
+  config=load(Path(__file__).parents[1]/'deploy/selfhost/deployment.yaml').model_copy(
+    update={'gateway_max_inflight':1,'gateway_admission_wait_ms':1000})
+  entered=asyncio.Event()
+  release=asyncio.Event()
+  calls=[]
+  async def destination(request):
+    calls.append(request)
+    if len(calls)==1:
+      entered.set()
+      await release.wait()
+    return httpx.Response(200,headers={'content-type':'application/json'},
+      stream=httpx.ByteStream(b'{}'))
+  app=create_gateway(config,'synthetic-client-key',b'x'*32,
+    transport=httpx.MockTransport(destination))
+  async def run():
+    async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app),base_url='http://gateway') as client:
+      def send():return client.post('/api/notes',headers={'x-td-client-key':'synthetic-client-key'},json={})
+      first=asyncio.create_task(send())
+      await asyncio.wait_for(entered.wait(),1)
+      cancelled=asyncio.create_task(send())
+      await asyncio.sleep(.05)
+      cancelled.cancel()
+      with pytest.raises(asyncio.CancelledError):await cancelled
+      replacement=asyncio.create_task(send())
+      await asyncio.sleep(.05)
+      assert len(calls)==1 and not replacement.done()
+      release.set()
+      assert (await first).status_code==200
+      assert (await replacement).status_code==200 and len(calls)==2
+  asyncio.run(run())
+
+
 def test_incomplete_timeline_does_not_invent_inspection_time():
   metrics=LatencyMetrics()
   metrics.begin('b'*32,at=1.0)

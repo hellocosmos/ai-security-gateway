@@ -1,4 +1,4 @@
-# Autoalojamiento con Docker — 0.45 Open Source Preview
+# Autoalojamiento con Docker — 0.46 Open Source Preview
 
 > **0.44:** [Espacio de operación (0.44)](operator-workspace.md)
 
@@ -8,6 +8,8 @@
 > **AISG:** [Conectar, identificar, controlar, verificar](aisg.md). El gateway autentica con una clave de despliegue o JWT verificado. agent_key identifica agentes registrados sin IAM externo. JWT identity_mode: agent usa los atributos verificados de tenant y agente; delegated también exige usuario, tarea y delegación. Los agentes existentes requieren delegación por defecto.
 
 [English](../en/self-hosting.md) · [한국어](../ko/self-hosting.md) · [简体中文](../zh-CN/self-hosting.md) · [日本語](../ja/self-hosting.md) · [Español](../es/self-hosting.md) · [Français](../fr/self-hosting.md)
+
+**Controles de capacidad 0.46:** `gateway_admission_wait_ms` (predeterminado 0, máximo 2000) permite una espera breve y acotada antes de admitir una llamada autenticada; `inspector_replicas` (predeterminado 1; opcional 2 o 4) ejecuta procesos de inspección supervisados en este host. Aplique los cambios con el procedimiento existente de preparación, activación y reinicio. Consulte [latencia y comportamiento ante fallos](latency.md) antes de cambiar los valores. No es HA ni habilita reintentos automáticos.
 
 ## Elija un punto de partida para 0.44
 

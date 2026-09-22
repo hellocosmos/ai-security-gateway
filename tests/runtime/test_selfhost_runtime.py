@@ -187,3 +187,94 @@ def test_package_lifecycle(tmp_path,mode):
   finally:
     # The random project and all its volumes were created exclusively by this test.
     compose('down','-v','--remove-orphans')
+
+
+def test_optional_inspector_process_pool(tmp_path):
+  port,gateway_port=free_port(),free_port()
+  origin=f'http://localhost:{port}'
+  config=yaml.safe_load((ROOT/'deploy/selfhost/deployment.yaml').read_text())
+  config.update(console_origin=origin,inspector_replicas=2,gateway_admission_wait_ms=100)
+  path=tmp_path/'deployment.yaml'
+  path.write_text(yaml.safe_dump(config))
+  env={**os.environ,'TD_CONSOLE_PORT':str(port),'TD_GATEWAY_PORT':str(gateway_port),
+    'TD_CONFIG_FILE':str(path)}
+  project='td-pool-test-'+uuid4().hex[:8]
+  base=['docker','compose','-p',project,'-f',str(ROOT/'deploy/selfhost/compose.yaml'),'--profile','smoke']
+  def compose(*args):
+    result=subprocess.run([*base,*args],env=env,cwd=ROOT,text=True,capture_output=True,timeout=600)
+    assert result.returncode==0,result.stderr[-3000:]
+    return result.stdout.strip()
+  try:
+    compose('build','app')
+    compose('run','--rm','--no-deps','--entrypoint','python','app','-c',
+      'from pathlib import Path; from asr_proxy.selfhost.main import initialize; '
+      'from asr_proxy.selfhost.config import load; '
+      'initialize(Path("/state"),Path("/generated"),load("/config/deployment.yaml"),"synthetic-pool-password")')
+    compose('up','-d')
+    deadline=time.monotonic()+60
+    while time.monotonic()<deadline:
+      try:
+        if httpx.get(origin+'/demo-api/health',timeout=1).status_code==200:break
+      except httpx.HTTPError:pass
+      time.sleep(.5)
+    else:pytest.fail('Pooled console did not become ready')
+    key=compose('exec','-T','app','cat','/state/client.key')
+    headers={'x-td-client-key':key,'authorization':'Bearer synthetic-target-token'}
+    with httpx.Client(base_url=f'http://127.0.0.1:{gateway_port}',timeout=15) as gateway, \
+        httpx.Client(base_url=origin,timeout=5,headers={'origin':origin,'x-td-demo':'1'}) as admin:
+      deadline=time.monotonic()+30
+      while time.monotonic()<deadline:
+        result=gateway.post('/api/notes',headers=headers,json={'message':'safe'})
+        if result.status_code==200:break
+        assert result.status_code==503
+        time.sleep(.5)
+      else:pytest.fail('Pooled inspection path did not become ready')
+      assert admin.post('/demo-api/login',json={'username':'admin','password':'synthetic-pool-password'}).status_code==200
+      assert admin.get('/demo-api/overview').json()['deployment']['inspector_replicas']==2
+      assert admin.get('/demo-api/operations').json()['latency']['inspector_timing_available'] is False
+      redact=gateway.post('/api/notes',headers=headers,json={'message':'Contact alex@example.com'})
+      assert redact.status_code==200 and '[REDACTED]' in redact.text and 'alex@example.com' not in redact.text
+      policy=admin.get('/demo-api/policy').json()
+      policy['rules']['0:notes.read']='block'
+      assert admin.post('/demo-api/policy',json=policy).status_code==200
+      # Multiple workers must refresh the same versioned policy before another call.
+      assert all(gateway.post('/api/notes',headers=headers,json={'message':'safe'}).status_code==403
+        for _ in range(4))
+      def children():
+        script='''import json
+from pathlib import Path
+items=[]
+for path in Path('/proc').iterdir():
+  if not path.name.isdigit():continue
+  try:args=path.joinpath('cmdline').read_bytes().decode(errors='ignore').split('\\0')
+  except OSError:continue
+  if 'asr_proxy.selfhost.inspector_pool' in args and '--index' in args:
+    items.append((int(path.name),args[args.index('--index')+1]))
+print(json.dumps(items))'''
+        import json
+        return {index:pid for pid,index in json.loads(compose('exec','-T','app','python','-c',script))}
+      before=children()
+      assert set(before)=={'0','1'}
+      compose('exec','-T','app','python','-c',f'import os,signal;os.kill({before["0"]},signal.SIGKILL)')
+      deadline=time.monotonic()+15
+      while time.monotonic()<deadline:
+        after=children()
+        if set(after)=={'0','1'} and after['0']!=before['0']:break
+        time.sleep(.5)
+      else:pytest.fail('Supervisor did not replace failed inspector')
+      deadline=time.monotonic()+10
+      while time.monotonic()<deadline:
+        statuses=[gateway.post('/api/notes',headers=headers,json={'message':'safe'}).status_code
+          for _ in range(4)]
+        assert all(status in (403,500,503,504) for status in statuses),statuses
+        if statuses==[403]*4:break
+        time.sleep(.5)
+      else:pytest.fail('Pooled policy enforcement did not recover')
+      overview=admin.get('/demo-api/overview').json()
+      assert len(overview['events'])>=6
+      assert key not in str(overview['events']) and 'alex@example.com' not in str(overview['events'])
+  except BaseException:
+    print(compose('logs','--no-color','--tail','30','app','envoy','fixture'),flush=True)
+    raise
+  finally:
+    compose('down','-v','--remove-orphans')

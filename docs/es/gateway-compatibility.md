@@ -1,4 +1,4 @@
-# Compatibilidad de clientes del gateway — 0.45
+# Compatibilidad de clientes del gateway — 0.46
 
 > [Conexiones de proveedores de modelos](providers.md) · OpenAI / Anthropic / Gemini / OpenRouter.
 

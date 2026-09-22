@@ -1,4 +1,4 @@
-# Compatibilité des clients de passerelle — 0.45
+# Compatibilité des clients de passerelle — 0.46
 
 > [Connexions aux fournisseurs de modèles](providers.md) · OpenAI / Anthropic / Gemini / OpenRouter.
 

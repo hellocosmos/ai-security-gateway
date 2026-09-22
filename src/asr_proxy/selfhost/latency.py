@@ -12,7 +12,8 @@ STAGES = frozenset(('envoy_sent', 'request_checked', 'response_headers_received'
 
 
 class LatencyMetrics:
-  def __init__(self):
+  def __init__(self, inspector_processes=1):
+    self.inspector_processes = inspector_processes
     self.lock = Lock()
     self.samples = {name: deque(maxlen=256) for name in SERIES}
     self.pending = OrderedDict()
@@ -96,5 +97,8 @@ class LatencyMetrics:
           return round(ordered[max(0, math.ceil(len(ordered)*p)-1)], 2) if ordered else None
         result.append({'phase': name, 'samples': len(ordered), 'p50_ms': percentile(.5),
                        'p95_ms': percentile(.95), 'max_ms': percentile(1)})
-      return {'scope': 'current_process_last_256_per_phase', 'series': result,
-              'request_scope': 'current_process_last_64_completed', 'requests': list(self.requests)}
+      scope = 'current_process_last_256_per_phase' if self.inspector_processes == 1 else 'gateway_process_only_last_256_per_phase'
+      request_scope = 'current_process_last_64_completed' if self.inspector_processes == 1 else 'gateway_process_only_last_64_completed'
+      return {'scope': scope, 'series': result, 'request_scope': request_scope,
+              'inspector_timing_available': self.inspector_processes == 1,
+              'requests': list(self.requests)}

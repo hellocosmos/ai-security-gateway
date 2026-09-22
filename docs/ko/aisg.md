@@ -1,4 +1,4 @@
-# TrapDefense — AI Security Gateway (0.45)
+# TrapDefense — AI Security Gateway (0.46)
 
 > [모델 제공자 연결](providers.md) · OpenAI / Anthropic / Gemini / OpenRouter.
 

@@ -1,11 +1,12 @@
 """Fixed-destination configuration. No client-controlled upstream selection."""
 from pathlib import Path
+import copy
 from typing import Annotated, Literal
 from urllib.parse import urlsplit
 import ipaddress
 import re
 import yaml
-from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 from asr_proxy.inspection.contracts import RouteRule
 from .providers import ProviderProfile, ORIGINS
 from asr_proxy.inspection.identity import TRANSPORT_HEADERS, reserved_header
@@ -159,7 +160,16 @@ class Deployment(BaseModel):
   bearer_file: str | None = Field(default=None,exclude=True)
   max_body_bytes: int = Field(default=1048576, ge=1024, le=1048576)
   gateway_max_inflight: int = Field(default=32, ge=4, le=64, strict=True)
+  gateway_admission_wait_ms: int = Field(default=0, ge=0, le=2000, strict=True)
+  inspector_replicas: Literal[1, 2, 4] = 1
   routes: list[RouteRule] = Field(min_length=1, max_length=100)
+
+  @field_validator('inspector_replicas', mode='before')
+  @classmethod
+  def validate_inspector_replicas(cls, value):
+    if type(value) is not int or value not in (1, 2, 4):
+      raise ValueError('inspector_replicas must be 1, 2 or 4')
+    return value
 
   @model_validator(mode='before')
   @classmethod
@@ -253,6 +263,8 @@ class Deployment(BaseModel):
       'destination_auth':self.target_auth.mode,'source': 'selfhost-adapter',
       'max_body_bytes': self.max_body_bytes,
       'gateway_max_inflight': self.gateway_max_inflight,
+      'gateway_admission_wait_ms': self.gateway_admission_wait_ms,
+      'inspector_replicas': self.inspector_replicas,
       'routes': [{'method': r.method, 'path': r.path, 'protocol': r.protocol,
                   'tools': list(r.tools) if r.protocol == 'mcp' else [r.tool]} for r in self.routes]}
 
@@ -268,6 +280,21 @@ def envoy_config(config):
   def socket(cluster):
     return cluster['load_assignment']['endpoints'][0]['lb_endpoints'][0]['endpoint']['address']['socket_address']
   socket(clusters[0]).update(address='app', port_value=18081)
+  if config.inspector_replicas > 1:
+    inspector = clusters[0]
+    group = inspector['load_assignment']['endpoints'][0]
+    original = group['lb_endpoints'][0]
+    group['lb_endpoints'] = []
+    for index in range(config.inspector_replicas):
+      member = copy.deepcopy(original)
+      member['endpoint']['address']['socket_address'].update(address='app', port_value=18120 + index)
+      member['endpoint']['health_check_config'] = {'port_value': 18130 + index}
+      group['lb_endpoints'].append(member)
+    inspector['lb_policy'] = 'ROUND_ROBIN'
+    inspector['common_lb_config'] = {'healthy_panic_threshold': {'value': 0}}
+    inspector['health_checks'] = [{'timeout': '1s', 'interval': '1s',
+      'unhealthy_threshold': 1, 'healthy_threshold': 1,
+      'http_health_check': {'path': '/_trapdefense/health', 'codec_client_type': 'HTTP1'}}]
   target = urlsplit(config.upstream)
   socket(clusters[1]).update(address=target.hostname, port_value=target.port or (443 if target.scheme=='https' else 80))
   if target.scheme == 'https':

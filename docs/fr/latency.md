@@ -1,6 +1,14 @@
-# Latence Buffered SSE et adéquation au déploiement — 0.44
+# Latence Buffered SSE et adéquation au déploiement — 0.46
 
 [en](../en/latency.md) · [ko](../ko/latency.md) · [zh-CN](../zh-CN/latency.md) · [ja](../ja/latency.md) · [es](../es/latency.md) · [fr](../fr/latency.md)
+
+## 0.46 : attente d’admission bornée et processus d’inspection facultatifs
+
+`gateway_admission_wait_ms` accepte 0 à 2000 ms, avec 0 par défaut : en cas de saturation, HTTP 503 est renvoyé immédiatement. Une valeur positive permet à au plus `gateway_max_inflight` requêtes authentifiées d’attendre. Dépassement et expiration renvoient 503 avant la lecture du corps ou l’appel à la destination. Le gateway ne relance jamais automatiquement un appel, y compris une action non idempotente.
+
+`inspector_replicas` accepte 1, 2 ou 4, avec 1 par défaut. Les valeurs 2 et 4 lancent des processus d’inspection supervisés sur le même hôte Docker. Envoy répartit les flux entre les processus sains et reste fail-closed si l’inspection est indisponible. Ce n’est pas une HA entre hôtes. La perte d’un processus peut faire échouer une requête en cours alors que le résultat côté destination reste inconnu ; le client ne doit pas relancer l’action sans vérification.
+
+Configurez ces champs dans `deploy/selfhost/deployment.yaml`, préparez et activez le changement selon la [procédure d’auto-hébergement](self-hosting.md), puis qualifiez-le sur l’hôte cible. En mode multiprocessus, les durées affichées par la console couvrent uniquement le processus du gateway ; les temps internes de l’inspecteur ne sont pas disponibles. Ce réglage ne garantit pas à lui seul une amélioration du débit ou du délai du premier contenu ; la mise en tampon de la réponse entière reste en place.
 
 Le gateway collecte et inspecte la réponse complète prise en charge avant de livrer le contenu. Le délai du premier contenu comprend la collecte et l’inspection. Ce mode convient aux tâches pouvant attendre un résultat complet ; le chat interactif exige un budget de latence explicite.
 

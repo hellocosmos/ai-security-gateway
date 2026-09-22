@@ -1,4 +1,4 @@
-# Docker セルフホスティング — 0.45 Open Source Preview
+# Docker セルフホスティング — 0.46 Open Source Preview
 
 > **0.44:** [運用ワークスペース（0.44）](operator-workspace.md)
 
@@ -8,6 +8,8 @@
 > **AISG:** [接続・識別・制御・検証](aisg.md). ゲートウェイは接続キーまたは検証済みJWTを使用します。agent_keyは外部IAMなしで登録済みエージェントを識別します。JWT identity_mode: agentは検証済みテナントとエージェントのクレームを使用し、delegatedはユーザー・タスク・委任も要求します。既存エージェントは既定で委任が必要です。
 
 [English](../en/self-hosting.md) · [한국어](../ko/self-hosting.md) · [简体中文](../zh-CN/self-hosting.md) · [日本語](../ja/self-hosting.md) · [Español](../es/self-hosting.md) · [Français](../fr/self-hosting.md)
+
+**0.46 の容量設定：**`gateway_admission_wait_ms`（既定 0、最大 2000）は認証済み呼び出しの短い流入待機を許可し、`inspector_replicas`（既定 1、任意で 2 または 4）は同じホストで監督付き検査プロセスを実行します。既存のステージ・有効化・再起動手順で反映してください。変更前に[遅延と障害時の動作](latency.md)を確認してください。ホスト間 HA や自動再試行ではありません。
 
 ## 0.44 の開始方法を選ぶ
 

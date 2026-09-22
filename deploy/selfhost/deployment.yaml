@@ -11,6 +11,8 @@ target_auth:
 max_body_bytes: 1048576
 # Maximum accepted concurrent gateway requests; excess receives HTTP 503.
 gateway_max_inflight: 32
+gateway_admission_wait_ms: 0
+inspector_replicas: 1
 routes:
   - authority: fixture:8080
     path: /api/notes

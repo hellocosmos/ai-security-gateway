@@ -31,7 +31,7 @@ class SelfhostRuntime(Runtime):
     self.inspector_ready = False
     self.gateway_outcomes = {}
     from .latency import LatencyMetrics
-    self.latency = LatencyMetrics()
+    self.latency = LatencyMetrics(inspector_processes=deployment.inspector_replicas)
 
   def config(self, policy):
     entries = list(self.deployment.entries())

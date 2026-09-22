@@ -1,6 +1,14 @@
-# Buffered SSE latency and rollout fit — 0.44
+# Buffered SSE latency and rollout fit — 0.46
 
 [en](../en/latency.md) · [ko](../ko/latency.md) · [zh-CN](../zh-CN/latency.md) · [ja](../ja/latency.md) · [es](../es/latency.md) · [fr](../fr/latency.md)
+
+## 0.46: bounded admission and optional process capacity
+
+`gateway_admission_wait_ms` accepts 0–2000 ms and defaults to 0 (immediate HTTP 503 when full). With a positive wait, at most `gateway_max_inflight` authenticated callers can wait for a slot; overflow and timeout return HTTP 503 **before** the body is read or the target is called. The gateway never retries an admitted call, including non-idempotent tool actions.
+
+`inspector_replicas` accepts 1, 2 or 4 and defaults to 1. Values 2 and 4 start supervised inspector processes on this Docker host; Envoy distributes inspection streams across healthy processes and still fails closed if inspection is unavailable. This is process capacity, not cross-host HA. Worker loss can fail an in-flight request; clients must not blindly retry an action whose destination outcome is unknown.
+
+Configure these fields in `deploy/selfhost/deployment.yaml`, stage/activate changes with the [self-hosting procedure](self-hosting.md), and qualify the result on the target host. In multi-process mode, the console's request timeline and distributions cover the gateway process only; inspector timing fields are unavailable. No throughput or first-content improvement is guaranteed by the setting alone. Full-response buffering remains in place.
 
 The gateway collects and inspects the complete supported response before delivering content. Client first-content latency includes collection and inspection, not just scanner time. This suits workflows that can wait for a complete result; interactive chat must be tested against an explicit latency budget.
 

@@ -16,6 +16,7 @@ from asr_proxy.inspection.pool import atomic_write
 from .config import load, envoy_config
 from .gateway import create_gateway
 from .runtime import SelfhostRuntime
+from .inspector_pool import SelfhostInspectorPool
 
 
 def initialize(state, generated, config, password):
@@ -44,18 +45,28 @@ async def serve(args, config):
   if len(client_key)<32:raise ValueError('Invalid client key')
   target_secret=secret(config.target_auth.secret_file) if config.target_auth.secret_file else None
   atomic_write(Path(args.generated)/'envoy.yaml',envoy_config(config),mode=0o644)
-  grpc_server=grpc.aio.server(maximum_concurrent_rpcs=32)
-  rpc.add_ExternalProcessorServicer_to_server(ConsoleProcessor(runtime),grpc_server)
-  if not grpc_server.add_insecure_port('0.0.0.0:18081'):raise RuntimeError('Inspector port unavailable')
+  pool = None
+  grpc_server = None
+  if config.inspector_replicas == 1:
+    grpc_server=grpc.aio.server(maximum_concurrent_rpcs=32)
+    rpc.add_ExternalProcessorServicer_to_server(ConsoleProcessor(runtime),grpc_server)
+    if not grpc_server.add_insecure_port('0.0.0.0:18081'):raise RuntimeError('Inspector port unavailable')
+  else:
+    pool=SelfhostInspectorPool(config.inspector_replicas,state,args.config,
+      on_health=lambda healthy:setattr(runtime,'inspector_ready',healthy))
   @asynccontextmanager
   async def lifecycle(app):
-    await grpc_server.start()
-    runtime.inspector_ready=True
+    if pool is None:
+      await grpc_server.start()
+      runtime.inspector_ready=True
+    else:
+      await pool.start()
     runtime.store.audit('installation.started','Self-hosted adapter, inspector and console')
     try:yield
     finally:
       runtime.inspector_ready=False
-      await grpc_server.stop(2)
+      if pool is None:await grpc_server.stop(2)
+      else:await pool.stop()
   console=create_app(state,seed=False,runtime_factory=lambda *a,**k:runtime,
     lifespan=lifecycle,console_origin=config.console_origin)
   console.mount('/',StaticFiles(directory=args.assets,html=True),name='console')
@@ -75,11 +86,17 @@ async def serve(args, config):
     for server in servers:server.should_exit=True
   for sig in (signal.SIGINT,signal.SIGTERM):loop.add_signal_handler(sig,stop)
   tasks=[asyncio.create_task(server.serve()) for server in servers]
+  failure_task=asyncio.create_task(pool.failed.wait()) if pool is not None else None
   try:
-    await asyncio.wait(tasks,return_when=asyncio.FIRST_COMPLETED)
+    await asyncio.wait(tasks+([failure_task] if failure_task else []),return_when=asyncio.FIRST_COMPLETED)
   finally:
     stop()
     await asyncio.gather(*tasks)
+    if failure_task is not None:
+      exhausted=pool.failed.is_set()
+      failure_task.cancel()
+      await asyncio.gather(failure_task,return_exceptions=True)
+      if exhausted:raise RuntimeError('inspector_recovery_exhausted')
 
 
 def main():

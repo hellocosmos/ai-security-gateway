@@ -1,4 +1,4 @@
-# Docker 自托管 — 0.45 Open Source Preview
+# Docker 自托管 — 0.46 Open Source Preview
 
 > **0.44:** [运维工作区（0.44）](operator-workspace.md)
 
@@ -8,6 +8,8 @@
 > **AISG:** [连接、识别、控制、验证](aisg.md). 网关使用部署密钥或已验证 JWT。agent_key 无需外部 IAM 即可识别注册代理。JWT identity_mode: agent 使用已验证的租户和代理声明；delegated 还要求用户、任务和委托。现有代理默认需要委托。
 
 [English](../en/self-hosting.md) · [한국어](../ko/self-hosting.md) · [简体中文](../zh-CN/self-hosting.md) · [日本語](../ja/self-hosting.md) · [Español](../es/self-hosting.md) · [Français](../fr/self-hosting.md)
+
+**0.46 容量设置：**`gateway_admission_wait_ms`（默认 0，最高 2000）允许已认证调用短暂、有界地等待准入；`inspector_replicas`（默认 1，可选 2 或 4）在同一主机运行受监管的检查进程。通过现有的暂存、激活和重启步骤应用。更改前请阅读[延迟与故障行为](latency.md)。这不是跨主机 HA，也不会自动重试。
 
 ## 选择 0.44 起点
 

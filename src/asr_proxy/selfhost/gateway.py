@@ -1,6 +1,7 @@
 """Bounded authenticated adapter. Never retries or bypasses Envoy."""
 import asyncio
 import time
+from contextlib import asynccontextmanager
 from uuid import uuid4
 from urllib.parse import urlsplit
 from .providers import gateway_headers
@@ -12,6 +13,10 @@ from asr_proxy.inspection.identity import sign_attestation, reserved_header, TRA
 from asr_proxy.inspection.server import bounded_body
 from .auth import AuthError, GatewayAuthenticator
 from .credentials import CredentialError, TargetCredentialProvider
+
+
+class GatewayBusy(Exception):
+  pass
 
 
 def create_gateway(config, client_key, signing_key, *, target_secret=None, authenticator=None,
@@ -36,6 +41,27 @@ def create_gateway(config, client_key, signing_key, *, target_secret=None, authe
           timeline.finish(getattr(request.state, 'run_id', None), status)
   authority = urlsplit(config.upstream).netloc
   slots = asyncio.Semaphore(config.gateway_max_inflight)
+  waiters = asyncio.Semaphore(config.gateway_max_inflight)
+
+  @asynccontextmanager
+  async def admission():
+    if slots.locked():
+      if not config.gateway_admission_wait_ms or waiters.locked():
+        raise GatewayBusy()
+      await waiters.acquire()
+      try:
+        try:
+          await asyncio.wait_for(slots.acquire(), config.gateway_admission_wait_ms / 1000)
+        except TimeoutError:
+          raise GatewayBusy() from None
+      finally:
+        waiters.release()
+    else:
+      await slots.acquire()
+    try:
+      yield
+    finally:
+      slots.release()
   authenticator=authenticator or GatewayAuthenticator(config.gateway_auth,client_key=client_key)
   credentials=TargetCredentialProvider(config.target_auth,gateway_mode=config.gateway_auth.mode,
     secret=target_secret)
@@ -68,7 +94,6 @@ def create_gateway(config, client_key, signing_key, *, target_secret=None, authe
       if challenge:=authenticator.challenge(error):response_headers['WWW-Authenticate']=challenge
       return JSONResponse({'error':error.code},status_code=error.status_code,headers=response_headers)
     request.state.outcome = 'gateway_validation'
-    if slots.locked(): return JSONResponse({'error':'gateway_busy'}, status_code=503)
     raw_path = request.scope.get('raw_path', b'/').decode('ascii')
     mapped_routes={(r.method,r.path) for r in config.routes}
     if (request.method,raw_path) not in mapped_routes:
@@ -86,7 +111,7 @@ def create_gateway(config, client_key, signing_key, *, target_secret=None, authe
       except CredentialError as error:
         return JSONResponse({'error':str(error)},status_code=400)
       duration=config.llm.timeout_seconds+5 if config.llm else 12
-      async with slots, asyncio.timeout(duration):
+      async with admission(), asyncio.timeout(duration):
         body = await bounded_body(request, config.max_body_bytes)
         if body and headers.get('content-type','').split(';')[0].strip() not in ('application/json','application/json-rpc'):
           return JSONResponse({'error':'unsupported_request_media_type'},status_code=415)
@@ -140,6 +165,8 @@ def create_gateway(config, client_key, signing_key, *, target_secret=None, authe
             if measure is not None: measure('envoy_exchange', (time.perf_counter()-exchange_started)*1000)
     except InspectionError:
       return JSONResponse({'error':'request_limit_exceeded'}, status_code=413)
+    except GatewayBusy:
+      return JSONResponse({'error':'gateway_busy'}, status_code=503)
     except (httpx.HTTPError, TimeoutError):
       return JSONResponse({'error':'inspection_path_unavailable'}, status_code=503)
   return app

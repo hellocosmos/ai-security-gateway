@@ -1,4 +1,4 @@
-# 网关客户端兼容性 — 0.45
+# 网关客户端兼容性 — 0.46
 
 > [模型提供商连接](providers.md) · OpenAI / Anthropic / Gemini / OpenRouter.
 

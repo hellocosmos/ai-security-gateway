@@ -1,4 +1,4 @@
-# Docker 셀프호스팅 — 0.45 Open Source Preview
+# Docker 셀프호스팅 — 0.46 Open Source Preview
 
 > **0.44:** [운영 작업 공간 (0.44)](operator-workspace.md)
 
@@ -8,6 +8,8 @@
 > **AISG:** [연결 → 신원 → 통제 → 확인](aisg.md). Gateway 접속은 연결 키 또는 검증된 JWT로 인증합니다. 로컬 agent_key는 외부 IAM 없이 등록된 에이전트를 식별합니다. JWT identity_mode: agent는 검증된 테넌트·에이전트 정보를 사용하고, delegated는 사용자·작업·위임도 요구합니다. 기존 에이전트는 기본적으로 위임이 필요합니다.
 
 [English](../en/self-hosting.md) · [한국어](../ko/self-hosting.md) · [简体中文](../zh-CN/self-hosting.md) · [日本語](../ja/self-hosting.md) · [Español](../es/self-hosting.md) · [Français](../fr/self-hosting.md)
+
+**0.46 용량 설정:** `gateway_admission_wait_ms`(기본 0, 최대 2000)은 인증된 호출의 제한된 진입 대기 시간이며, `inspector_replicas`(기본 1, 선택 2·4)는 같은 호스트에 검사 프로세스를 띄웁니다. 기존 스테이징·활성화·재시작 절차로 적용하세요. 변경 전에 [지연과 장애 동작](latency.md)을 확인하세요. 서버 간 HA나 자동 재시도는 아닙니다.
 
 ## 0.44 시작 경로 선택
 

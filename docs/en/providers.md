@@ -1,4 +1,4 @@
-# Model provider connections (0.45)
+# Model provider connections (0.46)
 
 [English](../en/providers.md) · [한국어](../ko/providers.md) · [简体中文](../zh-CN/providers.md) · [日本語](../ja/providers.md) · [Español](../es/providers.md) · [Français](../fr/providers.md)
 

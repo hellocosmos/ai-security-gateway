@@ -1,4 +1,4 @@
-# Auto-hébergement Docker — 0.45 Open Source Preview
+# Auto-hébergement Docker — 0.46 Open Source Preview
 
 > **0.44:** [Espace d’exploitation (0.44)](operator-workspace.md)
 
@@ -8,6 +8,8 @@
 > **AISG:** [Connecter, identifier, contrôler, vérifier](aisg.md). La passerelle utilise une clé de déploiement ou un JWT vérifié. agent_key identifie un agent enregistré sans IAM externe. JWT identity_mode: agent utilise les attributs vérifiés du tenant et de l’agent ; delegated exige aussi utilisateur, tâche et délégation. Les agents existants nécessitent une délégation par défaut.
 
 [English](../en/self-hosting.md) · [한국어](../ko/self-hosting.md) · [简体中文](../zh-CN/self-hosting.md) · [日本語](../ja/self-hosting.md) · [Español](../es/self-hosting.md) · [Français](../fr/self-hosting.md)
+
+**Réglages de capacité 0.46 :** `gateway_admission_wait_ms` (0 par défaut, 2000 au maximum) autorise une courte attente bornée avant l’admission d’un appel authentifié ; `inspector_replicas` (1 par défaut, 2 ou 4 en option) exécute des processus d’inspection supervisés sur cet hôte. Appliquez-les selon la procédure existante de préparation, activation et redémarrage. Consultez [latence et comportement en cas de panne](latency.md) avant tout changement. Ce n’est pas une HA et cela n’active pas les relances automatiques.
 
 ## Choisir un point de départ pour 0.44
 

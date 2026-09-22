@@ -1,4 +1,4 @@
-# Docker self-hosting (0.45 Open Source Preview)
+# Docker self-hosting (0.46 Open Source Preview)
 
 > **0.44:** [Operator workspace (0.44)](operator-workspace.md)
 
@@ -8,6 +8,8 @@
 > **AISG:** [Connect, identify, control, verify](aisg.md). Gateway access uses a deployment key or verified JWT. Local agent_key mode identifies a registered agent without an external IAM. JWT identity_mode: agent uses verified tenant/agent claims; delegated mode additionally requires user, task and delegation. Existing agents require delegation by default.
 
 [English](../en/self-hosting.md) · [한국어](../ko/self-hosting.md) · [简体中文](../zh-CN/self-hosting.md) · [日本語](../ja/self-hosting.md) · [Español](../es/self-hosting.md) · [Français](../fr/self-hosting.md)
+
+**0.46 capacity controls:** `gateway_admission_wait_ms` (default 0, maximum 2000) permits a short, finite wait before an authenticated call enters the gateway; `inspector_replicas` (default 1; optional 2 or 4) runs supervised inspectors on this host. Apply through the existing stage/activate and restart procedure. See [latency and failure semantics](latency.md) before changing either value. This is not HA and does not enable automatic retries.
 
 ## Choose your 0.44 starting point
 

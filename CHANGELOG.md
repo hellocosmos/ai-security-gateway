@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.46 — Bounded admission and optional inspector processes
+
+- Add optional `gateway_admission_wait_ms` (0–2000 ms, default 0) with at most `gateway_max_inflight` queued callers. Overflow and timeout return HTTP 503 before target delivery; the gateway never retries a call.
+- Add optional `inspector_replicas` (1, 2 or 4, default 1) for same-host process capacity. Envoy uses health-checked endpoints and fails closed when an inspector is unavailable.
+- Keep gateway latency visible in multi-process mode and explicitly mark inspector timing unavailable in that mode. Process capacity and latency remain deployment-specific and require qualification.
+
 ## 0.45 — Request timelines and admission guidance
 
 - Correlate signed, random request IDs inside one process to show bounded, numeric gateway and inspector stages without retaining content or identity in latency reports.
