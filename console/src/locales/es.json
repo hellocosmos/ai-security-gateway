@@ -516,7 +516,7 @@
   "Save staged settings": "Guardar cambios pendientes",
   "Restore a saved revision": "Restaurar una revisión",
   "2. Activate during a maintenance window": "2. Activar durante mantenimiento",
-  "Stop both services, activate, then start both. Changed route mappings reset route policies to their configured defaults.": "Detenga ambos servicios, active y reinícielos. Cambiar rutas restablece sus políticas a los valores configurados.",
+  "Stop the console, data plane and Envoy, activate, then start all three. Changed route mappings reset route policies to their configured defaults.": "Detenga la consola, el plano de datos y Envoy, active y vuelva a iniciar los tres. Cambiar rutas restablece sus políticas a los valores configurados.",
   "3. Diagnose the active connection": "3. Diagnosticar la conexión activa",
   "Checks TCP/TLS only. It does not prove destination authentication, agent authorization or successful inspection.": "Solo comprueba TCP/TLS. No demuestra autenticación, autorización del agente ni inspección correcta.",
   "Check connection": "Comprobar conexión",
@@ -563,5 +563,16 @@
   "Incomplete": "Incompleto",
   "No request timelines yet": "Todavía no hay cronologías",
   "Request timelines contain numeric timings and status only. The body wait includes upstream work and transport. Durations overlap and must not be summed. Early authentication or admission failures appear in gateway outcomes, not these timelines.": "Las cronologías solo contienen tiempos y estado. La espera del cuerpo incluye trabajo del destino y transporte. Los intervalos se superponen y no deben sumarse. Los rechazos tempranos se muestran en resultados del gateway.",
-  "Inspector stream wait (ms)": "Espera de flujo de inspección (ms)"
+  "Inspector stream wait (ms)": "Espera de flujo de inspección (ms)",
+  "Data plane status unknown": "Estado del plano de datos desconocido",
+  "The console cannot reach the data plane. Enforcement status is unknown here; check the dataplane container.": "La consola no puede comunicarse con el plano de datos. Aquí no se conoce el estado de aplicación; revise el contenedor dataplane.",
+  "Data plane enforcing": "Plano de datos aplicando políticas",
+  "Data plane closed": "Plano de datos cerrado",
+  "Policy snapshot": "Instantánea de política",
+  "Evidence storage": "Almacenamiento de evidencias",
+  "Healthy": "Correcto",
+  "Reason": "Motivo",
+  "Last rejected snapshot: {0}. Enforcing revision {1}.": "Última instantánea rechazada: {0}. Se sigue aplicando la revisión {1}.",
+  "Connection changed. Restart the data plane to load it.": "La conexión cambió. Reinicie el plano de datos para cargarla.",
+  "The data plane keeps enforcing its last verified policy snapshot while the console is unavailable.": "Mientras la consola no está disponible, el plano de datos sigue aplicando su última instantánea de política verificada."
 }

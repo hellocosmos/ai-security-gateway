@@ -11,7 +11,8 @@ WORKDIR /app
 COPY pyproject.toml README.md LICENSE ./
 COPY src/ ./src/
 RUN pip install '.[console]' && useradd --uid 10001 --create-home trapdefense \
-    && mkdir /state /generated && chown 10001:10001 /state /generated
+    && mkdir /state /generated /control-keys /policy-trust \
+    && chown 10001:10001 /state /generated /control-keys /policy-trust
 COPY --from=console /build/dist ./console/dist/
 USER 10001:10001
 ENTRYPOINT ["python", "-m", "asr_proxy.selfhost.main"]

@@ -1,4 +1,4 @@
-# Docker self-hosting (0.46 Open Source Preview)
+# Docker self-hosting (0.47 Open Source Preview)
 
 > **0.44:** [Operator workspace (0.44)](operator-workspace.md)
 
@@ -8,6 +8,8 @@
 > **AISG:** [Connect, identify, control, verify](aisg.md). Gateway access uses a deployment key or verified JWT. Local agent_key mode identifies a registered agent without an external IAM. JWT identity_mode: agent uses verified tenant/agent claims; delegated mode additionally requires user, task and delegation. Existing agents require delegation by default.
 
 [English](../en/self-hosting.md) · [한국어](../ko/self-hosting.md) · [简体中文](../zh-CN/self-hosting.md) · [日本語](../ja/self-hosting.md) · [Español](../es/self-hosting.md) · [Français](../fr/self-hosting.md)
+
+**0.47:** the console and the enforcing data plane now run as separate services (`app`, `dataplane`). The data plane keeps enforcing its last verified, signed policy snapshot while the console is down. Activation stops all three services. Mount target secrets into `dataplane` and `app`. See [control/data plane separation](plane-separation.md).
 
 **0.46 capacity controls:** `gateway_admission_wait_ms` (default 0, maximum 2000) permits a short, finite wait before an authenticated call enters the gateway; `inspector_replicas` (default 1; optional 2 or 4) runs supervised inspectors on this host. Apply through the existing stage/activate and restart procedure. See [latency and failure semantics](latency.md) before changing either value. This is not HA and does not enable automatic retries.
 
@@ -107,7 +109,7 @@ Expected: blocked by the configured action policy. The optional fixture is a sma
 1. Stop the smoke stack with `docker compose --profile smoke down` (without `-v`).
 2. Edit `deployment.yaml`: replace `upstream`, each route's `authority`, exact paths, methods, tool/action/resource mappings and allowed redaction fields. Use a DNS HTTPS origin, for example `https://api.example.com`; no URL credentials, base path, query or fragment. Certificate-chain and hostname checks are enabled. For a private CA, mount the appropriate CA bundle into Envoy at `/etc/ssl/certs/ca-certificates.crt`; never disable verification.
 3. Plain HTTP requires `allow_plaintext_upstream: true`; use it only on an explicitly trusted segment. One installation cannot dynamically select destinations based on client URLs. Deploy separate instances for different origins.
-4. Configure `gateway_auth` as `client_key`, `agent_key` or `jwt`. Configure `target_auth` as `none`, `passthrough_bearer`, `static_bearer` or `static_api_key`. JWT and agent_key cannot be combined with passthrough. For static modes, mount the secret file read-only into the app, readable by UID 10001 and mode 0600. Do not commit secret files. Restart the app after rotation. Conflicting caller credentials are rejected.
+4. Configure `gateway_auth` as `client_key`, `agent_key` or `jwt`. Configure `target_auth` as `none`, `passthrough_bearer`, `static_bearer` or `static_api_key`. JWT and agent_key cannot be combined with passthrough. For static modes, mount the secret file read-only into both `dataplane` and `app`, readable by UID 10001 and mode 0600. Do not commit secret files. Restart `dataplane` after rotation. Conflicting caller credentials are rejected.
 5. If route/tool keys changed after initialization, explicitly migrate saved policies using the procedure below. Existing saved policies are never silently replaced by new YAML defaults.
 6. Run `docker compose run --rm app render` and `docker compose up -d --force-recreate` (without the smoke profile). Change the client's URL to your gateway and add its connection key. Send an allowed and blocked request; examine destination-side effects and console evidence.
 
@@ -116,6 +118,9 @@ Example static-token override (create a private local Compose file):
 ```yaml
 services:
   app:
+    volumes:
+      - ./destination.secret:/run/secrets/destination:ro
+  dataplane:
     volumes:
       - ./destination.secret:/run/secrets/destination:ro
 ```
@@ -168,7 +173,7 @@ Before declaring a client/service integration supported, verify: configurable en
 
 The UI edits action/PII policies and passwords. Destinations, transport/auth modes, body limits and mappings are startup configuration in `deployment.yaml`. New requests use the applied policy; in-flight requests retain their original snapshot. Keys such as `1:notes.read` identify a route index and tool; do not reorder routes casually.
 
-Default listeners are host loopback only: console 18080, gateway 18084. Envoy 18082 and gRPC 18081 have **no host-published ports**. The inspection network is internal; the app also has an edge network for published listeners, while Envoy uses a separate egress network. The app has outbound connectivity but its forwarding implementation only sends to Envoy. No Docker socket or host network privileges are mounted. The local volumes contain credentials, policies and audit state; protect host access and backups.
+Default listeners are host loopback only: console 18080, gateway 18084. Envoy 18082 and gRPC 18081 have **no host-published ports**. The inspection network is internal; `app` (console) and `dataplane` (gateway and inspector) also have an edge network for published listeners, while Envoy uses a separate egress network. The data plane's forwarding implementation only sends to Envoy. Its status port 18085 is internal. No Docker socket or host network privileges are mounted. The local volumes contain credentials, policies and audit state; protect host access and backups.
 
 For remote use, front both public listeners with a trusted TLS reverse proxy, set the exact `console_origin`, and expose only the intended TLS endpoint. `TD_BIND_ADDRESS`, `TD_CONSOLE_PORT`, `TD_GATEWAY_PORT` change published listeners; they do not enable TLS. An HTTP management origin does not get secure cookies. Do not expose plaintext service credentials to an untrusted network. Prevent clients from bypassing the gateway using network controls appropriate to your environment.
 
@@ -178,7 +183,7 @@ This profile buffers bodies up to 1 MiB, uses a five-second Envoy request/route 
 
 ```bash
 docker compose ps
-docker compose logs --tail=100 app envoy
+docker compose logs --tail=100 app dataplane envoy
 docker compose restart
 # Stop without deleting state:
 docker compose down
@@ -186,7 +191,7 @@ docker compose down
 
 A healthy app or reachable listener is not proof that target authentication or inspection works. Always use a known request and inspect its decision. No customer request payloads or credentials are intentionally written to console evidence. SQLite and replay state survive container replacement. Local audit records are mutable; this is not a central immutable audit service. Monitor disk usage; this preview has no automated retention scheduler.
 
-Backup: stop the stack, snapshot **both named volumes** (`<project>_state`, `<project>_generated`) and keep the exact source revision and configuration/secret mounts securely. Restore to an isolated instance and test sign-in plus one allow/block request. Do not copy a running SQLite file as your only backup. `docker compose down -v` destroys passwords, keys, policies and audit records.
+Backup: stop the stack, snapshot **the essential named volumes** (`<project>_state`, `<project>_generated`; `control-keys` and `policy-trust` are regenerated if lost) and keep the exact source revision and configuration/secret mounts securely. Restore to an isolated instance and test sign-in plus one allow/block request. Do not copy a running SQLite file as your only backup. `docker compose down -v` destroys passwords, keys, policies and audit records.
 
 Upgrade: back up first, record the previous image ID/source revision, build the selected version, render configuration and recreate the stack. Review any policy migration before startup. Rollback restores the previous source/image **and its matching stopped-state backup**; restoring only an older image is not a database compatibility guarantee.
 

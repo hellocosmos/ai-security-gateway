@@ -4,6 +4,8 @@
 
 [English](../en/architecture.md) · [한국어](../ko/architecture.md) · [简体中文](../zh-CN/architecture.md) · [日本語](../ja/architecture.md) · [Español](../es/architecture.md) · [Français](../fr/architecture.md)
 
+> **0.47:** the console (control plane) and the gateway/inspector (data plane) are separate processes. Policy reaches the data plane only as an Ed25519-signed snapshot; evidence returns through an append-only spool. See [plane separation](plane-separation.md).
+
 The separate source-based console can use single-tenant Microsoft Entra ID SSO for Administrator and Viewer roles. Console operator authentication remains separate from agent authorization. The built-in Access Broker consumes registered local agent identity or the gateway JWT claim map. [Identity boundaries](identity.md).
 
 ```text

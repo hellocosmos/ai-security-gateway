@@ -2,6 +2,8 @@
 
 [English](../en/security.md) · [한국어](../ko/security.md) · [简体中文](../zh-CN/security.md) · [日本語](../ja/security.md) · [Español](../es/security.md) · [Français](../fr/security.md)
 
+**0.47 のポリシー経路:** コントロールプレーンは `control-keys` ボリュームの Ed25519 鍵でポリシースナップショットに署名します。データプレーンは読み取り専用の `policy-trust` ボリュームの公開鍵で検証し、拒否した場合は最後に検証されたポリシーを維持します。両ボリュームへの書き込み権限を制限してください。[プレーン分離](plane-separation.md)を参照してください。
+
 コンソールは単一テナント Microsoft Entra ID SSO と管理者・閲覧者ロールをサポートします。コンソール運用者の認証とエージェント認可は別の境界で、認可は内蔵 Access Broker が行います。 [Entra SSO](identity.md).
 
 脆弱性の疑いは、リビジョン、合成データによる再現手順、影響を添えて **hellocosmos@gmail.com** へ非公開で報告してください。公開 Issue に顧客データ、トークン、実際の資格情報を含めないでください。固定応答 SLA はありません。

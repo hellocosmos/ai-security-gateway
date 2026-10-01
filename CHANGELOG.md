@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.47 — Control/data plane separation
+
+- Split self-hosting into a control plane (`app`: console, policy publisher, CLI) and a data plane (`dataplane`: gateway, inspector, evidence spool). The data plane never opens `console.sqlite` or reads `deployment.yaml`; a crashed, locked or damaged console no longer stops or delays inspection.
+- Deliver policy as Ed25519-signed, immutable snapshots. The data plane keeps the last known good snapshot when a newer one is missing, partial, tampered with, signed by another key, older, or changes the connection; rejections are audited. With no verified snapshot at startup, the data plane stays closed.
+- Policy apply answers after the data plane and every pooled inspector acknowledge the new revision (up to 5 seconds); otherwise it is saved and audited as pending.
+- Write decision evidence to an fsynced, append-only, per-process spool that the console imports transactionally. Inline enforcement fails closed and closes admission when evidence cannot be written; mirror mode continues.
+- Add internal data-plane readiness/status (port 18085), console data-plane status, and the `serve-control` / `serve-dataplane` commands. `serve` now supervises both planes as separate processes in one container.
+- Add Docker fault-injection tests (`TD_FAULT_E2E=1`) for console crash, console database lock, snapshot tampering, missing snapshot and Envoy loss.
+- Detect prompt-injection overrides with an optional determiner and up to two modifiers (for example `ignore all previous instructions`), backed by a regression corpus run through the inspection engine.
+
 ## 0.46 — Bounded admission and optional inspector processes
 
 - Add optional `gateway_admission_wait_ms` (0–2000 ms, default 0) with at most `gateway_max_inflight` queued callers. Overflow and timeout return HTTP 503 before target delivery; the gateway never retries a call.

@@ -273,13 +273,13 @@ def load(path):
   return Deployment.model_validate(yaml.safe_load(Path(path).read_text()))
 
 
-def envoy_config(config):
+def envoy_config(config, inspector_host='app'):
   template = Path(__file__).parents[1] / 'console/envoy-inline.yaml'
   value = yaml.safe_load(template.read_text())
   clusters = value['static_resources']['clusters']
   def socket(cluster):
     return cluster['load_assignment']['endpoints'][0]['lb_endpoints'][0]['endpoint']['address']['socket_address']
-  socket(clusters[0]).update(address='app', port_value=18081)
+  socket(clusters[0]).update(address=inspector_host, port_value=18081)
   if config.inspector_replicas > 1:
     inspector = clusters[0]
     group = inspector['load_assignment']['endpoints'][0]
@@ -287,7 +287,7 @@ def envoy_config(config):
     group['lb_endpoints'] = []
     for index in range(config.inspector_replicas):
       member = copy.deepcopy(original)
-      member['endpoint']['address']['socket_address'].update(address='app', port_value=18120 + index)
+      member['endpoint']['address']['socket_address'].update(address=inspector_host, port_value=18120 + index)
       member['endpoint']['health_check_config'] = {'port_value': 18130 + index}
       group['lb_endpoints'].append(member)
     inspector['lb_policy'] = 'ROUND_ROBIN'

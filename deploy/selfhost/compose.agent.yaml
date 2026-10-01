@@ -2,7 +2,12 @@
 services:
   app:
     entrypoint: [sh, /config/prepare-agent-demo.sh]
-    command: [serve]
+    command: [serve-control]
     volumes:
       - ./deployment-agent.yaml:/config/deployment.yaml:ro
+      - ./prepare-agent-demo.sh:/config/prepare-agent-demo.sh:ro
+  dataplane:
+    entrypoint: [sh, /config/prepare-agent-demo.sh]
+    command: [serve-dataplane]
+    volumes:
       - ./prepare-agent-demo.sh:/config/prepare-agent-demo.sh:ro

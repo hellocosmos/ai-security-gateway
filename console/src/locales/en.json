@@ -516,7 +516,7 @@
   "Save staged settings": "Save staged settings",
   "Restore a saved revision": "Restore a saved revision",
   "2. Activate during a maintenance window": "2. Activate during a maintenance window",
-  "Stop both services, activate, then start both. Changed route mappings reset route policies to their configured defaults.": "Stop both services, activate, then start both. Changed route mappings reset route policies to their configured defaults.",
+  "Stop the console, data plane and Envoy, activate, then start all three. Changed route mappings reset route policies to their configured defaults.": "Stop the console, data plane and Envoy, activate, then start all three. Changed route mappings reset route policies to their configured defaults.",
   "3. Diagnose the active connection": "3. Diagnose the active connection",
   "Checks TCP/TLS only. It does not prove destination authentication, agent authorization or successful inspection.": "Checks TCP/TLS only. It does not prove destination authentication, agent authorization or successful inspection.",
   "Check connection": "Check connection",
@@ -563,5 +563,16 @@
   "Incomplete": "Incomplete",
   "No request timelines yet": "No request timelines yet",
   "Request timelines contain numeric timings and status only. The body wait includes upstream work and transport. Durations overlap and must not be summed. Early authentication or admission failures appear in gateway outcomes, not these timelines.": "Request timelines contain numeric timings and status only. The body wait includes upstream work and transport. Durations overlap and must not be summed. Early authentication or admission failures appear in gateway outcomes, not these timelines.",
-  "Inspector stream wait (ms)": "Inspector stream wait (ms)"
+  "Inspector stream wait (ms)": "Inspector stream wait (ms)",
+  "Data plane status unknown": "Data plane status unknown",
+  "The console cannot reach the data plane. Enforcement status is unknown here; check the dataplane container.": "The console cannot reach the data plane. Enforcement status is unknown here; check the dataplane container.",
+  "Data plane enforcing": "Data plane enforcing",
+  "Data plane closed": "Data plane closed",
+  "Policy snapshot": "Policy snapshot",
+  "Evidence storage": "Evidence storage",
+  "Healthy": "Healthy",
+  "Reason": "Reason",
+  "Last rejected snapshot: {0}. Enforcing revision {1}.": "Last rejected snapshot: {0}. Enforcing revision {1}.",
+  "Connection changed. Restart the data plane to load it.": "Connection changed. Restart the data plane to load it.",
+  "The data plane keeps enforcing its last verified policy snapshot while the console is unavailable.": "The data plane keeps enforcing its last verified policy snapshot while the console is unavailable."
 }

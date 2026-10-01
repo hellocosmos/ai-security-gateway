@@ -126,7 +126,7 @@ def test_package_lifecycle(tmp_path,mode):
       changed=admin.post('/demo-api/password',json={'current_password':password,'new_password':password+'-changed'})
       assert changed.status_code==200
       assert admin.get('/demo-api/session').status_code==401
-      compose('restart','app','envoy');wait()
+      compose('restart','app','dataplane','envoy');wait()
       assert compose('exec','-T','app','cat','/state/client.key')==key
       assert admin.post('/demo-api/login',json={'username':'admin','password':password+'-changed'}).status_code==200
       current=admin.get('/demo-api/policy').json()
@@ -158,23 +158,28 @@ def test_package_lifecycle(tmp_path,mode):
         assert rejected.returncode!=0
         assert admin.get('/demo-api/operations').json()['active']['max_body_bytes']==1048576
         compose('stop','app')
+        # The data plane holds its own lock: stopping the console alone is not enough.
+        dataplane_rejected=subprocess.run([*base,'run','--rm','app','activate-config'],env=env,
+          cwd=ROOT,text=True,capture_output=True,timeout=60)
+        assert dataplane_rejected.returncode!=0
+        compose('stop','dataplane')
         envoy_rejected=subprocess.run([*base,'run','--rm','app','activate-config'],env=env,
           cwd=ROOT,text=True,capture_output=True,timeout=60)
         assert envoy_rejected.returncode!=0
         compose('stop','envoy')
         compose('run','--rm','app','activate-config')
-        compose('up','-d','app','envoy');wait()
+        compose('up','-d','app','dataplane','envoy');wait()
         assert admin.post('/demo-api/login',json={'username':'admin','password':password+'-changed'}).status_code==200
         activated=admin.get('/demo-api/operations').json()
         assert activated['active']['max_body_bytes']==32768 and not activated['restart_required']
         # Persist across a further restart, then recover the prior configuration.
-        compose('restart','app','envoy');wait()
+        compose('restart','app','dataplane','envoy');wait()
         assert admin.get('/demo-api/operations').json()['active']['max_body_bytes']==32768
         restored=admin.post('/demo-api/operations/restore',json={
           'version':activated['version'],'revision':activated['history'][0]['revision']})
         assert restored.status_code==200
-        compose('stop','app','envoy');compose('run','--rm','app','activate-config')
-        compose('up','-d','app','envoy');wait()
+        compose('stop','app','dataplane','envoy');compose('run','--rm','app','activate-config')
+        compose('up','-d','app','dataplane','envoy');wait()
         assert admin.get('/demo-api/operations').json()['active']['max_body_bytes']==1048576
       if mode.startswith('https'):
         ca.write_bytes((tmp_path/'untrusted.crt').read_bytes())
@@ -182,7 +187,7 @@ def test_package_lifecycle(tmp_path,mode):
         assert c.post('/api/notes',headers=headers,json={'message':'safe'}).status_code==503
   except BaseException:
     # Access logging is disabled; retain bounded component errors for CI diagnosis.
-    print(compose('logs','--no-color','--tail','30','app','envoy','fixture'),flush=True)
+    print(compose('logs','--no-color','--tail','30','app','dataplane','envoy','fixture'),flush=True)
     raise
   finally:
     # The random project and all its volumes were created exclusively by this test.
@@ -252,10 +257,10 @@ for path in Path('/proc').iterdir():
     items.append((int(path.name),args[args.index('--index')+1]))
 print(json.dumps(items))'''
         import json
-        return {index:pid for pid,index in json.loads(compose('exec','-T','app','python','-c',script))}
+        return {index:pid for pid,index in json.loads(compose('exec','-T','dataplane','python','-c',script))}
       before=children()
       assert set(before)=={'0','1'}
-      compose('exec','-T','app','python','-c',f'import os,signal;os.kill({before["0"]},signal.SIGKILL)')
+      compose('exec','-T','dataplane','python','-c',f'import os,signal;os.kill({before["0"]},signal.SIGKILL)')
       deadline=time.monotonic()+15
       while time.monotonic()<deadline:
         after=children()
@@ -274,7 +279,7 @@ print(json.dumps(items))'''
       assert len(overview['events'])>=6
       assert key not in str(overview['events']) and 'alex@example.com' not in str(overview['events'])
   except BaseException:
-    print(compose('logs','--no-color','--tail','30','app','envoy','fixture'),flush=True)
+    print(compose('logs','--no-color','--tail','30','app','dataplane','envoy','fixture'),flush=True)
     raise
   finally:
     compose('down','-v','--remove-orphans')

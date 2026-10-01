@@ -165,7 +165,7 @@ def create_app(directory,seed=True,*,runtime_factory=Runtime,lifespan=None,ident
   def overview():
     network=runtime.network_status() if getattr(runtime,'integrated',False) or deployment else None
     broker_enabled=getattr(runtime,'broker',None) is not None
-    return {'events':runtime.store.events(),'broker':runtime.broker_snapshot(),
+    return {'events':runtime.events(),'broker':runtime.broker_snapshot(),
       'product':'open_source','capabilities':{'broker':broker_enabled,'broker_maturity':'experimental','local_agent_credentials':broker_enabled and (not deployment or deployment.gateway_auth.mode=='agent_key')},'policy':runtime.policy(),
       'scenarios':[{'id':key,'label':value['label']} for key,value in CASES.items()] if not deployment else [],
       'system':{'inspector':('ready' if network and network['inspector_ready'] else 'unavailable'),
@@ -176,7 +176,7 @@ def create_app(directory,seed=True,*,runtime_factory=Runtime,lifespan=None,ident
       'network':network,'deployment':deployment.public() if deployment else None}
 
   @router.get('/events')
-  def events():return runtime.store.events()
+  def events():return runtime.events()
 
   @router.get('/audit')
   def audit():return runtime.store.audits()

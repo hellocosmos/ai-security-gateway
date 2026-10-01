@@ -516,7 +516,7 @@
   "Save staged settings": "適用待ち設定を保存",
   "Restore a saved revision": "保存した設定を復元",
   "2. Activate during a maintenance window": "2. メンテナンス時に適用",
-  "Stop both services, activate, then start both. Changed route mappings reset route policies to their configured defaults.": "両サービスを停止して適用後に起動してください。経路変更時は経路ポリシーが設定の既定値に戻ります。",
+  "Stop the console, data plane and Envoy, activate, then start all three. Changed route mappings reset route policies to their configured defaults.": "コンソール、データプレーン、Envoy を停止して適用後、3 つとも起動してください。経路変更時は経路ポリシーが設定の既定値に戻ります。",
   "3. Diagnose the active connection": "3. 稼働中の接続を診断",
   "Checks TCP/TLS only. It does not prove destination authentication, agent authorization or successful inspection.": "TCP/TLS のみ確認します。宛先認証、エージェント認可、検査成功の証明ではありません。",
   "Check connection": "接続を確認",
@@ -563,5 +563,16 @@
   "Incomplete": "未完了",
   "No request timelines yet": "要求タイムラインなし",
   "Request timelines contain numeric timings and status only. The body wait includes upstream work and transport. Durations overlap and must not be summed. Early authentication or admission failures appear in gateway outcomes, not these timelines.": "要求タイムラインには数値と状態のみを含みます。本文待機には上流処理と転送を含みます。区間は重複するため合算できません。初期認証や流入制限の失敗はゲートウェイ結果に表示されます。",
-  "Inspector stream wait (ms)": "検査ストリーム待機 (ms)"
+  "Inspector stream wait (ms)": "検査ストリーム待機 (ms)",
+  "Data plane status unknown": "データプレーンの状態は不明",
+  "The console cannot reach the data plane. Enforcement status is unknown here; check the dataplane container.": "コンソールからデータプレーンに接続できません。ここでは適用状態を判断できないため、dataplane コンテナを確認してください。",
+  "Data plane enforcing": "データプレーン適用中",
+  "Data plane closed": "データプレーン停止中（遮断）",
+  "Policy snapshot": "ポリシースナップショット",
+  "Evidence storage": "証跡ストレージ",
+  "Healthy": "正常",
+  "Reason": "理由",
+  "Last rejected snapshot: {0}. Enforcing revision {1}.": "直近に拒否されたスナップショット: {0}。リビジョン {1} を適用し続けています。",
+  "Connection changed. Restart the data plane to load it.": "接続設定が変更されました。読み込むにはデータプレーンを再起動してください。",
+  "The data plane keeps enforcing its last verified policy snapshot while the console is unavailable.": "コンソールが利用できない間も、データプレーンは最後に検証されたポリシースナップショットを適用し続けます。"
 }

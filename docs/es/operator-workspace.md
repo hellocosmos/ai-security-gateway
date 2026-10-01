@@ -5,12 +5,12 @@ La consola Docker incluye configuración, cambios pendientes, recuperación, dia
 Guardar no cambia el tráfico activo. Los secretos nuevos se guardan en archivos 0600 del volumen de estado y no se vuelven a mostrar. Vacío conserva la credencial existente. El origen de consola, autenticación del gateway y confianza del broker siguen en el archivo de despliegue.
 
 ```bash
-docker compose stop app envoy
+docker compose stop app dataplane envoy
 docker compose run --rm app activate-config
-docker compose up -d app envoy
+docker compose up -d app dataplane envoy
 ```
 
-Detenga ambos servicios durante mantenimiento. La activación rechaza una aplicación activa, pero no comprueba un Envoy externo. Cambiar rutas reinicia sus políticas. Se conservan cuentas, claves y auditoría. Puede preparar la restauración de diez revisiones y su política cuando exista. Los archivos secretos se conservan para recuperar; los externos deben seguir montados. La conexión guardada prevalece sobre el archivo, salvo la confianza de identidad.
+Detenga los tres servicios durante el mantenimiento. La activación se rechaza mientras la consola o el plano de datos estén en marcha, pero no comprueba un Envoy externo. Consulte [separación de planos](plane-separation.md). Cambiar rutas reinicia sus políticas. Se conservan cuentas, claves y auditoría. Puede preparar la restauración de diez revisiones y su política cuando exista. Los archivos secretos se conservan para recuperar; los externos deben seguir montados. La conexión guardada prevalece sobre el archivo, salvo la confianza de identidad.
 
 El diagnóstico muestra listeners y fase, estado, contador y fecha de solicitudes observadas. No evita el aislamiento ni demuestra autenticación de destino; los contadores se reinician con la aplicación. Correlacione con eventos. La vista previa usa JSON sintético de hasta 8 KiB y solo política local: no llama al destino, autoriza agentes, cambia políticas ni crea aprobaciones. Devuelve decisión, motivo y tipos de entidades.
 

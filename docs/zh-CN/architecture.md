@@ -6,6 +6,8 @@
 
 [English](../en/architecture.md) · [한국어](../ko/architecture.md) · [简体中文](../zh-CN/architecture.md) · [日本語](../ja/architecture.md) · [Español](../es/architecture.md) · [Français](../fr/architecture.md)
 
+> **0.47：**控制台（控制平面）与网关/检查器（数据平面）是独立进程。策略仅以 Ed25519 签名快照的形式进入数据平面，证据通过仅追加的 spool 返回。参见[平面分离](plane-separation.md)。
+
 控制台支持单租户 Microsoft Entra ID SSO 以及管理员、查看者角色。控制台操作员身份与智能体授权是独立边界；智能体授权由内置 Access Broker 执行。 [Entra SSO](identity.md).
 
 ```text

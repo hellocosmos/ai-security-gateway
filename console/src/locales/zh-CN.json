@@ -516,7 +516,7 @@
   "Save staged settings": "保存待应用配置",
   "Restore a saved revision": "恢复已保存版本",
   "2. Activate during a maintenance window": "2. 在维护时段应用",
-  "Stop both services, activate, then start both. Changed route mappings reset route policies to their configured defaults.": "停止两个服务，应用配置后再启动。路由映射变更会将路由策略重置为配置默认值。",
+  "Stop the console, data plane and Envoy, activate, then start all three. Changed route mappings reset route policies to their configured defaults.": "停止控制台、数据平面和 Envoy，应用配置后再启动这三个服务。路由映射变更会将路由策略重置为配置默认值。",
   "3. Diagnose the active connection": "3. 诊断当前连接",
   "Checks TCP/TLS only. It does not prove destination authentication, agent authorization or successful inspection.": "仅检查 TCP/TLS，不能证明目标认证、代理授权或检查成功。",
   "Check connection": "检查连接",
@@ -563,5 +563,16 @@
   "Incomplete": "未完成",
   "No request timelines yet": "尚无请求时间线",
   "Request timelines contain numeric timings and status only. The body wait includes upstream work and transport. Durations overlap and must not be summed. Early authentication or admission failures appear in gateway outcomes, not these timelines.": "请求时间线仅包含数值和状态。正文等待包括上游处理与传输。区间重叠，不能相加。早期认证或准入失败显示在网关结果中。",
-  "Inspector stream wait (ms)": "检查流等待 (ms)"
+  "Inspector stream wait (ms)": "检查流等待 (ms)",
+  "Data plane status unknown": "数据平面状态未知",
+  "The console cannot reach the data plane. Enforcement status is unknown here; check the dataplane container.": "控制台无法连接数据平面，此处无法确定执行状态，请检查 dataplane 容器。",
+  "Data plane enforcing": "数据平面正在执行",
+  "Data plane closed": "数据平面已关闭",
+  "Policy snapshot": "策略快照",
+  "Evidence storage": "证据存储",
+  "Healthy": "正常",
+  "Reason": "原因",
+  "Last rejected snapshot: {0}. Enforcing revision {1}.": "最近被拒绝的快照：{0}。继续执行修订版 {1}。",
+  "Connection changed. Restart the data plane to load it.": "连接已变更，请重启数据平面以加载。",
+  "The data plane keeps enforcing its last verified policy snapshot while the console is unavailable.": "控制台不可用时，数据平面会继续执行最近一次验证通过的策略快照。"
 }

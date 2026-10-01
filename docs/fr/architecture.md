@@ -6,6 +6,8 @@
 
 [English](../en/architecture.md) · [한국어](../ko/architecture.md) · [简体中文](../zh-CN/architecture.md) · [日本語](../ja/architecture.md) · [Español](../es/architecture.md) · [Français](../fr/architecture.md)
 
+> **0.47 :** la console (plan de contrôle) et la passerelle/l’inspecteur (plan de données) sont des processus distincts. La politique n’atteint le plan de données que sous forme d’instantané signé Ed25519 ; les preuves reviennent par un spool en ajout seul. Voir [séparation des plans](plane-separation.md).
+
 La console prend en charge le SSO Microsoft Entra ID à locataire unique avec les rôles Administrateur et Lecteur. L’identité de l’opérateur et l’autorisation de l’agent sont des frontières distinctes ; l’Access Broker intégré applique l’autorisation. [Entra SSO](identity.md).
 
 ```text

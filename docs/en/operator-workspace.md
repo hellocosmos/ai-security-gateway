@@ -9,12 +9,12 @@ Validate and save a staged connection. A new target secret is write-only and sto
 During a maintenance window, run these commands from `deploy/selfhost`:
 
 ```bash
-docker compose stop app envoy
+docker compose stop app dataplane envoy
 docker compose run --rm app activate-config
-docker compose up -d app envoy
+docker compose up -d app dataplane envoy
 ```
 
-Activation refuses to run while the app holds its runtime lock or the configured Envoy listener is reachable. Stop both services as shown: the CLI cannot verify that a separately managed Envoy has stopped. Changes are deliberately not hot-reloaded. Route mapping changes reset route policies to the new configured defaults; review them before activation. Accounts, client keys and audit history are preserved.
+Activation refuses to run while the console or the data plane holds its lock, or while the configured Envoy listener is reachable. Stop all three services as shown: the CLI cannot verify that a separately managed Envoy has stopped. See [plane separation](plane-separation.md). Changes are deliberately not hot-reloaded. Route mapping changes reset route policies to the new configured defaults; review them before activation. Accounts, client keys and audit history are preserved.
 
 The console shows active settings separately from pending changes and retains ten saved revisions. Restoring a revision stages it; repeat the maintenance commands to apply it. The previous policy snapshot is restored when available. Managed credential files remain in the protected state volume so restoration works; back up the volume securely. External secret files must still be mounted when an old revision is restored. Connection settings stored in state take precedence over connection fields in `deployment.yaml`; the file still controls console origin, gateway authentication and broker trust.
 

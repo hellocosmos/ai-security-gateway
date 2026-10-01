@@ -6,6 +6,8 @@
 
 [English](../en/architecture.md) · [한국어](../ko/architecture.md) · [简体中文](../zh-CN/architecture.md) · [日本語](../ja/architecture.md) · [Español](../es/architecture.md) · [Français](../fr/architecture.md)
 
+> **0.47:** la consola (plano de control) y el gateway/inspector (plano de datos) son procesos separados. La política llega al plano de datos solo como instantánea firmada con Ed25519; las evidencias vuelven por un spool de solo anexado. Consulte [separación de planos](plane-separation.md).
+
 La consola admite SSO Microsoft Entra ID de un solo tenant con roles Administrador y Lector. La identidad del operador y la autorización del agente son límites distintos; el Access Broker integrado aplica la autorización. [Entra SSO](identity.md).
 
 ```text

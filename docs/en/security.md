@@ -2,6 +2,8 @@
 
 [English](../en/security.md) · [한국어](../ko/security.md) · [简体中文](../zh-CN/security.md) · [日本語](../ja/security.md) · [Español](../es/security.md) · [Français](../fr/security.md)
 
+**0.47 policy channel:** the control plane signs policy snapshots with an Ed25519 key in the `control-keys` volume; the data plane verifies with the public key in the read-only `policy-trust` volume and keeps its last verified policy on any rejection. Restrict write access to both volumes. See [plane separation](plane-separation.md).
+
 The console supports single-tenant Microsoft Entra ID SSO for operators. Agent authorization is a separate boundary: broker-enabled gateways map verified JWT claims to the built-in Access Broker. [Identity boundaries](identity.md).
 
 Report suspected vulnerabilities privately to **hellocosmos@gmail.com** , including revision, synthetic reproduction and impact. Never put customer data, tokens or live credentials in public issues. No fixed response SLA is promised.

@@ -106,10 +106,10 @@ def main():
         assert all(row['complete_200']==4 for row in [summarize(recovery,duration)])
         rows.append({'gateway_max_inflight':limit,'runs':runs,'recovery':summarize(recovery,duration),
                      'sampled_peak_cpu_percent':{role:max(x['cpu_percent'] for x in resources if x['role']==role)
-                       for role in ('app','envoy','workflow-fixture') if any(x['role']==role for x in resources)},
+                       for role in ('app','dataplane','envoy','workflow-fixture') if any(x['role']==role for x in resources)},
                      'sampled_peak_memory_mib':{role:max((x['memory_mib'] for x in resources
                        if x['role']==role and x['memory_mib'] is not None),default=None)
-                       for role in ('app','envoy','workflow-fixture')},
+                       for role in ('app','dataplane','envoy','workflow-fixture')},
                      'trace_count':len(traces),'sample_trace':next(x for x in traces if x['complete'])})
       finally:
         stop.set()

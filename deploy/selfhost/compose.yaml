@@ -1,27 +1,62 @@
 name: trapdefense
+# app = control plane (console, policy publisher, CLI). dataplane = gateway + inspector.
+# The data plane keeps enforcing its last verified policy snapshot when app is down.
+x-hardening: &hardening
+  init: true
+  restart: unless-stopped
+  read_only: true
+  cap_drop: [ALL]
+  security_opt: [no-new-privileges:true]
+x-plane-environment: &plane-environment
+  TD_CONTROL_KEYS: /control-keys
+  TD_POLICY_TRUST: /policy-trust
+  TD_INSPECTOR_HOST: dataplane
+  TD_DATAPLANE_URL: http://dataplane:18085
 services:
   app:
+    <<: *hardening
     build:
       context: ../..
       dockerfile: deploy/selfhost/Dockerfile
-    image: trapdefense-ai-firewall:0.46
-    init: true
-    restart: unless-stopped
-    read_only: true
+    image: trapdefense-ai-firewall:0.47
+    command: [serve-control]
+    environment: *plane-environment
     tmpfs: ["/tmp:size=64m,mode=1777"]
-    cap_drop: [ALL]
-    security_opt: [no-new-privileges:true]
     ports:
       - "${TD_BIND_ADDRESS:-127.0.0.1}:${TD_CONSOLE_PORT:-18080}:18080"
-      - "${TD_BIND_ADDRESS:-127.0.0.1}:${TD_GATEWAY_PORT:-18084}:18084"
     volumes:
       - ${TD_CONFIG_FILE:-./deployment.yaml}:/config/deployment.yaml:ro
       - state:/state
       - generated:/generated
+      - control-keys:/control-keys
+      - policy-trust:/policy-trust
     networks: [inspection, edge]
     healthcheck:
       test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:18080/demo-api/health',timeout=2)"]
       interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 60s
+  dataplane:
+    <<: *hardening
+    build:
+      context: ../..
+      dockerfile: deploy/selfhost/Dockerfile
+    image: trapdefense-ai-firewall:0.47
+    command: [serve-dataplane]
+    environment: *plane-environment
+    tmpfs: ["/tmp:size=64m,mode=1777"]
+    ports:
+      - "${TD_BIND_ADDRESS:-127.0.0.1}:${TD_GATEWAY_PORT:-18084}:18084"
+    # No deployment.yaml and no signing key: policy arrives only as a verified snapshot.
+    volumes:
+      - state:/state
+      - generated:/generated
+      - policy-trust:/policy-trust:ro
+    networks: [inspection, edge]
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:18085/_trapdefense/ready',timeout=2)"]
+      interval: 5s
       timeout: 3s
       retries: 3
       start_period: 60s
@@ -35,7 +70,7 @@ services:
     cap_drop: [ALL]
     security_opt: [no-new-privileges:true]
     depends_on:
-      app: {condition: service_healthy}
+      dataplane: {condition: service_healthy}
     volumes: [generated:/generated:ro]
     networks: [inspection, egress]
   fixture:
@@ -54,3 +89,5 @@ networks:
 volumes:
   state: {}
   generated: {}
+  control-keys: {}
+  policy-trust: {}

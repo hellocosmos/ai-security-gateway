@@ -5,12 +5,12 @@ La console Docker propose configuration, changements en attente, restauration, d
 Enregistrer ne modifie pas le trafic actif. Les nouveaux secrets sont stockés dans des fichiers 0600 du volume d’état, sans réaffichage. Un champ vide conserve le secret existant. L’origine de console, l’authentification de passerelle et la confiance du broker restent dans le fichier de déploiement.
 
 ```bash
-docker compose stop app envoy
+docker compose stop app dataplane envoy
 docker compose run --rm app activate-config
-docker compose up -d app envoy
+docker compose up -d app dataplane envoy
 ```
 
-Arrêtez les deux services pendant une maintenance. L’activation refuse une application active mais ne vérifie pas l’arrêt d’un Envoy externe. Les nouvelles routes réinitialisent leurs politiques. Comptes, clés et audit sont conservés. Dix révisions peuvent être préparées pour restauration, avec leur politique si disponible. Les fichiers secrets restent pour la récupération ; les fichiers externes doivent être montés. La connexion enregistrée prévaut sur le fichier, sauf la confiance d’identité.
+Arrêtez les trois services pendant une maintenance. L’activation est refusée tant que la console ou le plan de données fonctionne, mais ne vérifie pas l’arrêt d’un Envoy externe. Voir [séparation des plans](plane-separation.md). Les nouvelles routes réinitialisent leurs politiques. Comptes, clés et audit sont conservés. Dix révisions peuvent être préparées pour restauration, avec leur politique si disponible. Les fichiers secrets restent pour la récupération ; les fichiers externes doivent être montés. La connexion enregistrée prévaut sur le fichier, sauf la confiance d’identité.
 
 Le diagnostic montre écouteurs, phase, statut, compteur et date des requêtes observées. Il ne contourne pas l’isolation et ne prouve pas l’authentification de destination. Les compteurs repartent à zéro au redémarrage. Consultez les événements. L’aperçu accepte du JSON synthétique de 8 KiB maximum et vérifie uniquement la politique locale, sans appel, autorisation d’agent, modification ou approbation. Il retourne décision, raison et types d’entités.
 

@@ -119,6 +119,12 @@ class Store:
       event={**event,'id':cursor.lastrowid}
     return event
 
+  def ingest_events(self,events,cursor):
+    # Events and the spool cursor commit together, so a restart never duplicates or skips.
+    with self.connect() as db:
+      for event in events:db.execute('INSERT INTO events(payload) VALUES(?)',(json.dumps(event),))
+      db.execute('INSERT OR REPLACE INTO settings VALUES(?,?)',('event_spool_cursor',json.dumps(cursor)))
+
   def update_event(self,event):
     with self.connect() as db:db.execute('UPDATE events SET payload=? WHERE id=?',(json.dumps({k:v for k,v in event.items() if k!='id'}),event['id']))
 

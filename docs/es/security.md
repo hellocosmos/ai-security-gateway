@@ -2,6 +2,8 @@
 
 [English](../en/security.md) · [한국어](../ko/security.md) · [简体中文](../zh-CN/security.md) · [日本語](../ja/security.md) · [Español](../es/security.md) · [Français](../fr/security.md)
 
+**Canal de políticas 0.47:** el plano de control firma las instantáneas con una clave Ed25519 del volumen `control-keys`; el plano de datos las verifica con la clave pública del volumen de solo lectura `policy-trust` y, ante cualquier rechazo, conserva su última política verificada. Restrinja la escritura en ambos volúmenes. Consulte [separación de planos](plane-separation.md).
+
 La consola admite SSO Microsoft Entra ID de un solo tenant con roles Administrador y Lector. La identidad del operador y la autorización del agente son límites distintos; el Access Broker integrado aplica la autorización. [Entra SSO](identity.md).
 
 Notifique vulnerabilidades en privado a **hellocosmos@gmail.com** , indicando revisión, reproducción sintética e impacto. No incluya datos de clientes, tokens ni credenciales reales en incidencias públicas. No se promete un SLA de respuesta fijo.

@@ -6,6 +6,8 @@
 
 [English](../en/architecture.md) · [한국어](../ko/architecture.md) · [简体中文](../zh-CN/architecture.md) · [日本語](../ja/architecture.md) · [Español](../es/architecture.md) · [Français](../fr/architecture.md)
 
+> **0.47:** コンソール（コントロールプレーン）とゲートウェイ・検査器（データプレーン）は別プロセスです。ポリシーは Ed25519 署名済みスナップショットとしてのみデータプレーンに届き、証跡は追記専用の spool で戻ります。[プレーン分離](plane-separation.md)を参照してください。
+
 コンソールは単一テナント Microsoft Entra ID SSO と管理者・閲覧者ロールをサポートします。コンソール運用者の認証とエージェント認可は別の境界で、認可は内蔵 Access Broker が行います。 [Entra SSO](identity.md).
 
 ```text

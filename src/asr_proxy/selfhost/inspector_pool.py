@@ -13,11 +13,9 @@ from fastapi import FastAPI
 from envoy.service.ext_proc.v3 import external_processor_pb2_grpc as rpc
 
 from asr_proxy.console.dataplane import ConsoleProcessor
-from asr_proxy.console.store import Store
 from asr_proxy.inspection.server import watch_parent
-from .config import load
-from .operations import active_config
-from .runtime import SelfhostRuntime
+from .dataplane import DataplaneRuntime, maintain
+from .snapshot import SnapshotLoader
 
 
 GRPC_BASE = 18120
@@ -28,8 +26,11 @@ async def inspector_worker(args):
   if os.getppid() != args.parent_pid:
     raise RuntimeError('inspector_parent_unavailable')
   state = Path(args.state)
-  deployment = active_config(Store(state, require_existing=True), load(args.config))
-  runtime = SelfhostRuntime(state, deployment)
+  runtime = DataplaneRuntime(state, SnapshotLoader(state / 'policy', args.policy_trust),
+    writer=f'inspector-{args.index}', expected_connection=args.connection)
+  if runtime.snapshot is None:
+    raise RuntimeError('inspector_policy_snapshot_unavailable')
+  maintenance = asyncio.create_task(maintain(runtime, interval=.25))
   server = grpc.aio.server(maximum_concurrent_rpcs=32)
   rpc.add_ExternalProcessorServicer_to_server(ConsoleProcessor(runtime), server)
   if not server.add_insecure_port(f'0.0.0.0:{GRPC_BASE + args.index}'):
@@ -39,7 +40,8 @@ async def inspector_worker(args):
 
   @app.get('/_trapdefense/health')
   def health():
-    return {'status': 'ready'}
+    snapshot = runtime.snapshot
+    return {'status': 'ready', 'revision': snapshot.revision if snapshot else None}
 
   web = uvicorn.Server(uvicorn.Config(app, host='0.0.0.0', port=HEALTH_BASE + args.index,
     access_log=False, timeout_graceful_shutdown=3, ws='none'))
@@ -48,15 +50,17 @@ async def inspector_worker(args):
     await web.serve()
   finally:
     watcher.cancel()
-    await asyncio.gather(watcher, return_exceptions=True)
+    maintenance.cancel()
+    await asyncio.gather(watcher, maintenance, return_exceptions=True)
     await server.stop(2)
 
 
 class SelfhostInspectorPool:
-  def __init__(self, replicas, state, config, on_health=None):
+  def __init__(self, replicas, state, policy_trust, connection, on_health=None):
     self.replicas = replicas
     self.state = str(state)
-    self.config = str(config)
+    self.policy_trust = str(policy_trust)
+    self.connection = connection
     self.members = [None] * replicas
     self.restarts = [0] * replicas
     self.failed = asyncio.Event()
@@ -66,7 +70,8 @@ class SelfhostInspectorPool:
 
   def spawn(self, index):
     process = subprocess.Popen([sys.executable, '-m', 'asr_proxy.selfhost.inspector_pool',
-      '--state', self.state, '--config', self.config, '--index', str(index),
+      '--state', self.state, '--policy-trust', self.policy_trust, '--connection', self.connection,
+      '--index', str(index),
       '--parent-pid', str(os.getpid())])
     self.members[index] = process
 
@@ -83,6 +88,17 @@ class SelfhostInspectorPool:
       return response.status_code == 200
     except (httpx.HTTPError, OSError, TimeoutError):
       return False
+
+  def revisions(self):
+    """Loaded snapshot revision per worker (None when unknown); used for apply acknowledgement."""
+    values = []
+    with httpx.Client(timeout=.3, trust_env=False) as client:
+      for index in range(self.replicas):
+        try:
+          values.append(client.get(f'http://127.0.0.1:{HEALTH_BASE + index}/_trapdefense/health').json().get('revision'))
+        except (httpx.HTTPError, ValueError):
+          values.append(None)
+    return values
 
   async def ready(self, index, seconds=30):
     deadline = asyncio.get_running_loop().time() + seconds
@@ -160,7 +176,8 @@ class SelfhostInspectorPool:
 def main():
   parser = argparse.ArgumentParser()
   parser.add_argument('--state', required=True)
-  parser.add_argument('--config', required=True)
+  parser.add_argument('--policy-trust', required=True)
+  parser.add_argument('--connection', required=True)
   parser.add_argument('--index', required=True, type=int, choices=range(4))
   parser.add_argument('--parent-pid', required=True, type=int)
   args = parser.parse_args()

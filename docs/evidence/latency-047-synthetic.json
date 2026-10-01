@@ -1,0 +1,1656 @@
+{
+  "kind": "synthetic_docker_envoy_sse",
+  "version": "0.44",
+  "host": "macOS-27.0.1-arm64-arm-64bit",
+  "cpu_count": 14,
+  "docker": {
+    "NCPU": 14,
+    "MemTotal": 8318976000,
+    "Architecture": "aarch64",
+    "ServerVersion": "29.7.2"
+  },
+  "limits": {
+    "body_bytes": 32768,
+    "model_timeout_seconds": 10,
+    "gateway_slots": 32,
+    "inspector_streams": 16,
+    "workers": 4
+  },
+  "latency_snapshot": {
+    "scope": "current_process_last_256_per_phase",
+    "series": [
+      {
+        "phase": "gateway_total",
+        "samples": 226,
+        "p50_ms": 1076.82,
+        "p95_ms": 2804.67,
+        "max_ms": 10028.87
+      },
+      {
+        "phase": "envoy_exchange",
+        "samples": 225,
+        "p50_ms": 982.16,
+        "p95_ms": 2619.22,
+        "max_ms": 10006.12
+      },
+      {
+        "phase": "request_inspection",
+        "samples": 225,
+        "p50_ms": 98.17,
+        "p95_ms": 428.78,
+        "max_ms": 548.17
+      },
+      {
+        "phase": "response_metadata_inspection",
+        "samples": 225,
+        "p50_ms": 64.21,
+        "p95_ms": 138.13,
+        "max_ms": 411.66
+      },
+      {
+        "phase": "response_inspection",
+        "samples": 223,
+        "p50_ms": 101.64,
+        "p95_ms": 445.94,
+        "max_ms": 569.79
+      }
+    ],
+    "request_scope": "current_process_last_64_completed",
+    "inspector_timing_available": true,
+    "requests": [
+      {
+        "http_status": 504,
+        "gateway_total_ms": 10028.89,
+        "before_envoy_ms": 21.68,
+        "upstream_headers_wait_ms": 1.7,
+        "response_body_wait_ms": null,
+        "after_response_check_ms": null,
+        "inspection_queue_ms": 0.0,
+        "inspection_work_ms": 17.1,
+        "inspector_stream_wait_ms": 0.01,
+        "inspection_calls": 2,
+        "complete": false
+      },
+      {
+        "http_status": 500,
+        "gateway_total_ms": 661.31,
+        "before_envoy_ms": 13.73,
+        "upstream_headers_wait_ms": 0.75,
+        "response_body_wait_ms": null,
+        "after_response_check_ms": null,
+        "inspection_queue_ms": 0.0,
+        "inspection_work_ms": 13.44,
+        "inspector_stream_wait_ms": 0.01,
+        "inspection_calls": 2,
+        "complete": false
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 76.01,
+        "before_envoy_ms": 14.73,
+        "upstream_headers_wait_ms": 0.83,
+        "response_body_wait_ms": 39.85,
+        "after_response_check_ms": 1.53,
+        "inspection_queue_ms": 0.0,
+        "inspection_work_ms": 17.34,
+        "inspector_stream_wait_ms": 0.01,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 2805.15,
+        "before_envoy_ms": 328.1,
+        "upstream_headers_wait_ms": 0.73,
+        "response_body_wait_ms": 635.86,
+        "after_response_check_ms": 2.11,
+        "inspection_queue_ms": 297.24,
+        "inspection_work_ms": 211.6,
+        "inspector_stream_wait_ms": 1297.07,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 2804.67,
+        "before_envoy_ms": 307.16,
+        "upstream_headers_wait_ms": 0.69,
+        "response_body_wait_ms": 671.31,
+        "after_response_check_ms": 6.03,
+        "inspection_queue_ms": 247.45,
+        "inspection_work_ms": 198.37,
+        "inspector_stream_wait_ms": 1320.37,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 2790.04,
+        "before_envoy_ms": 296.53,
+        "upstream_headers_wait_ms": 2.55,
+        "response_body_wait_ms": 629.66,
+        "after_response_check_ms": 9.01,
+        "inspection_queue_ms": 303.95,
+        "inspection_work_ms": 218.74,
+        "inspector_stream_wait_ms": 1261.97,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 2730.59,
+        "before_envoy_ms": 285.93,
+        "upstream_headers_wait_ms": 0.79,
+        "response_body_wait_ms": 613.12,
+        "after_response_check_ms": 8.82,
+        "inspection_queue_ms": 314.02,
+        "inspection_work_ms": 235.18,
+        "inspector_stream_wait_ms": 1198.21,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 2689.52,
+        "before_envoy_ms": 317.55,
+        "upstream_headers_wait_ms": 0.89,
+        "response_body_wait_ms": 582.32,
+        "after_response_check_ms": 9.22,
+        "inspection_queue_ms": 299.63,
+        "inspection_work_ms": 242.44,
+        "inspector_stream_wait_ms": 1193.68,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 2675.47,
+        "before_envoy_ms": 265.04,
+        "upstream_headers_wait_ms": 0.7,
+        "response_body_wait_ms": 613.06,
+        "after_response_check_ms": 15.76,
+        "inspection_queue_ms": 341.55,
+        "inspection_work_ms": 204.37,
+        "inspector_stream_wait_ms": 1137.96,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 2663.94,
+        "before_envoy_ms": 275.47,
+        "upstream_headers_wait_ms": 0.8,
+        "response_body_wait_ms": 592.88,
+        "after_response_check_ms": 16.98,
+        "inspection_queue_ms": 395.91,
+        "inspection_work_ms": 215.18,
+        "inspector_stream_wait_ms": 1077.05,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 2596.6,
+        "before_envoy_ms": 234.27,
+        "upstream_headers_wait_ms": 0.73,
+        "response_body_wait_ms": 596.98,
+        "after_response_check_ms": 18.65,
+        "inspection_queue_ms": 320.9,
+        "inspection_work_ms": 229.36,
+        "inspector_stream_wait_ms": 1065.78,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 2535.81,
+        "before_envoy_ms": 254.9,
+        "upstream_headers_wait_ms": 2.62,
+        "response_body_wait_ms": 587.64,
+        "after_response_check_ms": 22.82,
+        "inspection_queue_ms": 351.1,
+        "inspection_work_ms": 175.03,
+        "inspector_stream_wait_ms": 1035.14,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 2525.75,
+        "before_envoy_ms": 244.57,
+        "upstream_headers_wait_ms": 1.73,
+        "response_body_wait_ms": 584.7,
+        "after_response_check_ms": 12.77,
+        "inspection_queue_ms": 378.54,
+        "inspection_work_ms": 177.73,
+        "inspector_stream_wait_ms": 1010.59,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 2501.18,
+        "before_envoy_ms": 223.4,
+        "upstream_headers_wait_ms": 1.05,
+        "response_body_wait_ms": 578.03,
+        "after_response_check_ms": 11.87,
+        "inspection_queue_ms": 432.36,
+        "inspection_work_ms": 166.42,
+        "inspector_stream_wait_ms": 949.46,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 2415.03,
+        "before_envoy_ms": 202.75,
+        "upstream_headers_wait_ms": 0.99,
+        "response_body_wait_ms": 578.12,
+        "after_response_check_ms": 16.58,
+        "inspection_queue_ms": 455.49,
+        "inspection_work_ms": 118.87,
+        "inspector_stream_wait_ms": 885.96,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 2344.69,
+        "before_envoy_ms": 213.12,
+        "upstream_headers_wait_ms": 1.44,
+        "response_body_wait_ms": 550.29,
+        "after_response_check_ms": 1.6,
+        "inspection_queue_ms": 474.28,
+        "inspection_work_ms": 87.53,
+        "inspector_stream_wait_ms": 869.82,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 2288.55,
+        "before_envoy_ms": 192.24,
+        "upstream_headers_wait_ms": 1.59,
+        "response_body_wait_ms": 515.64,
+        "after_response_check_ms": 2.23,
+        "inspection_queue_ms": 468.31,
+        "inspection_work_ms": 80.5,
+        "inspector_stream_wait_ms": 861.31,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 2203.07,
+        "before_envoy_ms": 159.65,
+        "upstream_headers_wait_ms": 1.49,
+        "response_body_wait_ms": 438.72,
+        "after_response_check_ms": 1.97,
+        "inspection_queue_ms": 483.13,
+        "inspection_work_ms": 115.35,
+        "inspector_stream_wait_ms": 800.05,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 1946.64,
+        "before_envoy_ms": 181.8,
+        "upstream_headers_wait_ms": 2.0,
+        "response_body_wait_ms": 241.25,
+        "after_response_check_ms": 1.83,
+        "inspection_queue_ms": 494.49,
+        "inspection_work_ms": 118.64,
+        "inspector_stream_wait_ms": 729.31,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 1679.6,
+        "before_envoy_ms": 171.17,
+        "upstream_headers_wait_ms": 0.94,
+        "response_body_wait_ms": 643.21,
+        "after_response_check_ms": 6.89,
+        "inspection_queue_ms": 485.23,
+        "inspection_work_ms": 188.45,
+        "inspector_stream_wait_ms": 0.01,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 1656.62,
+        "before_envoy_ms": 147.94,
+        "upstream_headers_wait_ms": 1.07,
+        "response_body_wait_ms": 625.6,
+        "after_response_check_ms": 13.04,
+        "inspection_queue_ms": 461.56,
+        "inspection_work_ms": 200.4,
+        "inspector_stream_wait_ms": 0.0,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 1624.48,
+        "before_envoy_ms": 126.37,
+        "upstream_headers_wait_ms": 1.82,
+        "response_body_wait_ms": 612.43,
+        "after_response_check_ms": 11.83,
+        "inspection_queue_ms": 455.02,
+        "inspection_work_ms": 189.96,
+        "inspector_stream_wait_ms": 0.0,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 1557.64,
+        "before_envoy_ms": 115.54,
+        "upstream_headers_wait_ms": 0.78,
+        "response_body_wait_ms": 600.96,
+        "after_response_check_ms": 7.7,
+        "inspection_queue_ms": 383.91,
+        "inspection_work_ms": 210.97,
+        "inspector_stream_wait_ms": 0.01,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 1553.34,
+        "before_envoy_ms": 136.89,
+        "upstream_headers_wait_ms": 0.88,
+        "response_body_wait_ms": 604.74,
+        "after_response_check_ms": 12.94,
+        "inspection_queue_ms": 405.05,
+        "inspection_work_ms": 176.4,
+        "inspector_stream_wait_ms": 0.0,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 1558.22,
+        "before_envoy_ms": 163.49,
+        "upstream_headers_wait_ms": 0.69,
+        "response_body_wait_ms": 598.34,
+        "after_response_check_ms": 15.89,
+        "inspection_queue_ms": 352.82,
+        "inspection_work_ms": 176.26,
+        "inspector_stream_wait_ms": 0.01,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 1502.1,
+        "before_envoy_ms": 142.09,
+        "upstream_headers_wait_ms": 1.41,
+        "response_body_wait_ms": 589.01,
+        "after_response_check_ms": 10.76,
+        "inspection_queue_ms": 289.51,
+        "inspection_work_ms": 195.47,
+        "inspector_stream_wait_ms": 0.01,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 1489.43,
+        "before_envoy_ms": 131.42,
+        "upstream_headers_wait_ms": 1.89,
+        "response_body_wait_ms": 569.69,
+        "after_response_check_ms": 12.02,
+        "inspection_queue_ms": 262.39,
+        "inspection_work_ms": 230.16,
+        "inspector_stream_wait_ms": 0.01,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 1457.08,
+        "before_envoy_ms": 152.76,
+        "upstream_headers_wait_ms": 0.7,
+        "response_body_wait_ms": 585.04,
+        "after_response_check_ms": 8.79,
+        "inspection_queue_ms": 275.86,
+        "inspection_work_ms": 172.97,
+        "inspector_stream_wait_ms": 0.01,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 1443.48,
+        "before_envoy_ms": 73.26,
+        "upstream_headers_wait_ms": 0.8,
+        "response_body_wait_ms": 568.21,
+        "after_response_check_ms": 12.16,
+        "inspection_queue_ms": 241.69,
+        "inspection_work_ms": 193.15,
+        "inspector_stream_wait_ms": 0.01,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 1382.19,
+        "before_envoy_ms": 62.74,
+        "upstream_headers_wait_ms": 0.68,
+        "response_body_wait_ms": 553.12,
+        "after_response_check_ms": 17.25,
+        "inspection_queue_ms": 182.82,
+        "inspection_work_ms": 201.09,
+        "inspector_stream_wait_ms": 0.01,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 1317.8,
+        "before_envoy_ms": 49.73,
+        "upstream_headers_wait_ms": 0.68,
+        "response_body_wait_ms": 569.36,
+        "after_response_check_ms": 6.46,
+        "inspection_queue_ms": 97.51,
+        "inspection_work_ms": 217.55,
+        "inspector_stream_wait_ms": 0.0,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 1304.69,
+        "before_envoy_ms": 27.31,
+        "upstream_headers_wait_ms": 0.75,
+        "response_body_wait_ms": 565.23,
+        "after_response_check_ms": 11.13,
+        "inspection_queue_ms": 109.32,
+        "inspection_work_ms": 191.57,
+        "inspector_stream_wait_ms": 0.01,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 1293.54,
+        "before_envoy_ms": 39.03,
+        "upstream_headers_wait_ms": 0.79,
+        "response_body_wait_ms": 542.72,
+        "after_response_check_ms": 14.6,
+        "inspection_queue_ms": 101.97,
+        "inspection_work_ms": 204.1,
+        "inspector_stream_wait_ms": 0.0,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 1249.77,
+        "before_envoy_ms": 26.62,
+        "upstream_headers_wait_ms": 0.83,
+        "response_body_wait_ms": 544.87,
+        "after_response_check_ms": 14.03,
+        "inspection_queue_ms": 118.43,
+        "inspection_work_ms": 133.97,
+        "inspector_stream_wait_ms": 0.01,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 1178.48,
+        "before_envoy_ms": 16.29,
+        "upstream_headers_wait_ms": 0.78,
+        "response_body_wait_ms": 527.35,
+        "after_response_check_ms": 7.66,
+        "inspection_queue_ms": 125.9,
+        "inspection_work_ms": 88.77,
+        "inspector_stream_wait_ms": 0.01,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 2233.05,
+        "before_envoy_ms": 40.38,
+        "upstream_headers_wait_ms": 1.51,
+        "response_body_wait_ms": 647.33,
+        "after_response_check_ms": 1.26,
+        "inspection_queue_ms": 234.61,
+        "inspection_work_ms": 124.11,
+        "inspector_stream_wait_ms": 1177.18,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 2291.25,
+        "before_envoy_ms": 26.74,
+        "upstream_headers_wait_ms": 1.19,
+        "response_body_wait_ms": 636.69,
+        "after_response_check_ms": 3.12,
+        "inspection_queue_ms": 177.13,
+        "inspection_work_ms": 181.27,
+        "inspector_stream_wait_ms": 1213.03,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 2320.67,
+        "before_envoy_ms": 28.28,
+        "upstream_headers_wait_ms": 0.66,
+        "response_body_wait_ms": 590.67,
+        "after_response_check_ms": 4.89,
+        "inspection_queue_ms": 273.37,
+        "inspection_work_ms": 220.53,
+        "inspector_stream_wait_ms": 1174.55,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 2273.18,
+        "before_envoy_ms": 28.98,
+        "upstream_headers_wait_ms": 0.79,
+        "response_body_wait_ms": 606.64,
+        "after_response_check_ms": 7.37,
+        "inspection_queue_ms": 244.52,
+        "inspection_work_ms": 174.3,
+        "inspector_stream_wait_ms": 1145.36,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 2404.19,
+        "before_envoy_ms": 50.44,
+        "upstream_headers_wait_ms": 0.83,
+        "response_body_wait_ms": 581.41,
+        "after_response_check_ms": 14.48,
+        "inspection_queue_ms": 271.33,
+        "inspection_work_ms": 206.8,
+        "inspector_stream_wait_ms": 1233.38,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 2359.06,
+        "before_envoy_ms": 43.48,
+        "upstream_headers_wait_ms": 0.76,
+        "response_body_wait_ms": 574.45,
+        "after_response_check_ms": 12.18,
+        "inspection_queue_ms": 301.49,
+        "inspection_work_ms": 226.07,
+        "inspector_stream_wait_ms": 1128.57,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 2318.2,
+        "before_envoy_ms": 51.56,
+        "upstream_headers_wait_ms": 1.45,
+        "response_body_wait_ms": 557.68,
+        "after_response_check_ms": 10.81,
+        "inspection_queue_ms": 297.81,
+        "inspection_work_ms": 190.15,
+        "inspector_stream_wait_ms": 1153.49,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 2453.97,
+        "before_envoy_ms": 44.91,
+        "upstream_headers_wait_ms": 0.73,
+        "response_body_wait_ms": 546.36,
+        "after_response_check_ms": 13.92,
+        "inspection_queue_ms": 327.31,
+        "inspection_work_ms": 190.58,
+        "inspector_stream_wait_ms": 1274.01,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 2335.91,
+        "before_envoy_ms": 28.77,
+        "upstream_headers_wait_ms": 1.44,
+        "response_body_wait_ms": 551.56,
+        "after_response_check_ms": 12.94,
+        "inspection_queue_ms": 317.63,
+        "inspection_work_ms": 154.57,
+        "inspector_stream_wait_ms": 1238.48,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 2333.35,
+        "before_envoy_ms": 58.96,
+        "upstream_headers_wait_ms": 0.97,
+        "response_body_wait_ms": 540.01,
+        "after_response_check_ms": 13.45,
+        "inspection_queue_ms": 398.38,
+        "inspection_work_ms": 101.69,
+        "inspector_stream_wait_ms": 1182.83,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 2298.98,
+        "before_envoy_ms": 22.68,
+        "upstream_headers_wait_ms": 0.88,
+        "response_body_wait_ms": 526.5,
+        "after_response_check_ms": 4.69,
+        "inspection_queue_ms": 420.74,
+        "inspection_work_ms": 102.22,
+        "inspector_stream_wait_ms": 1147.24,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 2311.15,
+        "before_envoy_ms": 31.2,
+        "upstream_headers_wait_ms": 2.41,
+        "response_body_wait_ms": 515.38,
+        "after_response_check_ms": 1.36,
+        "inspection_queue_ms": 428.39,
+        "inspection_work_ms": 94.34,
+        "inspector_stream_wait_ms": 1218.97,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 2370.42,
+        "before_envoy_ms": 38.7,
+        "upstream_headers_wait_ms": 1.87,
+        "response_body_wait_ms": 508.63,
+        "after_response_check_ms": 1.5,
+        "inspection_queue_ms": 429.21,
+        "inspection_work_ms": 84.11,
+        "inspector_stream_wait_ms": 1267.03,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 2333.58,
+        "before_envoy_ms": 56.73,
+        "upstream_headers_wait_ms": 0.85,
+        "response_body_wait_ms": 465.15,
+        "after_response_check_ms": 2.51,
+        "inspection_queue_ms": 420.15,
+        "inspection_work_ms": 115.59,
+        "inspector_stream_wait_ms": 1246.68,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 2084.92,
+        "before_envoy_ms": 27.0,
+        "upstream_headers_wait_ms": 1.15,
+        "response_body_wait_ms": 301.24,
+        "after_response_check_ms": 1.8,
+        "inspection_queue_ms": 374.82,
+        "inspection_work_ms": 123.66,
+        "inspector_stream_wait_ms": 1202.36,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 1981.01,
+        "before_envoy_ms": 23.6,
+        "upstream_headers_wait_ms": 0.76,
+        "response_body_wait_ms": 658.12,
+        "after_response_check_ms": 6.12,
+        "inspection_queue_ms": 126.57,
+        "inspection_work_ms": 82.47,
+        "inspector_stream_wait_ms": 1055.2,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 2662.89,
+        "before_envoy_ms": 28.52,
+        "upstream_headers_wait_ms": 0.93,
+        "response_body_wait_ms": 635.76,
+        "after_response_check_ms": 11.34,
+        "inspection_queue_ms": 461.56,
+        "inspection_work_ms": 182.24,
+        "inspector_stream_wait_ms": 1316.55,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 2649.99,
+        "before_envoy_ms": 29.35,
+        "upstream_headers_wait_ms": 1.07,
+        "response_body_wait_ms": 649.09,
+        "after_response_check_ms": 16.85,
+        "inspection_queue_ms": 414.16,
+        "inspection_work_ms": 149.43,
+        "inspector_stream_wait_ms": 1352.44,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 2637.13,
+        "before_envoy_ms": 32.34,
+        "upstream_headers_wait_ms": 2.49,
+        "response_body_wait_ms": 615.14,
+        "after_response_check_ms": 15.51,
+        "inspection_queue_ms": 420.58,
+        "inspection_work_ms": 173.64,
+        "inspector_stream_wait_ms": 1351.13,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 2680.04,
+        "before_envoy_ms": 29.19,
+        "upstream_headers_wait_ms": 0.94,
+        "response_body_wait_ms": 608.72,
+        "after_response_check_ms": 9.39,
+        "inspection_queue_ms": 519.31,
+        "inspection_work_ms": 199.68,
+        "inspector_stream_wait_ms": 1286.56,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 2594.57,
+        "before_envoy_ms": 24.57,
+        "upstream_headers_wait_ms": 0.8,
+        "response_body_wait_ms": 612.32,
+        "after_response_check_ms": 14.29,
+        "inspection_queue_ms": 436.52,
+        "inspection_work_ms": 163.46,
+        "inspector_stream_wait_ms": 1308.45,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 2600.45,
+        "before_envoy_ms": 30.02,
+        "upstream_headers_wait_ms": 2.37,
+        "response_body_wait_ms": 602.25,
+        "after_response_check_ms": 8.62,
+        "inspection_queue_ms": 453.91,
+        "inspection_work_ms": 191.88,
+        "inspector_stream_wait_ms": 1275.68,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 2641.61,
+        "before_envoy_ms": 38.58,
+        "upstream_headers_wait_ms": 2.36,
+        "response_body_wait_ms": 579.2,
+        "after_response_check_ms": 12.09,
+        "inspection_queue_ms": 438.33,
+        "inspection_work_ms": 211.37,
+        "inspector_stream_wait_ms": 1316.75,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 2723.27,
+        "before_envoy_ms": 35.47,
+        "upstream_headers_wait_ms": 1.96,
+        "response_body_wait_ms": 579.48,
+        "after_response_check_ms": 7.64,
+        "inspection_queue_ms": 537.73,
+        "inspection_work_ms": 256.78,
+        "inspector_stream_wait_ms": 1286.54,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 2637.95,
+        "before_envoy_ms": 30.14,
+        "upstream_headers_wait_ms": 0.88,
+        "response_body_wait_ms": 569.0,
+        "after_response_check_ms": 32.68,
+        "inspection_queue_ms": 469.22,
+        "inspection_work_ms": 213.16,
+        "inspector_stream_wait_ms": 1268.88,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 2708.6,
+        "before_envoy_ms": 46.42,
+        "upstream_headers_wait_ms": 0.79,
+        "response_body_wait_ms": 567.03,
+        "after_response_check_ms": 9.92,
+        "inspection_queue_ms": 531.43,
+        "inspection_work_ms": 231.28,
+        "inspector_stream_wait_ms": 1277.6,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 2584.23,
+        "before_envoy_ms": 27.12,
+        "upstream_headers_wait_ms": 1.46,
+        "response_body_wait_ms": 552.68,
+        "after_response_check_ms": 13.73,
+        "inspection_queue_ms": 434.96,
+        "inspection_work_ms": 238.03,
+        "inspector_stream_wait_ms": 1284.71,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 2608.37,
+        "before_envoy_ms": 48.44,
+        "upstream_headers_wait_ms": 2.36,
+        "response_body_wait_ms": 544.28,
+        "after_response_check_ms": 14.03,
+        "inspection_queue_ms": 434.2,
+        "inspection_work_ms": 216.81,
+        "inspector_stream_wait_ms": 1306.06,
+        "inspection_calls": 3,
+        "complete": true
+      },
+      {
+        "http_status": 200,
+        "gateway_total_ms": 2661.07,
+        "before_envoy_ms": 40.56,
+        "upstream_headers_wait_ms": 30.55,
+        "response_body_wait_ms": 518.7,
+        "after_response_check_ms": 11.05,
+        "inspection_queue_ms": 592.64,
+        "inspection_work_ms": 191.63,
+        "inspector_stream_wait_ms": 1255.53,
+        "inspection_calls": 3,
+        "complete": true
+      }
+    ]
+  },
+  "matrix": [
+    {
+      "path": "direct",
+      "scenario": "short",
+      "concurrency": 1,
+      "requests": 12,
+      "statuses": {
+        "200": 12
+      },
+      "successful": 12,
+      "first_content_ms": {
+        "n": 12,
+        "p50": 47.1,
+        "p95": 55.6,
+        "max": 55.6
+      },
+      "completion_ms": {
+        "n": 12,
+        "p50": 187.56,
+        "p95": 197.09,
+        "max": 197.09
+      },
+      "response_bytes": {
+        "n": 12,
+        "p50": 2186,
+        "p95": 2186,
+        "max": 2186
+      }
+    },
+    {
+      "path": "gateway",
+      "scenario": "short",
+      "concurrency": 1,
+      "requests": 12,
+      "statuses": {
+        "200": 12
+      },
+      "successful": 12,
+      "first_content_ms": {
+        "n": 12,
+        "p50": 208.3,
+        "p95": 224.39,
+        "max": 224.39
+      },
+      "completion_ms": {
+        "n": 12,
+        "p50": 208.45,
+        "p95": 224.51,
+        "max": 224.51
+      },
+      "response_bytes": {
+        "n": 12,
+        "p50": 2186,
+        "p95": 2186,
+        "max": 2186
+      }
+    },
+    {
+      "path": "direct",
+      "scenario": "short",
+      "concurrency": 8,
+      "requests": 16,
+      "statuses": {
+        "200": 16
+      },
+      "successful": 16,
+      "first_content_ms": {
+        "n": 16,
+        "p50": 51.33,
+        "p95": 58.94,
+        "max": 58.94
+      },
+      "completion_ms": {
+        "n": 16,
+        "p50": 183.91,
+        "p95": 189.45,
+        "max": 189.45
+      },
+      "response_bytes": {
+        "n": 16,
+        "p50": 2186,
+        "p95": 2186,
+        "max": 2186
+      }
+    },
+    {
+      "path": "gateway",
+      "scenario": "short",
+      "concurrency": 8,
+      "requests": 16,
+      "statuses": {
+        "200": 16
+      },
+      "successful": 16,
+      "first_content_ms": {
+        "n": 16,
+        "p50": 311.13,
+        "p95": 430.36,
+        "max": 430.36
+      },
+      "completion_ms": {
+        "n": 16,
+        "p50": 311.34,
+        "p95": 430.72,
+        "max": 430.72
+      },
+      "response_bytes": {
+        "n": 16,
+        "p50": 2186,
+        "p95": 2186,
+        "max": 2186
+      }
+    },
+    {
+      "path": "direct",
+      "scenario": "short",
+      "concurrency": 32,
+      "requests": 64,
+      "statuses": {
+        "200": 64
+      },
+      "successful": 64,
+      "first_content_ms": {
+        "n": 64,
+        "p50": 64.72,
+        "p95": 90.69,
+        "max": 95.0
+      },
+      "completion_ms": {
+        "n": 64,
+        "p50": 188.82,
+        "p95": 215.73,
+        "max": 218.5
+      },
+      "response_bytes": {
+        "n": 64,
+        "p50": 2186,
+        "p95": 2186,
+        "max": 2186
+      }
+    },
+    {
+      "path": "gateway",
+      "scenario": "short",
+      "concurrency": 32,
+      "requests": 64,
+      "statuses": {
+        "200": 64
+      },
+      "successful": 64,
+      "first_content_ms": {
+        "n": 64,
+        "p50": 796.09,
+        "p95": 1231.57,
+        "max": 1336.57
+      },
+      "completion_ms": {
+        "n": 64,
+        "p50": 797.16,
+        "p95": 1231.89,
+        "max": 1336.85
+      },
+      "response_bytes": {
+        "n": 64,
+        "p50": 2186,
+        "p95": 2186,
+        "max": 2186
+      }
+    },
+    {
+      "path": "direct",
+      "scenario": "long",
+      "concurrency": 1,
+      "requests": 12,
+      "statuses": {
+        "200": 12
+      },
+      "successful": 12,
+      "first_content_ms": {
+        "n": 12,
+        "p50": 49.47,
+        "p95": 52.38,
+        "max": 52.38
+      },
+      "completion_ms": {
+        "n": 12,
+        "p50": 736.29,
+        "p95": 742.86,
+        "max": 742.86
+      },
+      "response_bytes": {
+        "n": 12,
+        "p50": 22586,
+        "p95": 22586,
+        "max": 22586
+      }
+    },
+    {
+      "path": "gateway",
+      "scenario": "long",
+      "concurrency": 1,
+      "requests": 12,
+      "statuses": {
+        "200": 12
+      },
+      "successful": 12,
+      "first_content_ms": {
+        "n": 12,
+        "p50": 780.62,
+        "p95": 809.7,
+        "max": 809.7
+      },
+      "completion_ms": {
+        "n": 12,
+        "p50": 781.05,
+        "p95": 810.06,
+        "max": 810.06
+      },
+      "response_bytes": {
+        "n": 12,
+        "p50": 22586,
+        "p95": 22586,
+        "max": 22586
+      }
+    },
+    {
+      "path": "direct",
+      "scenario": "long",
+      "concurrency": 8,
+      "requests": 16,
+      "statuses": {
+        "200": 16
+      },
+      "successful": 16,
+      "first_content_ms": {
+        "n": 16,
+        "p50": 50.54,
+        "p95": 55.34,
+        "max": 55.34
+      },
+      "completion_ms": {
+        "n": 16,
+        "p50": 716.09,
+        "p95": 731.8,
+        "max": 731.8
+      },
+      "response_bytes": {
+        "n": 16,
+        "p50": 22586,
+        "p95": 22586,
+        "max": 22586
+      }
+    },
+    {
+      "path": "gateway",
+      "scenario": "long",
+      "concurrency": 8,
+      "requests": 16,
+      "statuses": {
+        "200": 16
+      },
+      "successful": 16,
+      "first_content_ms": {
+        "n": 16,
+        "p50": 1015.08,
+        "p95": 1183.43,
+        "max": 1183.43
+      },
+      "completion_ms": {
+        "n": 16,
+        "p50": 1015.64,
+        "p95": 1183.84,
+        "max": 1183.84
+      },
+      "response_bytes": {
+        "n": 16,
+        "p50": 22586,
+        "p95": 22586,
+        "max": 22586
+      }
+    },
+    {
+      "path": "direct",
+      "scenario": "long",
+      "concurrency": 32,
+      "requests": 64,
+      "statuses": {
+        "200": 64
+      },
+      "successful": 64,
+      "first_content_ms": {
+        "n": 64,
+        "p50": 68.01,
+        "p95": 91.88,
+        "max": 94.88
+      },
+      "completion_ms": {
+        "n": 64,
+        "p50": 688.53,
+        "p95": 712.47,
+        "max": 715.04
+      },
+      "response_bytes": {
+        "n": 64,
+        "p50": 22586,
+        "p95": 22586,
+        "max": 22586
+      }
+    },
+    {
+      "path": "gateway",
+      "scenario": "long",
+      "concurrency": 32,
+      "requests": 64,
+      "statuses": {
+        "200": 64
+      },
+      "successful": 64,
+      "first_content_ms": {
+        "n": 64,
+        "p50": 2458.74,
+        "p95": 3112.18,
+        "max": 3237.28
+      },
+      "completion_ms": {
+        "n": 64,
+        "p50": 2460.36,
+        "p95": 3113.23,
+        "max": 3237.83
+      },
+      "response_bytes": {
+        "n": 64,
+        "p50": 22586,
+        "p95": 22586,
+        "max": 22586
+      }
+    }
+  ],
+  "pressure_64": {
+    "statuses": {
+      "200": 32,
+      "503": 32
+    },
+    "incomplete_successes": 0
+  },
+  "checks": {
+    "pii": {
+      "status": 200,
+      "first_content_ms": 79.61650000652298,
+      "completion_ms": 81.48074999917299,
+      "bytes": 528,
+      "complete": true,
+      "pii_visible": false
+    },
+    "limit": {
+      "status": 500,
+      "first_content_ms": null,
+      "completion_ms": 666.6232080024201,
+      "bytes": 21,
+      "complete": false,
+      "pii_visible": false
+    },
+    "timeout": {
+      "status": 504,
+      "first_content_ms": null,
+      "completion_ms": 10038.728874991648,
+      "bytes": 27,
+      "complete": false,
+      "pii_visible": false
+    },
+    "invalid_credential": {
+      "status": 401,
+      "first_content_ms": null,
+      "completion_ms": 3.3704169909469783,
+      "bytes": 29,
+      "complete": false,
+      "pii_visible": false
+    }
+  },
+  "resources": [
+    {
+      "Name": "envoy",
+      "CPUPerc": "0.76%",
+      "MemUsage": "18.39MiB / 7.748GiB"
+    },
+    {
+      "Name": "fixture",
+      "CPUPerc": "3.77%",
+      "MemUsage": "15.43MiB / 7.748GiB"
+    },
+    {
+      "Name": "app",
+      "CPUPerc": "1.50%",
+      "MemUsage": "101.2MiB / 7.748GiB"
+    },
+    {
+      "Name": "dataplane",
+      "CPUPerc": "0.98%",
+      "MemUsage": "98.15MiB / 7.748GiB"
+    },
+    {
+      "Name": "envoy",
+      "CPUPerc": "1.82%",
+      "MemUsage": "19.38MiB / 7.748GiB"
+    },
+    {
+      "Name": "fixture",
+      "CPUPerc": "0.89%",
+      "MemUsage": "16.27MiB / 7.748GiB"
+    },
+    {
+      "Name": "app",
+      "CPUPerc": "0.69%",
+      "MemUsage": "102.1MiB / 7.748GiB"
+    },
+    {
+      "Name": "dataplane",
+      "CPUPerc": "30.78%",
+      "MemUsage": "115.5MiB / 7.748GiB"
+    },
+    {
+      "Name": "envoy",
+      "CPUPerc": "0.51%",
+      "MemUsage": "21.5MiB / 7.748GiB"
+    },
+    {
+      "Name": "fixture",
+      "CPUPerc": "9.03%",
+      "MemUsage": "16.7MiB / 7.748GiB"
+    },
+    {
+      "Name": "app",
+      "CPUPerc": "0.25%",
+      "MemUsage": "103.9MiB / 7.748GiB"
+    },
+    {
+      "Name": "dataplane",
+      "CPUPerc": "29.63%",
+      "MemUsage": "120.3MiB / 7.748GiB"
+    },
+    {
+      "Name": "envoy",
+      "CPUPerc": "0.73%",
+      "MemUsage": "22.79MiB / 7.748GiB"
+    },
+    {
+      "Name": "fixture",
+      "CPUPerc": "1.87%",
+      "MemUsage": "17.35MiB / 7.748GiB"
+    },
+    {
+      "Name": "app",
+      "CPUPerc": "2.09%",
+      "MemUsage": "105.5MiB / 7.748GiB"
+    },
+    {
+      "Name": "dataplane",
+      "CPUPerc": "10.33%",
+      "MemUsage": "138.5MiB / 7.748GiB"
+    },
+    {
+      "Name": "envoy",
+      "CPUPerc": "0.79%",
+      "MemUsage": "22.33MiB / 7.748GiB"
+    },
+    {
+      "Name": "fixture",
+      "CPUPerc": "2.08%",
+      "MemUsage": "16.83MiB / 7.748GiB"
+    },
+    {
+      "Name": "app",
+      "CPUPerc": "3.55%",
+      "MemUsage": "105.5MiB / 7.748GiB"
+    },
+    {
+      "Name": "dataplane",
+      "CPUPerc": "1.29%",
+      "MemUsage": "138.4MiB / 7.748GiB"
+    },
+    {
+      "Name": "envoy",
+      "CPUPerc": "0.74%",
+      "MemUsage": "22.71MiB / 7.748GiB"
+    },
+    {
+      "Name": "fixture",
+      "CPUPerc": "2.16%",
+      "MemUsage": "16.77MiB / 7.748GiB"
+    },
+    {
+      "Name": "app",
+      "CPUPerc": "3.30%",
+      "MemUsage": "105.1MiB / 7.748GiB"
+    },
+    {
+      "Name": "dataplane",
+      "CPUPerc": "0.91%",
+      "MemUsage": "137.7MiB / 7.748GiB"
+    },
+    {
+      "Name": "envoy",
+      "CPUPerc": "1.18%",
+      "MemUsage": "23.01MiB / 7.748GiB"
+    },
+    {
+      "Name": "fixture",
+      "CPUPerc": "1.83%",
+      "MemUsage": "16.66MiB / 7.748GiB"
+    },
+    {
+      "Name": "app",
+      "CPUPerc": "18.05%",
+      "MemUsage": "107.4MiB / 7.748GiB"
+    },
+    {
+      "Name": "dataplane",
+      "CPUPerc": "10.47%",
+      "MemUsage": "147.2MiB / 7.748GiB"
+    },
+    {
+      "Name": "envoy",
+      "CPUPerc": "1.56%",
+      "MemUsage": "23.46MiB / 7.748GiB"
+    },
+    {
+      "Name": "fixture",
+      "CPUPerc": "1.36%",
+      "MemUsage": "16.02MiB / 7.748GiB"
+    },
+    {
+      "Name": "app",
+      "CPUPerc": "2.65%",
+      "MemUsage": "107.6MiB / 7.748GiB"
+    },
+    {
+      "Name": "dataplane",
+      "CPUPerc": "14.25%",
+      "MemUsage": "138.5MiB / 7.748GiB"
+    },
+    {
+      "Name": "envoy",
+      "CPUPerc": "1.43%",
+      "MemUsage": "24.19MiB / 7.748GiB"
+    },
+    {
+      "Name": "fixture",
+      "CPUPerc": "1.12%",
+      "MemUsage": "16.24MiB / 7.748GiB"
+    },
+    {
+      "Name": "app",
+      "CPUPerc": "2.48%",
+      "MemUsage": "107.5MiB / 7.748GiB"
+    },
+    {
+      "Name": "dataplane",
+      "CPUPerc": "24.32%",
+      "MemUsage": "138.8MiB / 7.748GiB"
+    },
+    {
+      "Name": "envoy",
+      "CPUPerc": "1.21%",
+      "MemUsage": "26.7MiB / 7.748GiB"
+    },
+    {
+      "Name": "fixture",
+      "CPUPerc": "1.33%",
+      "MemUsage": "16.5MiB / 7.748GiB"
+    },
+    {
+      "Name": "app",
+      "CPUPerc": "1.61%",
+      "MemUsage": "107.6MiB / 7.748GiB"
+    },
+    {
+      "Name": "dataplane",
+      "CPUPerc": "11.82%",
+      "MemUsage": "139.2MiB / 7.748GiB"
+    },
+    {
+      "Name": "envoy",
+      "CPUPerc": "1.38%",
+      "MemUsage": "26.08MiB / 7.748GiB"
+    },
+    {
+      "Name": "fixture",
+      "CPUPerc": "2.54%",
+      "MemUsage": "17.32MiB / 7.748GiB"
+    },
+    {
+      "Name": "app",
+      "CPUPerc": "3.08%",
+      "MemUsage": "107.5MiB / 7.748GiB"
+    },
+    {
+      "Name": "dataplane",
+      "CPUPerc": "14.55%",
+      "MemUsage": "139.2MiB / 7.748GiB"
+    },
+    {
+      "Name": "envoy",
+      "CPUPerc": "0.84%",
+      "MemUsage": "28.35MiB / 7.748GiB"
+    },
+    {
+      "Name": "fixture",
+      "CPUPerc": "4.21%",
+      "MemUsage": "16.73MiB / 7.748GiB"
+    },
+    {
+      "Name": "app",
+      "CPUPerc": "2.98%",
+      "MemUsage": "107.9MiB / 7.748GiB"
+    },
+    {
+      "Name": "dataplane",
+      "CPUPerc": "11.61%",
+      "MemUsage": "140.3MiB / 7.748GiB"
+    },
+    {
+      "Name": "envoy",
+      "CPUPerc": "3.47%",
+      "MemUsage": "30.81MiB / 7.748GiB"
+    },
+    {
+      "Name": "fixture",
+      "CPUPerc": "5.77%",
+      "MemUsage": "17.75MiB / 7.748GiB"
+    },
+    {
+      "Name": "app",
+      "CPUPerc": "1.65%",
+      "MemUsage": "107.7MiB / 7.748GiB"
+    },
+    {
+      "Name": "dataplane",
+      "CPUPerc": "11.05%",
+      "MemUsage": "141.1MiB / 7.748GiB"
+    },
+    {
+      "Name": "envoy",
+      "CPUPerc": "2.43%",
+      "MemUsage": "32.23MiB / 7.748GiB"
+    },
+    {
+      "Name": "fixture",
+      "CPUPerc": "3.33%",
+      "MemUsage": "17.28MiB / 7.748GiB"
+    },
+    {
+      "Name": "app",
+      "CPUPerc": "1.88%",
+      "MemUsage": "107.3MiB / 7.748GiB"
+    },
+    {
+      "Name": "dataplane",
+      "CPUPerc": "85.61%",
+      "MemUsage": "147.2MiB / 7.748GiB"
+    },
+    {
+      "Name": "envoy",
+      "CPUPerc": "1.55%",
+      "MemUsage": "32.59MiB / 7.748GiB"
+    },
+    {
+      "Name": "fixture",
+      "CPUPerc": "5.04%",
+      "MemUsage": "17.02MiB / 7.748GiB"
+    },
+    {
+      "Name": "app",
+      "CPUPerc": "1.48%",
+      "MemUsage": "107MiB / 7.748GiB"
+    },
+    {
+      "Name": "dataplane",
+      "CPUPerc": "61.20%",
+      "MemUsage": "149.4MiB / 7.748GiB"
+    },
+    {
+      "Name": "envoy",
+      "CPUPerc": "1.35%",
+      "MemUsage": "32.66MiB / 7.748GiB"
+    },
+    {
+      "Name": "fixture",
+      "CPUPerc": "2.17%",
+      "MemUsage": "21.89MiB / 7.748GiB"
+    },
+    {
+      "Name": "app",
+      "CPUPerc": "3.32%",
+      "MemUsage": "107.4MiB / 7.748GiB"
+    },
+    {
+      "Name": "dataplane",
+      "CPUPerc": "5.80%",
+      "MemUsage": "149.7MiB / 7.748GiB"
+    },
+    {
+      "Name": "envoy",
+      "CPUPerc": "0.96%",
+      "MemUsage": "32.55MiB / 7.748GiB"
+    },
+    {
+      "Name": "fixture",
+      "CPUPerc": "0.01%",
+      "MemUsage": "21.86MiB / 7.748GiB"
+    },
+    {
+      "Name": "app",
+      "CPUPerc": "16.63%",
+      "MemUsage": "107.7MiB / 7.748GiB"
+    },
+    {
+      "Name": "dataplane",
+      "CPUPerc": "1.54%",
+      "MemUsage": "149.7MiB / 7.748GiB"
+    },
+    {
+      "Name": "envoy",
+      "CPUPerc": "0.81%",
+      "MemUsage": "32.4MiB / 7.748GiB"
+    },
+    {
+      "Name": "fixture",
+      "CPUPerc": "0.03%",
+      "MemUsage": "21.86MiB / 7.748GiB"
+    },
+    {
+      "Name": "app",
+      "CPUPerc": "3.26%",
+      "MemUsage": "107.3MiB / 7.748GiB"
+    },
+    {
+      "Name": "dataplane",
+      "CPUPerc": "1.25%",
+      "MemUsage": "149.9MiB / 7.748GiB"
+    },
+    {
+      "Name": "envoy",
+      "CPUPerc": "0.87%",
+      "MemUsage": "32.44MiB / 7.748GiB"
+    },
+    {
+      "Name": "fixture",
+      "CPUPerc": "0.02%",
+      "MemUsage": "21.82MiB / 7.748GiB"
+    },
+    {
+      "Name": "app",
+      "CPUPerc": "11.84%",
+      "MemUsage": "109.4MiB / 7.748GiB"
+    },
+    {
+      "Name": "dataplane",
+      "CPUPerc": "16.18%",
+      "MemUsage": "149.5MiB / 7.748GiB"
+    }
+  ]
+}

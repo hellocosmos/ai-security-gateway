@@ -7,12 +7,12 @@ Docker 콘솔의 **Connections / System**과 **Settings**에서 연결을 작성
 유지보수 시간에 `deploy/selfhost`에서 실행하세요:
 
 ```bash
-docker compose stop app envoy
+docker compose stop app dataplane envoy
 docker compose run --rm app activate-config
-docker compose up -d app envoy
+docker compose up -d app dataplane envoy
 ```
 
-앱이 실행 중이면 적용을 거부합니다. 별도로 관리되는 Envoy의 중지는 CLI가 확인할 수 없으므로 반드시 둘 다 중지하세요. 경로 매핑 변경 시 경로 정책을 새 설정의 기본값으로 초기화합니다. 계정·클라이언트 키·감사 기록은 유지합니다.
+콘솔이나 데이터 플레인이 실행 중이면 적용을 거부합니다. 별도로 관리되는 Envoy의 중지는 CLI가 확인할 수 없으므로 반드시 세 서비스를 모두 중지하세요. [Plane 분리](plane-separation.md)를 참고하세요. 경로 매핑 변경 시 경로 정책을 새 설정의 기본값으로 초기화합니다. 계정·클라이언트 키·감사 기록은 유지합니다.
 
 활성 설정과 대기 설정을 구분하고 최근 10개 설정을 복원할 수 있습니다. 복원도 대기 상태로 저장되므로 위 적용 절차를 반복하세요. 가능한 경우 이전 정책 스냅샷도 복원합니다. 비밀 파일은 복원을 위해 보호된 상태 볼륨에 남습니다. 외부 비밀 파일은 다시 마운트해야 합니다. 상태에 저장한 연결 설정이 배포 파일보다 우선하지만, 콘솔 원점·게이트웨이 인증·브로커 신뢰는 파일을 따릅니다.
 

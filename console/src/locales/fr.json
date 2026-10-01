@@ -516,7 +516,7 @@
   "Save staged settings": "Enregistrer les changements en attente",
   "Restore a saved revision": "Restaurer une révision",
   "2. Activate during a maintenance window": "2. Activer pendant une maintenance",
-  "Stop both services, activate, then start both. Changed route mappings reset route policies to their configured defaults.": "Arrêtez les deux services, activez puis redémarrez-les. Les changements de routes réinitialisent leurs politiques aux valeurs configurées.",
+  "Stop the console, data plane and Envoy, activate, then start all three. Changed route mappings reset route policies to their configured defaults.": "Arrêtez la console, le plan de données et Envoy, activez puis redémarrez les trois. Les changements de routes réinitialisent leurs politiques aux valeurs configurées.",
   "3. Diagnose the active connection": "3. Diagnostiquer la connexion active",
   "Checks TCP/TLS only. It does not prove destination authentication, agent authorization or successful inspection.": "Vérifie uniquement TCP/TLS, pas l’authentification, l’autorisation de l’agent ni la réussite de l’inspection.",
   "Check connection": "Vérifier la connexion",
@@ -563,5 +563,16 @@
   "Incomplete": "Incomplet",
   "No request timelines yet": "Aucune chronologie disponible",
   "Request timelines contain numeric timings and status only. The body wait includes upstream work and transport. Durations overlap and must not be summed. Early authentication or admission failures appear in gateway outcomes, not these timelines.": "Les chronologies ne contiennent que des durées et le statut. L’attente du corps inclut traitement amont et transport. Les intervalles se chevauchent et ne doivent pas être additionnés. Les rejets précoces figurent dans les résultats du gateway.",
-  "Inspector stream wait (ms)": "Attente du flux d’inspection (ms)"
+  "Inspector stream wait (ms)": "Attente du flux d’inspection (ms)",
+  "Data plane status unknown": "État du plan de données inconnu",
+  "The console cannot reach the data plane. Enforcement status is unknown here; check the dataplane container.": "La console ne peut pas joindre le plan de données. L’état d’application est inconnu ici ; vérifiez le conteneur dataplane.",
+  "Data plane enforcing": "Plan de données en application",
+  "Data plane closed": "Plan de données fermé",
+  "Policy snapshot": "Instantané de politique",
+  "Evidence storage": "Stockage des preuves",
+  "Healthy": "Sain",
+  "Reason": "Motif",
+  "Last rejected snapshot: {0}. Enforcing revision {1}.": "Dernier instantané rejeté : {0}. La révision {1} reste appliquée.",
+  "Connection changed. Restart the data plane to load it.": "La connexion a changé. Redémarrez le plan de données pour la charger.",
+  "The data plane keeps enforcing its last verified policy snapshot while the console is unavailable.": "Lorsque la console est indisponible, le plan de données continue d’appliquer son dernier instantané de politique vérifié."
 }

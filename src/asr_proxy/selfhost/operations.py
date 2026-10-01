@@ -58,14 +58,17 @@ class Operations:
     self.store = runtime.store
 
   def snapshot(self):
+    # Never hold the runtime lock across the data-plane status request.
+    status = self.runtime.dataplane_status() if self.runtime.dataplane_url else None
+    outcomes, latency, scope = self.runtime.observed(status)
     with self.runtime.lock:
       saved = state(self.store)
       return {'version': saved['version'], 'active': self.runtime.deployment.model_dump(exclude_none=True),
               'pending': saved['pending'],
               'history': [{'revision': h['revision']} for h in saved['history']],
               'restart_required': saved['pending'] is not None,
-              'recent_gateway_outcomes': list(self.runtime.gateway_outcomes.values()),
-              'outcome_scope': 'current_process', 'latency': self.runtime.latency.snapshot()}
+              'recent_gateway_outcomes': outcomes, 'outcome_scope': scope, 'latency': latency,
+              'dataplane': self.runtime.dataplane_summary(status) if status is not None else None}
 
   def candidate(self, payload):
     try:
@@ -127,13 +130,15 @@ class Operations:
     # The app intentionally cannot reach the isolated egress network directly.
     # Never add a bypass probe or interpret network isolation as destination failure.
     network = self.runtime.network_status()
-    status = ('inspector_unavailable' if not network['inspector_ready'] else
+    dataplane = network.get('dataplane') or {}
+    status = ('dataplane_unreachable' if dataplane.get('reachable') is False else
+              'inspector_unavailable' if not network['inspector_ready'] else
               'proxy_unavailable' if not network['proxy_ready'] else 'listeners_ready')
-    with self.runtime.lock:
-      return {'scope': 'inspection_listeners_and_observed_requests', 'status': status,
-              'authentication': 'not_tested', 'destination': 'not_probed',
-              'network': network, 'recent_gateway_outcomes': list(self.runtime.gateway_outcomes.values()),
-              'outcome_scope': 'current_process', 'latency': self.runtime.latency.snapshot()}
+    outcomes, latency, scope = self.runtime.observed()
+    return {'scope': 'inspection_listeners_and_observed_requests', 'status': status,
+            'authentication': 'not_tested', 'destination': 'not_probed',
+            'network': network, 'recent_gateway_outcomes': outcomes,
+            'outcome_scope': scope, 'latency': latency}
 
   def preview(self, payload):
     with self.runtime.lock:

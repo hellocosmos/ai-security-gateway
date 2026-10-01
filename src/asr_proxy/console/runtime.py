@@ -72,6 +72,10 @@ class Runtime:
 
   def policy(self):return Policy.model_validate(self.store.get('policy')).model_dump()
 
+  def record_event(self,event):return self.store.add_event(event)
+
+  def events(self):return self.store.events()
+
   def build_engine(self,policy):
     config=self.config(policy)
     fields=IDENTITY_FIELDS if config.access_broker_enabled else ('source_id',)

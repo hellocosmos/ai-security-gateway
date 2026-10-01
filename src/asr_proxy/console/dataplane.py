@@ -97,7 +97,7 @@ class StreamInspection:
       'steps':[{'stage':'Envoy → gRPC','status':'actual network stream'},
         {'stage':'Inspection','status':base.reason},
         {'stage':'Destination' if getattr(self.runtime,'deployment',None) else 'Synthetic destination','status':'received' if self.upstream_received else 'not forwarded' if self.upstream_received is False else 'not confirmed'}]}
-    self.runtime.store.add_event(event)
+    self.runtime.record_event(event)
 
 
 class ConsoleProcessor(rpc.ExternalProcessorServicer):

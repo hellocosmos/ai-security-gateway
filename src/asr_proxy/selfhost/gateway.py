@@ -20,7 +20,7 @@ class GatewayBusy(Exception):
 
 
 def create_gateway(config, client_key, signing_key, *, target_secret=None, authenticator=None,
-                   transport=None, observe=None, measure=None, timeline=None):
+                   transport=None, observe=None, measure=None, timeline=None, admission_check=None):
   app = FastAPI(openapi_url=None, docs_url=None, redoc_url=None)
   if observe is not None or measure is not None or timeline is not None:
     @app.middleware('http')
@@ -105,6 +105,10 @@ def create_gateway(config, client_key, signing_key, *, target_secret=None, authe
       return JSONResponse({'error':'unsupported_session_or_upgrade'}, status_code=400)
     if headers.get('content-encoding','identity').lower() != 'identity':
       return JSONResponse({'error':'unsupported_content_encoding'}, status_code=415)
+    if admission_check is not None and admission_check() is not None:
+      # The exact data-plane reason stays in operator status, never in client responses.
+      request.state.outcome = 'dataplane_admission'
+      return JSONResponse({'error':'dataplane_unavailable'}, status_code=503)
     try:
       clean = {k:v for k,v in outbound_headers.items() if k not in TRANSPORT_HEADERS and not reserved_header(k)}
       try:clean=credentials.apply(clean,None if config.llm else headers.get('authorization'))

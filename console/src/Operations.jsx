@@ -54,6 +54,19 @@ export default function Operations({policy, readOnly=false}) {
           <p>{state.active.upstream} · {state.active.gateway_auth.mode}</p>
           <p>{t('Saving does not change live traffic. Gateway identity settings remain managed in the deployment file.')}</p>
         </div></div>
+        {state.dataplane && <div className="td-callout"><div>
+          {state.dataplane.reachable===false ? <>
+            <strong>{t('Data plane status unknown')}</strong>
+            <p>{t('The console cannot reach the data plane. Enforcement status is unknown here; check the dataplane container.')}</p>
+          </> : <>
+            <strong>{t(state.dataplane.ready ? 'Data plane enforcing' : 'Data plane closed')}</strong>
+            <p>{t('Policy snapshot')}: {state.dataplane.snapshot ? `r${state.dataplane.snapshot.revision} · ${state.dataplane.snapshot.key_id}` : '—'} · {t('Evidence storage')}: {t(state.dataplane.evidence?.healthy ? 'Healthy' : 'Unavailable')}</p>
+            {!state.dataplane.ready && <p>{t('Reason')}: {state.dataplane.admission}</p>}
+            {state.dataplane.last_rejection && <p>{t('Last rejected snapshot: {0}. Enforcing revision {1}.',[state.dataplane.last_rejection.reason,state.dataplane.last_rejection.kept_revision ?? '—'])}</p>}
+            {state.dataplane.restart_required && <p>{t('Connection changed. Restart the data plane to load it.')}</p>}
+          </>}
+          <p>{t('The data plane keeps enforcing its last verified policy snapshot while the console is unavailable.')}</p>
+        </div></div>}
         <fieldset disabled={busy || readOnly}>
           <h3>{t('1. Configure a connection')}</h3>
           <label>{t('Connection profile')}<select value={profile} onChange={e=>setProfile(e.target.value)}>
@@ -77,8 +90,8 @@ export default function Operations({policy, readOnly=false}) {
           {state.history.length>0 && <label>{t('Restore a saved revision')}<select defaultValue="" onChange={e=>{const revision=Number(e.target.value);if(revision)run(async()=>{await request('/operations/restore',{version:state.version,revision});await reload();return {status:'restoration_staged'};});}}>
             <option value="">—</option>{[...new Set(state.history.map(h=>h.revision))].map(r=><option key={r} value={r}>{r}</option>)}</select></label>}
           <h3>{t('2. Activate during a maintenance window')}</h3>
-          <p>{t('Stop both services, activate, then start both. Changed route mappings reset route policies to their configured defaults.')}</p>
-          <pre>docker compose stop app envoy{'\n'}docker compose run --rm app activate-config{'\n'}docker compose up -d app envoy</pre>
+          <p>{t('Stop the console, data plane and Envoy, activate, then start all three. Changed route mappings reset route policies to their configured defaults.')}</p>
+          <pre>docker compose stop app dataplane envoy{'\n'}docker compose run --rm app activate-config{'\n'}docker compose up -d app dataplane envoy</pre>
           <h3>{t('3. Diagnose the active connection')}</h3>
           <p>{t('Checks inspector and Envoy listeners plus observed request outcomes. It does not bypass network isolation to probe the destination.')}</p>
           <button className="td-btn" onClick={()=>run(()=>request('/operations/diagnose',{}))}>{t('Check connection')}</button>

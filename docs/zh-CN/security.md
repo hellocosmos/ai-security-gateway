@@ -2,6 +2,8 @@
 
 [English](../en/security.md) · [한국어](../ko/security.md) · [简体中文](../zh-CN/security.md) · [日本語](../ja/security.md) · [Español](../es/security.md) · [Français](../fr/security.md)
 
+**0.47 策略通道：**控制平面使用 `control-keys` 卷中的 Ed25519 密钥签署策略快照；数据平面使用只读 `policy-trust` 卷中的公钥验证，任何拒绝都会保留最近一次验证通过的策略。请限制这两个卷的写权限。参见[平面分离](plane-separation.md)。
+
 控制台支持单租户 Microsoft Entra ID SSO 以及管理员、查看者角色。控制台操作员身份与智能体授权是独立边界；智能体授权由内置 Access Broker 执行。 [Entra SSO](identity.md).
 
 请通过 **hellocosmos@gmail.com** 私下报告疑似漏洞，附上版本、合成复现步骤和影响。不要在公开问题中包含客户数据、令牌或真实凭证。不承诺固定响应 SLA。

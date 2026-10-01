@@ -2,6 +2,8 @@
 
 [English](../en/security.md) · [한국어](../ko/security.md) · [简体中文](../zh-CN/security.md) · [日本語](../ja/security.md) · [Español](../es/security.md) · [Français](../fr/security.md)
 
+**Canal de politique 0.47 :** le plan de contrôle signe les instantanés avec une clé Ed25519 du volume `control-keys` ; le plan de données les vérifie avec la clé publique du volume en lecture seule `policy-trust` et conserve sa dernière politique vérifiée en cas de rejet. Restreignez l’écriture sur les deux volumes. Voir [séparation des plans](plane-separation.md).
+
 La console prend en charge le SSO Microsoft Entra ID à locataire unique avec les rôles Administrateur et Lecteur. L’identité de l’opérateur et l’autorisation de l’agent sont des frontières distinctes ; l’Access Broker intégré applique l’autorisation. [Entra SSO](identity.md).
 
 Signalez les vulnérabilités en privé à **hellocosmos@gmail.com** , avec révision, reproduction synthétique et impact. Ne publiez pas de données client, jetons ou identifiants réels dans les issues. Aucun SLA de réponse fixe n’est promis.
