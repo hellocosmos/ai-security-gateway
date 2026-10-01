@@ -1,4 +1,4 @@
-# Gateway client compatibility — 0.46
+# Gateway client compatibility — 0.47
 
 > [Model provider connections](providers.md) · OpenAI / Anthropic / Gemini / OpenRouter.
 

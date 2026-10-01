@@ -1,4 +1,4 @@
-# Conexiones de proveedores de modelos (0.46)
+# Conexiones de proveedores de modelos (0.47)
 
 [English](../en/providers.md) · [한국어](../ko/providers.md) · [简体中文](../zh-CN/providers.md) · [日本語](../ja/providers.md) · [Español](../es/providers.md) · [Français](../fr/providers.md)
 
