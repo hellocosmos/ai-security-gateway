@@ -19,7 +19,12 @@ DEFAULT_PATTERNS: tuple[ScanPattern, ...] = (
     ScanPattern(
         name="prompt_injection",
         required_ascii_any=("ignore",),
-        regex=re.compile(r"ignore\s+(all|any|previous|prior)\s+instructions", re.IGNORECASE),
+        # Optional determiner, then one or two modifiers ("all previous"). A bare
+        # "the instructions" stays unmatched to avoid prose false positives.
+        regex=re.compile(
+            r"ignore\s+(?:(?:the|your)\s+)?(?:(?:all|any|previous|prior|above|earlier)\s+){1,2}instructions",
+            re.IGNORECASE,
+        ),
         severity=2,
         description="Prompt-injection style instruction override detected.",
     ),
