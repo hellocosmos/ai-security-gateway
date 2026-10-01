@@ -89,7 +89,8 @@ def wait_served(stack,seconds=60):
   while time.monotonic()<until:
     status=call(stack)
     if status==200:return
-    assert status in (None,503),status
+    # While a restarted inspector reconnects, Envoy fails closed with 500; never a bypass.
+    assert status in (None,500,503),status
     time.sleep(.5)
   pytest.fail('Inspection path did not become ready')
 
